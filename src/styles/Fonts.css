@@ -1,0 +1,37 @@
+@font-face {
+  font-family: "Anuphan";
+  src: url("../assets/fonts/Anuphan[wght].ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Anuphan-bold";
+  src: url("../assets/fonts/Anuphan[wght].ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+    font-family: Muller;
+    src: url(../assets/fonts/MullerLight.ttf) format("opentype");
+    font-weight: normal;
+}
+@font-face {
+    font-family: Muller-medium;
+    src: url(../assets/fonts/MullerMedium.ttf) format("opentype");
+    font-weight: 500;
+}
+@font-face {
+    font-family: Muller-bold;
+    src: url(../assets/fonts/Muller-ExtraBold-DEMO.ttf) format("opentype");
+    font-weight: 800;
+}
+/* Exemplo de classes para utilizar as fontes */
+.text-regular {
+  font-family: "MinhaFonte", sans-serif;
+  font-weight: normal;
+}
+
+.text-bold {
+  font-family: "MinhaFonte", sans-serif;
+  font-weight: bold;
+}

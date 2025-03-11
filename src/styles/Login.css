@@ -1,0 +1,117 @@
+/* Container principal */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caixa principal reutilizável */
+.auth-card {
+  display: flex;
+  width: 700px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Lado esquerdo com imagem */
+.auth-left {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-left img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lado direito com formulário */
+.auth-right {
+  width: 50%;
+  padding: 30px;
+  text-align: center;
+}
+
+.auth-right h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Formulários */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-label {
+  font-size: 14px;
+  text-align: left;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Inputs */
+.auth-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Botões */
+.auth-submit-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #0056b3;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-submit-button:hover {
+  background: #003f87;
+}
+
+/* Link para alternar entre login e registro */
+.auth-toggle-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.auth-toggle-text span {
+  text-decoration: underline;
+}
+
+.auth-toggle-text:hover span {
+  text-decoration: none;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .auth-card {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .auth-left {
+    width: 100%;
+  }
+
+  .auth-right {
+    width: 100%;
+  }
+}

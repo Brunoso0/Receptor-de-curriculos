@@ -1,0 +1,36 @@
+.candidatos-navbar {
+    background: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .candidatos-navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .candidatos-navbar ul li {
+    display: inline;
+  }
+  
+  .candidatos-navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .candidatos-navbar a.active {
+    background: #767676;
+  }
+  
+  .candidatos-content {
+    margin-top: 60px; /* Para evitar que o conteúdo fique escondido atrás da navbar fixa */
+    padding: 20px;
+  }
