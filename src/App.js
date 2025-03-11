@@ -11,6 +11,8 @@ import JrProdutora from "./pages/JrProdutora";
 import { AuthProvider } from "./context/AuthContext"; // Importando o AuthProvider
 import "./styles/Fonts.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 function App() {
   return (
     <Router>
@@ -29,6 +31,7 @@ function App() {
 
           <Route path="/empresas" element={<Empresas />} />
         </Routes>
+        <Analytics /> {/* Adicionando o componente Analytics */}
       </AuthProvider>
     </Router>
   );
