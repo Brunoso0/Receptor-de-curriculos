@@ -247,6 +247,111 @@ body {
   
 
 
+/* Modal responsivo */
+.privacidade-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 10px; /* Bordas em telas pequenas */
+}
+
+.privacidade-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px; /* Limita em telas grandes */
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* Conteúdo rolável */
+.privacidade-modal-body {
+  overflow-y: auto;
+  padding: 10px 0;
+  max-height: 55vh;
+  text-align: justify;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* Rodapé com botões */
+.privacidade-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Botões responsivos */
+.privacidade-modal-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+  max-width: 48%;
+  font-size: 14px;
+}
+
+.privacidade-modal-btn-accept {
+  background: #4caf50;
+  color: white;
+}
+
+.privacidade-modal-btn-decline {
+  background: #f44336;
+  color: white;
+}
+
+/* Títulos */
+.privacidade-modal-content h2,
+.privacidade-modal-body h3,
+.privacidade-modal-body h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* ✅ Responsividade para telas pequenas (celular) */
+@media (max-width: 480px) {
+  .privacidade-modal-content {
+    padding: 15px;
+    margin-left: -20px;
+    width: 70%; /* ✅ Agora 70% no celular */
+    max-height: 85vh; /* Continua com rolagem vertical */
+  }
+
+  .privacidade-modal-body {
+    max-height: 60vh; /* Conteúdo com rolagem */
+    font-size: 13px;
+  }
+
+  .privacidade-modal-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .privacidade-modal-content h2,
+  .privacidade-modal-body h3,
+  .privacidade-modal-body h4 {
+    font-size: 14px;
+  }
+}
+
+
+  
+
 
 
 
