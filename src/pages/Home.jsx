@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import api from "../services/api"; // Importando a API
+import api, { API_BASE_URL } from "../services/api"; // Importando API_BASE_URL
 import "../styles/Home.css";
 import Button from "../components/buttonCadastro.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import MaskedInput from "react-text-mask"; // Importando react-text-mask
 
 const Home = () => {
   const [selectedJob, setSelectedJob] = useState("");
@@ -14,7 +14,6 @@ const Home = () => {
   const [curriculo, setCurriculo] = useState(null);
   const [imagem, setImagem] = useState(null);
   const [errors, setErrors] = useState({});
-
 
   useEffect(() => {
     const fetchVagas = async () => {
@@ -29,22 +28,18 @@ const Home = () => {
     fetchVagas();
   }, []);
   
-  
-
   // Atualiza o estado ao digitar nos campos
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     telefone: ""
-});
-
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Atualiza os arquivos selecionados
-  
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB em bytes
 
   const handleFileChange = (e, setFile) => {
@@ -62,7 +57,6 @@ const Home = () => {
       setFile(file); // Atualiza o estado apenas se o arquivo for válido
     }
   };
-  
 
   // Manipula o arrastar e soltar arquivos
   const handleDrop = (e, setFile) => {
@@ -81,7 +75,6 @@ const Home = () => {
       setFile(file);
     }
   };
-  
 
   // Envio do formulário
   const handleSubmit = async (e) => {
@@ -97,6 +90,16 @@ const Home = () => {
     if (!curriculo) newErrors.curriculo = true;
     if (!imagem) newErrors.imagem = true;
     if (!aceitouPrivacidade) newErrors.privacidade = true;
+
+    // Validação de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = true;
+      toast.error("E-mail inválido! Certifique-se de que contém '@' e '.com'", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   
     // Se houver erros, impedir o envio
     if (Object.keys(newErrors).length > 0) {
@@ -120,7 +123,7 @@ const Home = () => {
     data.append("foto", imagem);
   
     try {
-      const response = await fetch("http://168.90.147.242:5000/candidatos/cadastro", {
+      const response = await fetch(`${API_BASE_URL}/candidatos/cadastro`, { // Usando API_BASE_URL
         method: "POST",
         body: data,
       });
@@ -147,9 +150,6 @@ const Home = () => {
       });
     }
   };
-  
-
-
 
   return (
     <div className="cadastro-container">
@@ -178,7 +178,6 @@ const Home = () => {
               required
             />
 
-
             {/* E-mail */}
             <label className="cadastro-label">E-Mail</label>
             <input
@@ -193,14 +192,21 @@ const Home = () => {
 
             {/* Número de Contato */}
             <label className="cadastro-label">Número para Contato</label>
-            <input
-              type="text"
-              name="telefone"
+            <MaskedInput
+              mask={['(', /[1-9]/, /\d/, ')', ' ', '9', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
               value={formData.telefone}
               onChange={handleChange}
-              placeholder="Seu Número"
-              className={`cadastro-input ${errors.telefone ? "input-error" : ""}`}
-              required
+              render={(ref, props) => (
+                <input
+                  ref={ref}
+                  {...props}
+                  type="text"
+                  name="telefone"
+                  placeholder="Seu Número"
+                  className={`cadastro-input ${errors.telefone ? "input-error" : ""}`}
+                  required
+                />
+              )}
             />
 
             {/* Seleção de Vagas */}
