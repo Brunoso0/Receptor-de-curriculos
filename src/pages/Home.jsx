@@ -373,7 +373,7 @@ const Home = () => {
                     <h4>8. Contato</h4>
                     <p>
                       Para dúvidas ou solicitações relacionadas aos seus dados, entre em contato pelo e-mail: 
-                      <b> contato@jrcoffee.com.br</b>
+                      <b> contatojrcoffee@provedorjrnet.com.br</b>
                     </p>
                   </div>
 
