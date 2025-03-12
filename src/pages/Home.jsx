@@ -191,7 +191,7 @@ const Home = () => {
             />
 
             {/* Número de Contato */}
-            <label className="cadastro-label">Número para Contato</label>
+            <label className="cadastro-label">Contato</label>
             <MaskedInput
               mask={['(', /[1-9]/, /\d/, ')', ' ', '9', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
               value={formData.telefone}
