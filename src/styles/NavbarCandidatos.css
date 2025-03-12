@@ -7,6 +7,7 @@
     top: 0;
     width: 100%;
     z-index: 1000;
+    box-sizing: border-box;
   }
   
   .candidatos-navbar ul {
@@ -33,4 +34,22 @@
   .candidatos-content {
     margin-top: 60px; /* Para evitar que o conteúdo fique escondido atrás da navbar fixa */
     padding: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .candidatos-navbar {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    .candidatos-navbar ul {
+      flex-direction: row;
+      gap: 5px;
+      padding: 0;
+    }
+
+    .candidatos-navbar a {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
   }

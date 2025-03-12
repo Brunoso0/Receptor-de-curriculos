@@ -79,7 +79,7 @@ const AllCandidatos = () => {
             value={filtroVaga}
             onChange={(e) => setFiltroVaga(e.target.value)}
         >
-            <option value="">Filtrar por Vaga</option>
+            <option value="">Todos</option>
             {vagasComCandidatos.map((vaga) => (
             <option key={vaga.id} value={vaga.id}>
                 {vaga.titulo}

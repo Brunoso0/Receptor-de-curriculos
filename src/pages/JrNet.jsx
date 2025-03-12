@@ -49,7 +49,7 @@ const JrNet = () => {
             value={filtroVaga}
             onChange={(e) => setFiltroVaga(e.target.value)}
         >
-            <option value="">Filtrar por Vaga</option>
+            <option value="">Todos</option>
             {vagas.map((vaga) => (
             <option key={vaga.id} value={vaga.id}>
                 {vaga.titulo}
