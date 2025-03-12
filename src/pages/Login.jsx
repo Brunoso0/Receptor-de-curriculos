@@ -31,12 +31,17 @@ const Login = () => {
         setRegisterData({ nome: "", email: "", senha: "" });
       } else {
         const response = await api.post("/auth/login", loginData);
-        toast.success("Login realizado com sucesso!", { autoClose: 3000 });
+          toast.success("Login realizado com sucesso!", { autoClose: 3000 });
 
-        // Aguarda um curto tempo antes de redirecionar
-        setTimeout(() => {
-          navigate("/candidatos"); // Redireciona para a tela de candidatos
-        }, 2000);
+          const { token } = response.data; // Supondo que o backend devolve { token: 'xxx' }
+
+          localStorage.setItem("token", token); // ✅ Armazena o token no localStorage
+
+          // Aguarda um curto tempo antes de redirecionar
+          setTimeout(() => {
+            navigate("/candidatos");
+          }, 500);
+
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Erro ao processar a requisição.", { autoClose: 3000 });

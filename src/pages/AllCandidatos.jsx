@@ -11,21 +11,46 @@ const AllCandidatos = () => {
   useEffect(() => {
     const fetchCandidatos = async () => {
       try {
-        const response = await api.get("/candidatos/listar");
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "/login"; // Redireciona se não estiver logado
+          return;
+        }
+    
+        const response = await api.get("/candidatos/listar", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setCandidatos(response.data);
       } catch (error) {
         console.error("Erro ao buscar candidatos:", error);
+        if (error.response && error.response.status === 401) {
+          window.location.href = "/login"; // Redireciona se o token for inválido
+        }
       }
     };
+    
 
     const fetchVagas = async () => {
       try {
-        const response = await api.get("/vagas/vagas");
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "/login"; // Redireciona se não estiver logado
+          return;
+        }
+    
+        const response = await api.get("/vagas/vagas", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setVagas(response.data);
       } catch (error) {
         console.error("Erro ao buscar vagas:", error);
       }
     };
+    
 
     fetchCandidatos();
     fetchVagas();
