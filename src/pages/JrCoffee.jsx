@@ -117,7 +117,6 @@ const JrCoffee = () => {
         filtroVaga ? candidato.vaga_id.toString() === filtroVaga : true
       )
       .map((candidato) => (
-
           <div key={candidato.id} className="candidato-card">
             <div className="candidato-info">
               <img

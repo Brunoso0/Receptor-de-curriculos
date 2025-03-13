@@ -23,6 +23,7 @@ function App() {
 
           {/* Tela de Candidatos com Layout Fixo */}
           <Route path="/candidatos" element={<Candidatos />}>
+            <Route index element={<AllCandidatos />} />
             <Route path="all" element={<AllCandidatos />} />
             <Route path="jrnet" element={<JrNet />} />
             <Route path="jrcoffee" element={<JrCoffee />} />

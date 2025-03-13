@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import NavbarCandidatos from "../components/NavbarCandidatos";
-import AllCandidatos from "./AllCandidatos";
 
 const Candidatos = () => {
   const navigate = useNavigate(); // Hook para redirecionar
@@ -18,7 +17,6 @@ const Candidatos = () => {
       <NavbarCandidatos />
       <div className="candidatos-content">
         <Outlet /> {/* Renderiza dinamicamente os conteúdos das empresas aqui */}
-        <AllCandidatos /> {/* Componente que mostra todos os candidatos */}
       </div>
     </div>
   );

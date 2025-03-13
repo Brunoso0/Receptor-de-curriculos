@@ -44,55 +44,58 @@ const JrNet = () => {
   return (
     <div className="candidatos-container">
       <div className="candidatos-filter">
-        <h2>Candidatos - JrNet</h2>
+  <h2>Candidatos - JrNet</h2>
 
-        <select
-            className="filtro-select"
-            value={filtroVaga}
-            onChange={(e) => setFiltroVaga(e.target.value)}
-        >
-            <option value="">Filtrar por Vaga</option>
-            {vagas.map((vaga) => (
-            <option key={vaga.id} value={vaga.id}>
-                {vaga.titulo}
-            </option>
-            ))}
-        </select>
+  {/* Filtro por vaga */}
+  <select
+    className="filtro-select"
+    value={filtroVaga}
+    onChange={(e) => setFiltroVaga(e.target.value)}
+  >
+    <option value="">Todos</option>
+    {vagas.map((vaga) => (
+      <option key={vaga.id} value={vaga.id}>
+        {vaga.titulo}
+      </option>
+    ))}
+  </select>
 
-        <label className="filter-order">Ordenar por:</label>
-          <select
-            className="filtro-select order-select"
-            value={ordenarPor}
-            onChange={(e) => {
-              const value = e.target.value;
-              setOrdenarPor(value); // Atualiza o estado
-              if (value === "asc") {
-                setCandidatos([...candidatos].sort((a, b) => a.id - b.id));
-              } else if (value === "desc") {
-                setCandidatos([...candidatos].sort((a, b) => b.id - a.id));
-              } else if (value === "az") {
-                setCandidatos([...candidatos].sort((a, b) => a.nome.localeCompare(b.nome)));
-              } else if (value === "za") {
-                setCandidatos([...candidatos].sort((a, b) => b.nome.localeCompare(a.nome)));
-              }
-            }}
-          >
-            <option value="">Ordenar por</option>
-            <option value="asc">Primeiros a enviar</option>
-            <option value="desc">Últimos a enviar</option>
-            <option value="az">Nomes A a Z</option>
-            <option value="za">Nomes Z a A</option>
-          </select>
+  {/* Filtro de ordenação */}
+  <label className="filter-order">Ordenar por:</label>
+  <select
+    className="filtro-select order-select"
+    value={ordenarPor}
+    onChange={(e) => {
+      const value = e.target.value;
+      setOrdenarPor(value); // Atualiza o estado
+      if (value === "asc") {
+        setCandidatos([...candidatos].sort((a, b) => a.id - b.id));
+      } else if (value === "desc") {
+        setCandidatos([...candidatos].sort((a, b) => b.id - a.id));
+      } else if (value === "az") {
+        setCandidatos([...candidatos].sort((a, b) => a.nome.localeCompare(b.nome)));
+      } else if (value === "za") {
+        setCandidatos([...candidatos].sort((a, b) => b.nome.localeCompare(a.nome)));
+      }
+    }}
+  >
+    <option value="">Ordenar por</option>
+    <option value="asc">Primeiros a enviar</option>
+    <option value="desc">Últimos a enviar</option>
+    <option value="az">Nomes A a Z</option>
+    <option value="za">Nomes Z a A</option>
+  </select>
+</div>
 
-      </div>
 
       <div className="candidatos-grid">
-            {candidatos
-        .filter((candidato) =>
-          filtroVaga ? candidato.vaga_id.toString() === filtroVaga : true
-        )
-        .map((candidato) => (
-
+        {candidatos
+          .filter((candidato) =>
+            filtroVaga
+              ? candidato.vaga_id.toString() === filtroVaga
+              : true
+          )
+          .map((candidato) => (
             <div key={candidato.id} className="candidato-card">
               <div className="candidato-info">
                 <img
