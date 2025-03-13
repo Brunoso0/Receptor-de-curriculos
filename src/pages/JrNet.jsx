@@ -7,6 +7,8 @@ const JrNet = () => {
   const [vagas, setVagas] = useState([]);
   const [filtroVaga, setFiltroVaga] = useState("");
   const [curriculoUrl, setCurriculoUrl] = useState(null);
+  const [ordenarPor, setOrdenarPor] = useState("");
+
 
   useEffect(() => {
     const fetchCandidatos = async () => {
@@ -56,6 +58,32 @@ const JrNet = () => {
             </option>
             ))}
         </select>
+
+        <label className="filter-order">Ordenar por:</label>
+          <select
+            className="filtro-select order-select"
+            value={ordenarPor}
+            onChange={(e) => {
+              const value = e.target.value;
+              setOrdenarPor(value); // Atualiza o estado
+              if (value === "asc") {
+                setCandidatos([...candidatos].sort((a, b) => a.id - b.id));
+              } else if (value === "desc") {
+                setCandidatos([...candidatos].sort((a, b) => b.id - a.id));
+              } else if (value === "az") {
+                setCandidatos([...candidatos].sort((a, b) => a.nome.localeCompare(b.nome)));
+              } else if (value === "za") {
+                setCandidatos([...candidatos].sort((a, b) => b.nome.localeCompare(a.nome)));
+              }
+            }}
+          >
+            <option value="">Ordenar por</option>
+            <option value="asc">Primeiros a enviar</option>
+            <option value="desc">Últimos a enviar</option>
+            <option value="az">Nomes A a Z</option>
+            <option value="za">Nomes Z a A</option>
+          </select>
+
       </div>
 
       <div className="candidatos-grid">
