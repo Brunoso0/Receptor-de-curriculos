@@ -15,6 +15,7 @@ const Home = () => {
   const [imagem, setImagem] = useState(null);
   const [errors, setErrors] = useState({});
 
+
   useEffect(() => {
     const fetchVagas = async () => {
       try {
@@ -110,6 +111,17 @@ const Home = () => {
       });
       return;
     }
+
+    // Validação de telefone (removendo caracteres não numéricos e conferindo o tamanho)
+  const numeroLimpo = formData.telefone.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
+  if (numeroLimpo.length !== 11) { // Esperado (DDD + 9 + número): 11 dígitos
+   newErrors.telefone = true;
+   toast.error("Número de telefone incorreto!", {
+    position: "top-right",
+    autoClose: 3000,
+   });
+  }
+
   
     // Resetando erros antes do envio
     setErrors({});
@@ -123,32 +135,53 @@ const Home = () => {
     data.append("foto", imagem);
   
     try {
-      const response = await fetch(`${API_BASE_URL}/candidatos/cadastro`, { // Usando API_BASE_URL
+       const response = await fetch(`${API_BASE_URL}/candidatos/cadastro`, {
         method: "POST",
         body: data,
-      });
-  
-      if (!response.ok) {
-        throw new Error("Erro ao enviar formulário");
+       });
+      
+       if (!response.ok) {
+        const errorData = await response.json(); // Captura o erro vindo do backend
+      
+        if (errorData.errno === 1062) {
+         toast.error("Este e-mail já foi utilizado em outra candidatura!", {
+          position: "top-right",
+          autoClose: 3000,
+         });
+        } else if (errorData.message) {
+         toast.error(errorData.message, {
+          position: "top-right",
+          autoClose: 3000,
+         });
+        } else {
+         toast.error("Erro ao enviar o formulário. Tente novamente.", {
+          position: "top-right",
+          autoClose: 3000,
+         });
+        }
+        return; // Impede de continuar se houver erro
+       }
+      
+       toast.success("Cadastro enviado com sucesso!", {
+        position: "top-right",
+        autoClose: 3000,
+       });
+      
+       // Resetar campos após sucesso
+       setFormData({ nome: "", email: "", telefone: "" });
+       setSelectedJob("");
+       setCurriculo(null);
+       setImagem(null);
+       setAceitouPrivacidade(false);
+      
+      } catch (error) {
+       toast.error(`Erro ao enviar os dados: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+       });
       }
-  
-      toast.success("Cadastro enviado com sucesso!", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-  
-      // Resetando o formulário após envio bem-sucedido
-      setFormData({ nome: "", email: "", telefone: "" });
-      setSelectedJob("");
-      setCurriculo(null);
-      setImagem(null);
-      setAceitouPrivacidade(false);
-    } catch (error) {
-      toast.error(`Erro ao enviar os dados: ${error.message}`, {
-        position: "top-right",
-        autoClose: 3000,
-      });
-    }
+      
+      
   };
 
   return (
@@ -180,15 +213,17 @@ const Home = () => {
 
             {/* E-mail */}
             <label className="cadastro-label">E-Mail</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Seu E-Mail"
-              className={`cadastro-input ${errors.email ? "input-error" : ""}`}
-              required
-            />
+              <input
+               type="email"
+               name="email"
+               value={formData.email}
+               onChange={handleChange}
+               placeholder="Seu E-Mail"
+               className={`email-input cadastro-input ${errors.email ? "input-error" : ""}`}
+               required
+              />
+              <p className="email-hint">Atenção: Apenas um e-mail por vaga, por favor não repetir e-mail.</p>
+
 
             {/* Número de Contato */}
             <label className="cadastro-label">Contato</label>

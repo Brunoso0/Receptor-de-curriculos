@@ -245,6 +245,19 @@ body {
     background-color: #ffe6e6;
   }
   
+  .email-hint {
+    font-size: 0.75rem;
+    color: #777; /* Cinza discreto */
+    margin-top: 3px;
+    margin-bottom: 10px;
+    }
+
+    .email-input {
+      margin-bottom: 0;
+    }
+    
+    
+
 
 
 /* Modal responsivo */
@@ -347,6 +360,17 @@ body {
   .privacidade-modal-body h4 {
     font-size: 14px;
   }
+
+  .email-hint {
+    font-size: 0.65rem;
+    color: #777; /* Cinza discreto */
+    margin-top: 3px;
+    margin-bottom: 10px;
+    }
+
+    .email-input {
+      margin-bottom: 0;
+    }
 }
 
 
@@ -491,7 +515,7 @@ body {
     }
 
     .cadastro-input {
-      width: 97%;
+      width: 90%;
     }
 
     .cadastro-label {
@@ -552,7 +576,7 @@ body {
     }
     
     .cadastro-input {
-      width: 75%;
+      width: 93%;
     }
 
     .cadastro-vaga-content {
