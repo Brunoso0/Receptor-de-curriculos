@@ -88,7 +88,15 @@ const Home = () => {
     if (!formData.email) newErrors.email = true;
     if (!formData.telefone) newErrors.telefone = true;
     if (!selectedJob) newErrors.vaga = true;
-    if (!curriculo) newErrors.curriculo = true;
+    if (!curriculo) {
+      newErrors.curriculo = true;
+      toast.error("Por favor, envie seu currículo em PDF!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      setErrors(newErrors);
+      return; // Impede o envio do formulário
+    }  
     if (!imagem) newErrors.imagem = true;
     if (!aceitouPrivacidade) newErrors.privacidade = true;
 
@@ -291,10 +299,10 @@ const Home = () => {
                   type="file"
                   name="curriculo"
                   accept=".pdf"
-                  style={{ display: "none" }}
+                  style={{ display: "none" }} // Mantém o input escondido
                   onChange={(e) => handleFileChange(e, setCurriculo)}
-                  required
                 />
+
               </div>
 
               {/* Upload da Imagem */}
