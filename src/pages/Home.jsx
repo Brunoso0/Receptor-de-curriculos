@@ -19,7 +19,7 @@ const Home = () => {
   useEffect(() => {
     const fetchVagas = async () => {
       try {
-        const response = await api.get("/api/vagas/vagas"); // Busca as vagas no backend
+        const response = await api.get("/vagas/vagas"); // Busca as vagas no backend
         setVagas(response.data); // Atualiza o estado com as vagas vindas do backend
       } catch (error) {
         console.error("Erro ao buscar vagas:", error);
