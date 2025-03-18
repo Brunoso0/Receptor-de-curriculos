@@ -62,7 +62,7 @@ const AllCandidatos = () => {
   );
 
   const abrirModalCurriculo = (curriculo) => {
-    setCurriculoUrl(`${API_BASE_URL}${curriculo}`);
+    setCurriculoUrl(`https://api.jrcoffee.com.br:5000${curriculo}`);
   };
 
   const fecharModal = () => {
