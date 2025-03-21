@@ -44,20 +44,26 @@ const Home = () => {
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB em bytes
 
   const handleFileChange = (e, setFile) => {
-    const file = e.target.files[0];
-  
-    if (file) {
-      if (file.size > MAX_FILE_SIZE) {
-        toast.error("O arquivo deve ter no máximo 20MB!", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-        return; // Impede que o arquivo inválido seja armazenado no estado
-      }
-  
-      setFile(file); // Atualiza o estado apenas se o arquivo for válido
+    if (!e.target.files || e.target.files.length === 0) {
+        return; // Nenhum arquivo foi selecionado
     }
-  };
+
+    const file = e.target.files[0];
+
+    if (file) {
+        if (file.size > MAX_FILE_SIZE) {
+            toast.error("O arquivo deve ter no máximo 20MB!", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            return;
+        }
+
+        console.log("Arquivo selecionado:", file); // Depuração para verificar se o arquivo foi lido
+        setFile(file);
+    }
+};
+
 
   // Manipula o arrastar e soltar arquivos
   const handleDrop = (e, setFile) => {
@@ -82,49 +88,87 @@ const Home = () => {
     e.preventDefault();
   
     // Criar um objeto para armazenar os erros
-    let newErrors = {};
-  
-    if (!formData.nome) newErrors.nome = true;
-    if (!formData.email) newErrors.email = true;
-    if (!formData.telefone) newErrors.telefone = true;
-    if (!selectedJob) newErrors.vaga = true;
-    if (!curriculo) newErrors.curriculo = true;
-    if (!imagem) newErrors.imagem = true;
-    if (!aceitouPrivacidade) newErrors.privacidade = true;
+    const newErrors = {};
 
-    // Validação de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      newErrors.email = true;
-      toast.error("E-mail inválido! Certifique-se de que contém '@' e '.com'", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-    }
-  
-    // Se houver erros, impedir o envio
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      toast.error("Preencha todos os campos obrigatórios!", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      return;
-    }
+// Validação de nome
+if (!formData.nome) {
+  newErrors.nome = true;
+}
 
-    // Validação de telefone (removendo caracteres não numéricos e conferindo o tamanho)
-  const numeroLimpo = formData.telefone.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
-  if (numeroLimpo.length !== 11) { // Esperado (DDD + 9 + número): 11 dígitos
-   newErrors.telefone = true;
-   toast.error("Número de telefone incorreto!", {
+// Validação de e-mail
+if (!formData.email) {
+  newErrors.email = true;
+} else {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    newErrors.email = true;
+    toast.error("E-mail inválido! Certifique-se de que contém '@' e '.com'", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  }
+}
+
+// Validação de telefone
+const numeroLimpo = formData.telefone.replace(/\D/g, '');
+if (numeroLimpo.length !== 11) {
+  newErrors.telefone = true;
+  toast.error("Número de telefone incorreto!", {
     position: "top-right",
     autoClose: 3000,
-   });
+  });
+}
+
+// Validação da vaga
+if (!selectedJob) {
+  newErrors.vaga = true;
+}
+
+// Validação do currículo
+if (!curriculo) {
+  newErrors.curriculo = true;
+  toast.error("Por favor, envie seu currículo em PDF!", {
+    position: "top-right",
+    autoClose: 3000,
+  });
+}
+
+// Validação da imagem
+if (!imagem) {
+  newErrors.imagem = true;
+}
+
+// Validação do checkbox de privacidade
+if (!aceitouPrivacidade) {
+  newErrors.privacidade = true;
+}
+
+// Se houver erros, impedir o envio e definir os estados corretamente
+// Se houver erros, impedir o envio e definir os estados corretamente
+if (Object.keys(newErrors).length > 0) {
+  setErrors(newErrors);
+
+  // 🔴 Primeiro, verifica erro de e-mail duplicado
+  if (newErrors.email) {
+      toast.error("E-mail inválido ou já cadastrado!", {
+          position: "top-right",
+          autoClose: 3000,
+      });
+  } else if (newErrors.curriculo) {
+      toast.error("Por favor, envie seu currículo em PDF!", {
+          position: "top-right",
+          autoClose: 3000,
+      });
+  } else {
+      toast.error("Preencha todos os campos obrigatórios!", {
+          position: "top-right",
+          autoClose: 3000,
+      });
   }
 
-  // forçar o commit
+  return;
+}
 
-  
     // Resetando erros antes do envio
     setErrors({});
   
@@ -133,55 +177,60 @@ const Home = () => {
     data.append("email", formData.email);
     data.append("telefone", formData.telefone);
     data.append("vaga_id", selectedJob);
-    data.append("curriculo_pdf", curriculo);
+    data.append("curriculo_pdf", curriculo); // 🔴 Certifique-se de que o backend aceita essa chave
     data.append("foto", imagem);
+
   
     try {
-       const response = await fetch(`${API_BASE_URL}/candidatos/cadastro`, {
-        method: "POST",
-        body: data,
-       });
-      
-       if (!response.ok) {
+      const response = await fetch(`${API_BASE_URL}/candidatos/cadastro`, {
+          method: "POST",
+          body: data,
+      });
+  
+      if (!response.ok) {
         const errorData = await response.json(); // Captura o erro vindo do backend
-      
-        if (errorData.errno === 1062) {
-         toast.error("Este e-mail já foi utilizado em outra candidatura!", {
-          position: "top-right",
-          autoClose: 3000,
-         });
-        } else if (errorData.message) {
-         toast.error(errorData.message, {
-          position: "top-right",
-          autoClose: 3000,
-         });
-        } else {
-         toast.error("Erro ao enviar o formulário. Tente novamente.", {
-          position: "top-right",
-          autoClose: 3000,
-         });
+    
+        // 🔴 Verifica se o erro recebido contém "Duplicate entry" no MySQL
+        if (errorData.error && errorData.error.includes("Duplicate entry")) {
+            newErrors.email = true;
+            setErrors(newErrors);
+            toast.error("Este e-mail já foi utilizado em outra candidatura!", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            return; // Interrompe o envio imediatamente
         }
-        return; // Impede de continuar se houver erro
-       }
-      
-       toast.success("Cadastro enviado com sucesso!", {
-        position: "top-right",
-        autoClose: 3000,
-       });
-      
-       // Resetar campos após sucesso
-       setFormData({ nome: "", email: "", telefone: "" });
-       setSelectedJob("");
-       setCurriculo(null);
-       setImagem(null);
-       setAceitouPrivacidade(false);
-      
-      } catch (error) {
-       toast.error(`Erro ao enviar os dados: ${error.message}`, {
-        position: "top-right",
-        autoClose: 3000,
-       });
-      }
+    
+        // 🔴 Se for outro erro do backend, exiba a mensagem correspondente
+        toast.error(errorData.message || "Este e-mail já está sendo utilizado em outra candidatura!", {
+            position: "top-right",
+            autoClose: 3000,
+        });
+    
+        return;
+    }
+    
+  
+      // Se chegou até aqui, significa que o envio foi bem-sucedido
+      toast.success("Cadastro enviado com sucesso!", {
+          position: "top-right",
+          autoClose: 3000,
+      });
+  
+      // Resetar campos após sucesso
+      setFormData({ nome: "", email: "", telefone: "" });
+      setSelectedJob("");
+      setCurriculo(null);
+      setImagem(null);
+      setAceitouPrivacidade(false);
+  } catch (error) {
+      toast.error(`Erro ao enviar os dados: ${error.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+      });
+  }
+  
+  
       
       
   };
@@ -224,7 +273,7 @@ const Home = () => {
                className={`email-input cadastro-input ${errors.email ? "input-error" : ""}`}
                required
               />
-              <p className="email-hint">Atenção: Apenas um e-mail por vaga, por favor não repetir e-mail.</p>
+              <p className="email-hint">Atenção: Apenas um e-mail por pessoa, por favor não repetir e-mail.</p>
 
 
             {/* Número de Contato */}
@@ -287,14 +336,14 @@ const Home = () => {
                   {curriculo ? curriculo.name : "Arraste o arquivo ou clique Aqui"}
                 </div>
                 <input
-                  id="curriculo-input"
-                  type="file"
-                  name="curriculo"
-                  accept=".pdf"
-                  style={{ display: "none" }}
-                  onChange={(e) => handleFileChange(e, setCurriculo)}
-                  required
+                    id="curriculo-input"
+                    type="file"
+                    name="curriculo"
+                    accept=".pdf"
+                    style={{ display: "none" }}
+                    onChange={(e) => handleFileChange(e, setCurriculo)}
                 />
+
               </div>
 
               {/* Upload da Imagem */}
