@@ -23,8 +23,8 @@
 ## ⚡ Funcionalidades
 
 ✅ Upload de currículos em PDF  
-✅ Cadastro e listagem de candidatos  (listagem apenas para Admins)
-✅ Filtro por vagas disponíveis  (apenas para Admins)
+✅ Cadastro e listagem de candidatos  (listagem apenas para Admins)  
+✅ Filtro por vagas disponíveis  (apenas para Admins)  
 ✅ Interface responsiva para dispositivos móveis  
 
 ---
