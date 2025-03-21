@@ -16,7 +16,7 @@
 
 🔗 **Acesse o projeto online**: [Clique aqui](https://www.jrcoffee.com.br/)
 
-![Preview](./assets/preview.gif) <!-- Altere pelo caminho correto da sua imagem -->
+![Preview](./src/assets/jrcoffee.gif) <!-- Altere pelo caminho correto da sua imagem -->
 
 ---
 
