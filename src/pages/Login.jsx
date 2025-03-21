@@ -92,7 +92,7 @@ const Login = () => {
                 </ButtonLogin>
               </div>
               <p className="auth-toggle-text" onClick={() => setIsRegistering(true)}>
-                {/* Não tem uma conta? <span>Registre-se</span> */}
+                Não tem uma conta? <span>Registre-se</span>
               </p>
             </form>
           )}
