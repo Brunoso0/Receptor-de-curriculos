@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import NavbarCandidatos from "../components/NavbarCandidatos";
 
 const Candidatos = () => {
   const navigate = useNavigate(); // Hook para redirecionar
@@ -14,7 +13,6 @@ const Candidatos = () => {
 
   return (
     <div className="candidatos-container">
-      <NavbarCandidatos />
       <div className="candidatos-content">
         <Outlet /> {/* Renderiza dinamicamente os conteúdos das empresas aqui */}
       </div>

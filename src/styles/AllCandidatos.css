@@ -9,35 +9,80 @@
   }
 
   .candidatos-filter {
-    width: 500px;
-    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 125px;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
   
-  .filtro-select {
-    width: 70%;
-    padding: 10px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
+  .candidatos-filter h2 {
+    width: 100%;
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #ffffff;
+  }
+  
+  .filtro-select,
+  .order-select,
+  .candidatos-search input {
+    padding: 8px 12px;
+    font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    background: white;
-    font-size: 16px;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+  }
+  
+  .filtro-select:focus,
+  .order-select:focus,
+  .candidatos-search input:focus {
+    border-color: #0077ff;
+    outline: none;
+  }
+  
+  .candidatos-search input {
+    width: 200px;
+  }
+  
+  .filter-order {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #ffffff;
   }
 
+  .filtro-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+    margin-top: 10px;
+  }
+  
+  .filtro-select,
+  .candidatos-search input {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .candidatos-search input {
+    width: 200px;
+  }
+  
   .filter-order {
     display: block;
-    margin: 20px auto;
-    text-align: center;
-    font-size: 16px;
-    color: #333;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 13px;
   }
   
-
-  .order-select {
-    margin-bottom: 100px;
-  }
+  
   
   .candidatos-grid {
     display: flex;
