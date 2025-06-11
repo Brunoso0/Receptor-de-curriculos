@@ -78,7 +78,7 @@ const AllCandidatos = () => {
   }, [buscaNome, filtroVaga, ordem, candidatosOriginais]);
 
   const abrirModalCurriculo = (curriculo) => {
-    setCurriculoUrl(`https://api.jrcoffee.com.br:5000${curriculo}`);
+    setCurriculoUrl(`https://api.jrcoffee.com.br:5002${curriculo}`);
   };
 
   const fecharModal = () => setCurriculoUrl(null);
@@ -141,7 +141,7 @@ const AllCandidatos = () => {
           <div key={candidato.id} className="candidato-card">
             <div className="candidato-info">
               <img
-                src={candidato.foto ? `https://api.jrcoffee.com.br:5000${candidato.foto}` : "/img/default-profile.png"}
+                src={candidato.foto ? `https://api.jrcoffee.com.br:5002${candidato.foto}` : "/img/default-profile.png"}
                 alt={candidato.nome}
                 className="candidato-foto"
               />
