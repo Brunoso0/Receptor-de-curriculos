@@ -135,6 +135,7 @@ const AllCandidatos = () => {
           </div>
         </div>
       </div>
+      {/* force update */}
 
       <div className="candidatos-grid">
         {candidatosExibidos.map((candidato) => (
