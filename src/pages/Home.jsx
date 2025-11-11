@@ -315,7 +315,7 @@ if (Object.keys(newErrors).length > 0) {
                   </label>
                 ))
               ) : (
-                <p>Carregando vagas...</p>
+                <p>Sem vagas disponíveis</p>
               )}
 
               </div>
