@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import api from "../services/api"; // O seu serviço de API original
+import api, { API_ROOT_URL } from "../services/api"; // O seu serviço de API original
 import { 
   Search, 
   Filter, 
@@ -19,7 +19,7 @@ import {
 
 import "../styles/AllCandidatos.css"; // O seu ficheiro de estilos separado
 
-const BASE_URL = "https://api.jrcoffee.com.br:5002";
+const BASE_URL = API_ROOT_URL;
 
 // Modal para visualização da Foto
 const ImageModal = ({ imageUrl, onClose }) => {

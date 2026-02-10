@@ -14,6 +14,10 @@ const Home = () => {
   const [curriculo, setCurriculo] = useState(null);
   const [imagem, setImagem] = useState(null);
   const [errors, setErrors] = useState({});
+  const [showEmailExistsModal, setShowEmailExistsModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [duplicateMessage, setDuplicateMessage] = useState("Esse email ou telefone ja esta cadastrado. Tente outro.");
+  const [duplicateTitle, setDuplicateTitle] = useState("Dados duplicados");
 
 
   useEffect(() => {
@@ -149,22 +153,22 @@ if (Object.keys(newErrors).length > 0) {
   setErrors(newErrors);
 
   // 🔴 Primeiro, verifica erro de e-mail duplicado
-  if (newErrors.email) {
-      toast.error("E-mail inválido ou já cadastrado!", {
-          position: "top-right",
-          autoClose: 3000,
+    if (newErrors.email) {
+      toast.error("E-mail inválido!", {
+        position: "top-right",
+        autoClose: 3000,
       });
-  } else if (newErrors.curriculo) {
+    } else if (newErrors.curriculo) {
       toast.error("Por favor, envie seu currículo em PDF!", {
-          position: "top-right",
-          autoClose: 3000,
+        position: "top-right",
+        autoClose: 3000,
       });
-  } else {
+    } else {
       toast.error("Preencha todos os campos obrigatórios!", {
-          position: "top-right",
-          autoClose: 3000,
+        position: "top-right",
+        autoClose: 3000,
       });
-  }
+    }
 
   return;
 }
@@ -191,14 +195,35 @@ if (Object.keys(newErrors).length > 0) {
         const errorData = await response.json(); // Captura o erro vindo do backend
     
         // 🔴 Verifica se o erro recebido contém "Duplicate entry" no MySQL
-        if (errorData.error && errorData.error.includes("Duplicate entry")) {
-            newErrors.email = true;
-            setErrors(newErrors);
-            toast.error("Este e-mail já foi utilizado em outra candidatura!", {
-                position: "top-right",
-                autoClose: 3000,
-            });
-            return; // Interrompe o envio imediatamente
+        const isDuplicateEmail =
+          response.status === 409 ||
+          (errorData.error && /email|e-mail|telefone|ja cadastrado|already/i.test(errorData.error)) ||
+          (errorData.message && /email|e-mail|telefone|ja cadastrado|already/i.test(errorData.message));
+
+        if (isDuplicateEmail) {
+            const apiMessage =
+              errorData.error ||
+              errorData.message ||
+              "Esse email ou telefone ja esta cadastrado. Tente outro.";
+            const messageLower = apiMessage.toLowerCase();
+            const nextErrors = { ...newErrors };
+
+            if (messageLower.includes("telefone")) {
+              nextErrors.telefone = true;
+              setDuplicateTitle("Telefone ja cadastrado");
+            } else if (messageLower.includes("email") || messageLower.includes("e-mail")) {
+              nextErrors.email = true;
+              setDuplicateTitle("Email ja cadastrado");
+            } else {
+              nextErrors.email = true;
+              nextErrors.telefone = true;
+              setDuplicateTitle("Dados duplicados");
+            }
+
+            setErrors(nextErrors);
+            setDuplicateMessage(apiMessage);
+          setShowEmailExistsModal(true);
+          return; // Interrompe o envio imediatamente
         }
     
         // 🔴 Se for outro erro do backend, exiba a mensagem correspondente
@@ -212,10 +237,7 @@ if (Object.keys(newErrors).length > 0) {
     
   
       // Se chegou até aqui, significa que o envio foi bem-sucedido
-      toast.success("Cadastro enviado com sucesso!", {
-          position: "top-right",
-          autoClose: 3000,
-      });
+        setShowSuccessModal(true);
   
       // Resetar campos após sucesso
       setFormData({ nome: "", email: "", telefone: "" });
@@ -238,10 +260,56 @@ if (Object.keys(newErrors).length > 0) {
   return (
     <div className="cadastro-container">
       <ToastContainer />
+      {showEmailExistsModal && (
+        <div
+          className="email-exists-modal-overlay"
+          onClick={() => setShowEmailExistsModal(false)}
+        >
+          <div
+            className="email-exists-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>{duplicateTitle}</h2>
+            <p>{duplicateMessage}</p>
+            <button
+              className="email-exists-modal-button"
+              onClick={() => setShowEmailExistsModal(false)}
+            >
+              Entendi
+            </button>
+          </div>
+        </div>
+      )}
+      {showSuccessModal && (
+        <div
+          className="cadastro-success-modal-overlay"
+          onClick={() => setShowSuccessModal(false)}
+        >
+          <div
+            className="cadastro-success-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Inscricao concluida</h2>
+            <p>Recebemos sua candidatura com sucesso. Obrigado!</p>
+            <button
+              className="cadastro-success-modal-button"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
       <div className="cadastro-card">
         {/* Lado Esquerdo - Imagem */}
         <div className="cadastro-left">
-          <img src="/img/xicara.png" alt="Xícara de café" />
+          <video
+            src="/video/cafe.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
         </div>
 
         {/* Lado Direito - Formulário */}
