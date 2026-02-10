@@ -168,6 +168,7 @@ body {
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    flex-wrap: nowrap;
   }
   
   .cadastro-upload-box {
@@ -177,6 +178,10 @@ body {
     padding: 10px;
     border-radius: 5px;
     text-align: center;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
   .cadastro-upload-box h6 {
@@ -198,6 +203,14 @@ body {
     padding: 30px;
     cursor: pointer;
     margin-top: 5px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    word-break: break-word;
+    text-overflow: ellipsis;
   }
   
   /* Checkbox */
@@ -555,7 +568,7 @@ body {
     }
 
     .cadastro-input {
-      width: 97%;
+      width: 100%;
     }
 
     .cadastro-label {
@@ -572,13 +585,13 @@ body {
     }
 
     .cadastro-upload-section {
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: nowrap;
     }
 
     .cadastro-upload-box {
-      margin-bottom: 10px;
-      width: 50%;
-      margin: 0 auto;
+      width: 48%;
+      margin: 0;
     }
 
     .cadastro-vaga-options {
@@ -612,7 +625,7 @@ body {
     }
 
     .cadastro-input {
-      width: 90%;
+      width: 100%;
     }
 
     .cadastro-label {
@@ -629,13 +642,13 @@ body {
     }
 
     .cadastro-upload-section {
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: nowrap;
     }
 
     .cadastro-upload-box {
-      margin-bottom: 10px;
-      width: 50%;
-      margin: 0 auto;
+      width: 48%;
+      margin: 0;
     }
 
     .cadastro-vaga-options {
@@ -673,7 +686,7 @@ body {
     }
     
     .cadastro-input {
-      width: 93%;
+      width: 100%;
     }
 
     .cadastro-vaga-content {
@@ -682,6 +695,8 @@ body {
 
     .cadastro-upload-section {
       width: 100%;
+      flex-direction: row;
+      flex-wrap: nowrap;
     }
 
     .cadastro-privacy-checkbox label {
