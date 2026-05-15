@@ -1,0 +1,224 @@
+.cardapio-login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(420px, 48vw) 1fr;
+  background: linear-gradient(90deg, #0c433b 0%, #1c5d35 47%, #ececec 47%, #ececec 100%);
+}
+
+.cardapio-login-visual-panel,
+.cardapio-login-form-stage {
+  min-height: 100vh;
+}
+
+.cardapio-login-visual-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 28px;
+}
+
+.cardapio-login-visual-frame {
+  width: min(100%, 460px);
+  height: min(78vh, 610px);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(8, 19, 17, 0.28);
+}
+
+.cardapio-login-visual-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-login-form-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.cardapio-login-card {
+  width: min(100%, 420px);
+  min-height: 460px;
+  padding: 28px 38px 34px;
+  border: 1px solid #d4cbbb;
+  border-radius: 6px;
+  background: #f7f7f7;
+  box-shadow: 0 4px 20px rgba(32, 32, 32, 0.04);
+}
+
+.cardapio-login-brand {
+  display: grid;
+  place-items: center;
+  margin-bottom: 26px;
+}
+
+.cardapio-login-brand-arc {
+  font-family: "Anuphan-bold", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.5em;
+  color: #d0a748;
+  margin-bottom: -4px;
+  padding-left: 8px;
+}
+
+.cardapio-login-logo {
+  width: 160px;
+  height: auto;
+  display: block;
+}
+
+.cardapio-login-form {
+  display: grid;
+  gap: 22px;
+}
+
+.cardapio-login-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cardapio-login-icon,
+.cardapio-password-toggle {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: #48506b;
+}
+
+.cardapio-login-icon {
+  left: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.cardapio-login-icon svg,
+.cardapio-password-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.cardapio-login-field input {
+  width: 100%;
+  height: 38px;
+  padding: 0 42px 0 42px;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  background: #efefef;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.95rem;
+  color: #3f3f3f;
+  outline: none;
+}
+
+.cardapio-login-field input:focus {
+  border-color: #6d9420;
+  box-shadow: 0 0 0 3px rgba(109, 148, 32, 0.12);
+}
+
+.cardapio-password-toggle {
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cardapio-submit-button {
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.cardapio-submit-button {
+  width: min(100%, 194px);
+  justify-self: center;
+  height: 34px;
+  background: #73981f;
+  color: #f8f8f8;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.cardapio-submit-button:hover {
+  transform: translateY(-1px);
+  background: #67881a;
+}
+
+.cardapio-submit-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.cardapio-login-error {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(170, 33, 33, 0.1);
+  color: #8f2626;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.92rem;
+}
+
+.cardapio-login-help-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.9rem;
+  color: #595959;
+}
+
+.cardapio-login-help-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #749b2a;
+  font-family: "Anuphan-bold", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.cardapio-login-divider {
+  width: 100%;
+  height: 1px;
+  background: #dfdfdf;
+  margin: 16px 0 2px;
+}
+
+@media (max-width: 980px) {
+  .cardapio-login-page {
+    grid-template-columns: 1fr;
+    background: #ececec;
+  }
+
+  .cardapio-login-visual-panel {
+    min-height: auto;
+    padding: 24px 20px 0;
+  }
+
+  .cardapio-login-visual-frame {
+    height: min(46vh, 420px);
+    width: min(100%, 420px);
+  }
+
+  .cardapio-login-form-stage {
+    min-height: auto;
+    padding: 24px 20px 32px;
+  }
+
+  .cardapio-login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 22px 30px;
+  }
+}

@@ -62,18 +62,6 @@ const Home = () => {
     }
   };
 
-  const handleDrop = (e, setFile) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      if (file.size > MAX_FILE_SIZE) {
-        toast.error("O arquivo deve ter no máximo 20MB!");
-        return;
-      }
-      setFile(file);
-    }
-  };
-
   // --- ENVIO DO FORMULÁRIO (Lógica Nova) ---
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,6 +127,8 @@ const Home = () => {
       toast.error("Erro de conexão com o servidor.");
     }
   };
+
+  // --- RENDERIZAÇÃO --- 
 
   return (
     <div className="cadastro-container">

@@ -1,0 +1,3763 @@
+.cardapio-shell-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  background:
+    radial-gradient(circle at top right, rgba(200, 153, 86, 0.12), transparent 30%),
+    linear-gradient(180deg, #f1ece2 0%, #f7f4ee 100%);
+}
+
+.cardapio-sidebar {
+  padding: 32px 22px;
+  background: linear-gradient(180deg, #062a27 0%, #0b3a35 100%);
+  color: #f8f2e7;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.cardapio-brand-block h1 {
+  margin: 8px 0 10px;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.cardapio-brand-block p,
+.cardapio-profile-card span,
+.group-link small,
+.cardapio-admin-hint span,
+.cardapio-shell-header p {
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-brand-kicker,
+.cardapio-sidebar-title,
+.cardapio-shell-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #dcb273;
+  font-family: "Anuphan-bold", sans-serif;
+  font-size: 0.8rem;
+}
+
+.cardapio-profile-card {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cardapio-profile-card strong {
+  display: block;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #d8a86c 0%, #9f6d31 100%);
+  color: #fff8ee;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-role-pill {
+  grid-column: 1 / -1;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(216, 168, 108, 0.18);
+  color: #efc78f;
+}
+
+.cardapio-sidebar-section {
+  display: grid;
+  gap: 10px;
+}
+
+.group-link,
+.cardapio-logout-button,
+.cardapio-admin-link {
+  width: 100%;
+  border: 0;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+.group-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  color: #e8ded1;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
+}
+
+.group-link span {
+  font-family: "Muller-medium", sans-serif;
+}
+
+.group-link.active {
+  background: linear-gradient(135deg, rgba(216, 168, 108, 0.22), rgba(216, 168, 108, 0.12));
+  color: #fff4e4;
+}
+
+.cardapio-logout-button {
+  margin-top: auto;
+  height: 52px;
+  background: #f1ece2;
+  color: #0d3a35;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-link {
+  margin-top: auto;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  background: linear-gradient(135deg, #c79756 0%, #8e6124 100%);
+  color: #fff7eb;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-shell-content {
+  display: grid;
+  gap: 24px;
+}
+
+.cardapio-shell-content.cardapio-shell-content-full {
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-shell-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cardapio-shell-header h2 {
+  margin: 8px 0;
+  color: #113631;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.cardapio-shell-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.cardapio-shell-summary article,
+.cardapio-admin-hint {
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 54, 49, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 32, 29, 0.06);
+}
+
+.cardapio-shell-summary strong {
+  display: block;
+  font-size: 1.8rem;
+  color: #0d3a35;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-shell-summary span,
+.cardapio-loading-state,
+.cardapio-empty-state p {
+  color: #5a605e;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardapio-admin-hint strong,
+.cardapio-empty-state h3,
+.cardapio-product-heading h3 {
+  color: #103833;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-loading-state,
+.cardapio-empty-state {
+  padding: 28px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 54, 49, 0.08);
+}
+
+.cardapio-novidades-view {
+  display: grid;
+  gap: 22px;
+}
+
+.cardapio-novidades-hero {
+  margin: 0;
+}
+
+.cardapio-novidades-hero-media {
+  position: relative;
+  min-height: 350px;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 54, 49, 0.16);
+  box-shadow: 0 20px 46px rgba(8, 35, 32, 0.18);
+  background: #1d2a27;
+}
+
+.cardapio-novidades-video,
+.cardapio-novidades-hero-fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-novidades-video {
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-novidades-hero-fallback {
+  background: linear-gradient(135deg, rgba(8, 35, 32, 0.92), rgba(201, 138, 62, 0.72));
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.08);
+}
+
+.cardapio-novidades-hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.08) 64%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.38) 100%);
+}
+
+.cardapio-novidades-feature-card {
+  position: absolute;
+  z-index: 1;
+  top: 34px;
+  left: 34px;
+  width: min(300px, calc(100% - 130px));
+  min-height: 250px;
+  border-radius: 16px;
+  padding: 28px 24px;
+  background: linear-gradient(145deg, rgba(184, 117, 45, 0.92), rgba(122, 72, 21, 0.78));
+  color: #fff;
+}
+
+.cardapio-novidades-feature-card strong,
+.cardapio-novidades-feature-card h3,
+.cardapio-novidades-feature-card p {
+  margin: 0;
+}
+
+.cardapio-novidades-feature-card strong,
+.cardapio-novidades-feature-card h3 {
+  font-family: "Muller-bold", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.cardapio-novidades-feature-card strong {
+  font-size: clamp(1.7rem, 3vw, 2.85rem);
+  line-height: 1.06;
+}
+
+.cardapio-novidades-feature-card h3 {
+  margin-top: 6px;
+  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  line-height: 1.04;
+}
+
+.cardapio-novidades-feature-card p {
+  margin-top: 18px;
+  max-width: 240px;
+  font-family: "Anuphan", sans-serif;
+  font-size: 1.16rem;
+  line-height: 1.36;
+}
+
+.cardapio-novidades-play-badge {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 76px;
+  border-radius: 26px;
+  border: 4px solid rgba(255, 255, 255, 0.94);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.32);
+}
+
+.cardapio-novidades-play-badge span {
+  transform: translateX(2px);
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.cardapio-novidades-list-header h3,
+.cardapio-novidades-list-header p {
+  margin: 0;
+}
+
+.cardapio-novidades-list-header h3 {
+  color: #113631;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+}
+
+.cardapio-novidades-list-header p {
+  margin-top: 5px;
+  color: #5f6b67;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-novidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.cardapio-novidades-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(17, 54, 49, 0.1);
+  box-shadow: 0 16px 32px rgba(15, 32, 29, 0.1);
+}
+
+.cardapio-novidades-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: linear-gradient(135deg, #dbc09a 0%, #f1ece2 100%);
+}
+
+.cardapio-novidades-card-media img,
+.cardapio-novidades-card-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-novidades-card-media img {
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: scale(1.1);
+  transform-origin: center;
+}
+
+.cardapio-novidades-card-placeholder {
+  display: grid;
+  place-items: center;
+  color: #815726;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1.6rem;
+}
+
+.cardapio-novidades-card-body {
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.cardapio-novidades-card-body strong {
+  color: #173b37;
+  font-family: "Muller-bold", sans-serif;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.cardapio-novidades-card-body small {
+  color: #677370;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.86rem;
+}
+
+.cardapio-groups-showcase {
+  display: grid;
+  gap: 16px;
+  min-height: 0;
+}
+
+.cardapio-groups-showcase-header h3,
+.cardapio-groups-showcase-header p {
+  margin: 0;
+}
+
+.cardapio-groups-showcase-header h3 {
+  color: #113631;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+}
+
+.cardapio-groups-showcase-header p {
+  margin-top: 5px;
+  color: #5f6b67;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-groups-showcase-track {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 1fr;
+  grid-auto-columns: auto;
+  gap: 18px;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
+  scroll-snap-type: none;
+  padding-bottom: 0;
+}
+
+.cardapio-groups-showcase-slide {
+  height: min(680px, calc(100dvh - 160px));
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(280px, 1.05fr) minmax(360px, 1.35fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  scroll-snap-align: start;
+}
+
+.cardapio-group-highlight {
+  width: 100%;
+  border: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  background: #0c1426;
+  box-shadow: 0 16px 34px rgba(15, 32, 29, 0.2);
+}
+
+.cardapio-group-highlight::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  background-image: var(--cardapio-group-cover-image);
+  background-position: center;
+  background-size: cover;
+  filter: blur(14px) brightness(0.68) saturate(1.1);
+  transform: scale(1.08);
+  opacity: 0;
+  z-index: 0;
+}
+
+.cardapio-group-highlight.has-cover-image::before {
+  opacity: 1;
+}
+
+.cardapio-group-highlight img,
+.cardapio-group-highlight-placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.cardapio-group-highlight img {
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+@media (min-width: 1081px) {
+  .cardapio-groups-showcase {
+    width: 100%;
+    min-height: 100%;
+    padding: 26px 24px 30px;
+    box-sizing: border-box;
+  }
+
+  .cardapio-groups-showcase-slide {
+    height: calc(100dvh - 130px);
+    min-height: 620px;
+    grid-template-columns: minmax(220px, 0.86fr) minmax(0, 1.14fr);
+    gap: 10px;
+  }
+
+  .cardapio-group-highlight img {
+    object-fit: cover;
+    transform: scale(1.06);
+    transform-origin: center;
+  }
+}
+
+.cardapio-group-highlight-placeholder {
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.76);
+  font-family: "Muller-bold", sans-serif;
+  font-size: 2.1rem;
+  background: linear-gradient(135deg, #2c3e39 0%, #4f5e57 100%);
+}
+
+.cardapio-group-highlight-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.34) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.04) 52%);
+}
+
+
+
+.cardapio-group-highlight-vertical {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.cardapio-group-highlight-horizontal {
+  grid-column: 2;
+}
+
+.cardapio-group-highlight:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.cardapio-groups-showcase-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cardapio-groups-showcase-track::-webkit-scrollbar-thumb {
+  background: rgba(17, 54, 49, 0.24);
+  border-radius: 999px;
+}
+
+@media (max-width: 1080px) {
+  .cardapio-groups-showcase-track {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: 100%;
+    height: min(620px, calc(100dvh - 140px));
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+  }
+
+  .cardapio-groups-showcase-slide {
+    height: 100%;
+    grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.35fr);
+    gap: 10px;
+  }
+
+  .cardapio-group-highlight {
+    border-radius: 16px;
+  }
+
+}
+
+@media (max-width: 980px) {
+  .cardapio-novidades-hero-media {
+    min-height: 300px;
+  }
+
+  .cardapio-novidades-feature-card {
+    width: min(250px, calc(100% - 90px));
+    min-height: 220px;
+    left: 24px;
+    top: 24px;
+    padding: 22px 20px;
+  }
+
+  .cardapio-novidades-feature-card p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .cardapio-novidades-hero-media {
+    min-height: 248px;
+  }
+
+  .cardapio-novidades-feature-card {
+    width: min(210px, calc(100% - 40px));
+    min-height: 188px;
+    left: 18px;
+    top: 18px;
+    padding: 18px 16px;
+  }
+
+  .cardapio-novidades-feature-card p {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .cardapio-novidades-play-badge {
+    width: 72px;
+    height: 58px;
+    border-radius: 20px;
+    border-width: 3px;
+  }
+
+  .cardapio-novidades-play-badge span {
+    font-size: 1.58rem;
+  }
+
+  .cardapio-groups-showcase-track {
+    grid-auto-columns: 100%;
+    height: min(320px, calc(100dvh - 230px));
+    gap: 12px;
+  }
+
+  .cardapio-groups-showcase-slide {
+    grid-template-columns: minmax(140px, 0.9fr) minmax(180px, 1.1fr);
+    gap: 8px;
+  }
+
+  .cardapio-group-highlight {
+    border-radius: 14px;
+  }
+
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .cardapio-groups-showcase-track {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-auto-columns: auto;
+    height: auto;
+    gap: 12px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+  }
+
+  .cardapio-groups-showcase-slide {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    gap: 10px;
+  }
+
+  .cardapio-group-highlight-vertical {
+    grid-column: 1;
+    grid-row: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  .cardapio-group-highlight-horizontal {
+    grid-column: 1;
+    grid-row: auto;
+    aspect-ratio: 16 / 6;
+  }
+
+  .cardapio-group-highlight {
+    border-radius: 14px;
+  }
+
+}
+
+.cardapio-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.cardapio-product-card {
+  overflow: hidden;
+  border-radius: 28px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 54, 49, 0.08);
+  box-shadow: 0 22px 40px rgba(15, 32, 29, 0.08);
+}
+
+.cardapio-product-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #dbc09a 0%, #f1ece2 100%);
+}
+
+.cardapio-product-media img,
+.cardapio-product-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-product-media img {
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-product-placeholder {
+  display: grid;
+  place-items: center;
+  color: #815726;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 2rem;
+}
+
+.cardapio-product-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(6, 42, 39, 0.85);
+  color: #f8f2e7;
+  font-family: "Anuphan-bold", sans-serif;
+  font-size: 0.75rem;
+}
+
+.cardapio-product-content {
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.cardapio-product-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardapio-product-heading h3,
+.cardapio-product-content p {
+  margin: 0;
+}
+
+.cardapio-product-heading strong {
+  color: #8b5d22;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-product-content p {
+  color: #66706c;
+  line-height: 1.6;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-layout {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.cardapio-admin-main {
+  min-height: 100vh;
+  transition: margin-left 0.28s ease;
+}
+
+.cardapio-admin-main.expanded {
+  margin-left: 256px;
+}
+
+.cardapio-admin-main.collapsed {
+  margin-left: 88px;
+}
+
+.cardapio-admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto auto minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(8, 35, 32, 0.08);
+  background: rgba(8, 35, 32, 0.95);
+  backdrop-filter: blur(6px);
+}
+
+.cardapio-topbar-pill {
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f6ead7;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-topbar-pill.active {
+  border-color: rgba(243, 157, 61, 0.95);
+  background: rgba(243, 157, 61, 0.2);
+}
+
+.cardapio-topbar-pill:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.cardapio-topbar-pill-muted {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #d7d7d7;
+}
+
+.cardapio-topbar-search {
+  display: flex;
+}
+
+.cardapio-topbar-search input {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f7f4ef;
+  padding: 10px 14px;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.cardapio-admin-center {
+  padding: 26px 24px 30px;
+  background: #f8fafc;
+  overflow: auto;
+}
+
+.cardapio-admin-center.cardapio-admin-center-full {
+  padding: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.cardapio-admin-sidebar-v2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 40;
+  background: linear-gradient(180deg, #052a22 0%, #023b34 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px;
+  overflow: visible;
+  transition: width 0.28s ease;
+}
+
+.cardapio-admin-sidebar-v2.expanded {
+  width: 256px;
+}
+
+.cardapio-admin-sidebar-v2.collapsed {
+  width: 88px;
+}
+
+.cardapio-admin-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  padding: 6px 6px 14px;
+  min-height: 48px;
+}
+
+.cardapio-admin-sidebar-brand strong {
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.cardapio-admin-sidebar-brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #10b981;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-sidebar-toggle {
+  position: absolute;
+  right: -10px;
+  top: 82px;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 8px 18px rgba(3, 34, 27, 0.35);
+}
+
+.cardapio-admin-sidebar-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.cardapio-admin-sidebar-nav {
+  display: grid;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-sidebar-nav small,
+.cardapio-admin-sidebar-section-label {
+  margin-top: 8px;
+  padding: 0 10px;
+  color: rgba(16, 185, 129, 0.55);
+  font-size: 0.62rem;
+  font-family: "Muller-bold", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.cardapio-admin-sidebar-groups-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardapio-admin-sidebar-groups-scroll {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.5) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cardapio-admin-sidebar-groups-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.cardapio-admin-sidebar-groups-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.45);
+}
+
+.cardapio-admin-sidebar-v2.collapsed .cardapio-admin-sidebar-nav small,
+.cardapio-admin-sidebar-v2.collapsed .cardapio-admin-sidebar-section-label {
+  text-align: center;
+  padding: 0;
+}
+
+.cardapio-admin-side-link {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #9fb8b2;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cardapio-admin-sidebar-v2.collapsed .cardapio-admin-side-link {
+  justify-content: center;
+  padding: 10px;
+}
+
+.cardapio-admin-side-link span {
+  font-family: "Muller-medium", sans-serif;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.cardapio-admin-side-link:hover {
+  background: rgba(16, 185, 129, 0.2);
+  color: #d9fbe8;
+}
+
+.cardapio-admin-side-link.active {
+  background: #059669;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(5, 150, 105, 0.3);
+}
+
+.cardapio-admin-sidebar-footer {
+  flex-shrink: 0;
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cardapio-admin-side-profile {
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.15);
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  color: #fff;
+}
+
+.cardapio-admin-sidebar-v2.collapsed .cardapio-admin-side-profile {
+  justify-content: center;
+}
+
+.cardapio-admin-side-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #10b981;
+  display: grid;
+  place-items: center;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-side-profile strong {
+  display: block;
+  margin: 0;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.74rem;
+}
+
+.cardapio-admin-side-profile small {
+  display: block;
+  color: #6ee7b7;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.54rem;
+  letter-spacing: 0.12em;
+}
+
+.cardapio-admin-side-logout {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  min-height: 40px;
+  color: #fb7185;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cardapio-admin-side-logout span {
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.72rem;
+}
+
+.cardapio-admin-sidebar-v2.collapsed .cardapio-admin-side-logout {
+  justify-content: center;
+  padding: 10px;
+}
+
+.cardapio-admin-side-logout:hover {
+  background: rgba(244, 63, 94, 0.12);
+}
+
+.cardapio-admin-v2-home {
+  display: grid;
+  gap: 26px;
+}
+
+.cardapio-admin-v2-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.cardapio-admin-v2-header h1 {
+  margin: 0;
+  color: #1e293b;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(1.9rem, 2.8vw, 2.6rem);
+}
+
+.cardapio-admin-v2-header p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-v2-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardapio-admin-v2-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cardapio-admin-v2-search svg {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+}
+
+.cardapio-admin-v2-search input {
+  width: min(320px, 45vw);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 14px 10px 38px;
+  font-family: "Muller-medium", sans-serif;
+  background: #fff;
+  color: #1e293b;
+  outline: none;
+}
+
+.cardapio-admin-v2-search input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
+}
+
+.cardapio-admin-v2-create {
+  border: 0;
+  border-radius: 14px;
+  background: #059669;
+  color: #fff;
+  min-height: 42px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Muller-bold", sans-serif;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(5, 150, 105, 0.24);
+}
+
+.cardapio-admin-v2-create:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.cardapio-admin-v2-sections {
+  display: grid;
+  gap: 26px;
+}
+
+.cardapio-admin-v2-section {
+  display: grid;
+  gap: 12px;
+}
+
+.cardapio-admin-v2-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardapio-admin-v2-group-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardapio-admin-v2-group-meta h3 {
+  margin: 0;
+  color: #1e293b;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1.52rem;
+}
+
+.cardapio-admin-v2-group-meta span {
+  font-family: "Muller-bold", sans-serif;
+  color: #94a3b8;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: #edf2f7;
+  padding: 5px 9px;
+  border-radius: 999px;
+}
+
+.cardapio-admin-v2-group-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #d1fae5;
+  color: #059669;
+  display: grid;
+  place-items: center;
+}
+
+.cardapio-admin-v2-manage {
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #059669;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.86rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.cardapio-admin-v2-manage:hover {
+  background: rgba(5, 150, 105, 0.09);
+}
+
+.cardapio-admin-v2-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.cardapio-admin-v2-product-card,
+.cardapio-admin-v2-add-card {
+  width: min(240px, calc(50% - 8px));
+  min-width: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cardapio-admin-v2-product-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.cardapio-admin-v2-product-card.is-paused {
+  opacity: 0.72;
+}
+
+.cardapio-admin-v2-thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #e2e8f0;
+}
+
+.cardapio-admin-v2-thumb img,
+.cardapio-admin-v2-fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-admin-v2-thumb img {
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-admin-v2-fallback {
+  display: grid;
+  place-items: center;
+  font-family: "Muller-bold", sans-serif;
+  color: #475569;
+}
+
+.cardapio-admin-v2-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.25);
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+.cardapio-admin-v2-product-card:hover .cardapio-admin-v2-thumb-overlay {
+  opacity: 1;
+}
+
+.cardapio-admin-v2-edit {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cardapio-admin-v2-tools {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.cardapio-admin-v2-tool {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cardapio-admin-v2-tool.pause {
+  background: rgba(245, 158, 11, 0.92);
+}
+
+.cardapio-admin-v2-tool.remove {
+  background: rgba(244, 63, 94, 0.92);
+}
+
+.cardapio-admin-v2-tool:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.cardapio-admin-v2-card-content {
+  padding: 10px 12px;
+}
+
+.cardapio-admin-v2-card-content h4,
+.cardapio-admin-v2-card-content p {
+  margin: 0;
+}
+
+.cardapio-admin-v2-card-content h4 {
+  color: #1f2937;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.cardapio-admin-v2-card-content p {
+  margin-top: 2px;
+  color: #059669;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.92rem;
+}
+
+.cardapio-admin-v2-add-card {
+  border: 2px dashed #dbe2ea;
+  background: #f8fafc;
+}
+
+.cardapio-admin-v2-add-button {
+  width: 100%;
+  min-height: 100%;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.cardapio-admin-v2-add-button span {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  display: grid;
+  place-items: center;
+}
+
+.cardapio-admin-v2-add-button small {
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.68rem;
+  text-transform: none;
+}
+
+.cardapio-admin-v2-add-card:hover {
+  border-color: #34d399;
+  background: rgba(16, 185, 129, 0.07);
+}
+
+.cardapio-admin-v2-add-card:hover .cardapio-admin-v2-add-button {
+  color: #059669;
+}
+
+.cardapio-admin-v2-footer {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardapio-admin-v2-footer p {
+  margin: 0;
+  color: #94a3b8;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.cardapio-admin-v2-footer button {
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: #e2e8f0;
+  color: #475569;
+  font-family: "Muller-medium", sans-serif;
+  cursor: pointer;
+}
+
+.cardapio-admin-home {
+  display: grid;
+  gap: 16px;
+}
+
+.cardapio-admin-home-section {
+  display: grid;
+  gap: 12px;
+}
+
+.cardapio-admin-home-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardapio-admin-home-head h2 {
+  margin: 0;
+  color: #2f3533;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 2.05rem;
+}
+
+.cardapio-admin-home-head span {
+  height: 1px;
+  background: #c6c6c6;
+}
+
+.cardapio-admin-highlight-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardapio-admin-highlight-row small {
+  color: #646b69;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-highlight-pill {
+  border: 1px solid #c9c9c9;
+  background: #f2f2f2;
+  border-radius: 999px;
+  padding: 7px 16px;
+  color: #545454;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-admin-novidades-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 220px;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.cardapio-admin-menu-card,
+.cardapio-admin-add-card {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+}
+
+.cardapio-admin-menu-card {
+  border: 1px solid rgba(4, 38, 34, 0.14);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardapio-admin-menu-card.is-paused {
+  opacity: 0.7;
+}
+
+.cardapio-admin-menu-thumb {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #d2d2d2;
+}
+
+.cardapio-admin-menu-thumb img,
+.cardapio-admin-menu-fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.cardapio-admin-menu-thumb img {
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-admin-menu-fallback {
+  display: grid;
+  place-items: center;
+  color: #45635f;
+  font-size: 1.2rem;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-edit-chip {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 4px;
+  background: #ed8e2f;
+  color: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.cardapio-admin-menu-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  min-height: 50px;
+  background: linear-gradient(135deg, #0d413b 0%, #1c6b5e 100%);
+}
+
+.cardapio-admin-menu-text {
+  min-width: 0;
+}
+
+.cardapio-admin-menu-text strong,
+.cardapio-admin-menu-text p,
+.cardapio-admin-menu-text small {
+  margin: 0;
+  display: block;
+  color: #e8f2ef;
+}
+
+.cardapio-admin-menu-text strong {
+  font-size: 0.84rem;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-menu-text p,
+.cardapio-admin-menu-text small {
+  max-width: 175px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 0.64rem;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-menu-text small {
+  color: #c4dfd7;
+}
+
+.cardapio-admin-mini-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cardapio-admin-mini-btn {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.62rem;
+  cursor: pointer;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-mini-btn.pause {
+  background: #f2972f;
+}
+
+.cardapio-admin-mini-btn.remove {
+  background: #dd4157;
+}
+
+.cardapio-admin-mini-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.cardapio-admin-add-card {
+  background: #616062;
+  display: grid;
+  place-items: center;
+}
+
+.cardapio-admin-add-button {
+  border: 0;
+  background: transparent;
+  color: #ddd;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.cardapio-admin-add-button span {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #ef8f2e;
+  border-radius: 50%;
+  color: #ef8f2e;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-add-button small {
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-groups-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.cardapio-admin-group-panel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #dddddd;
+  border: 1px solid #d4d4d4;
+}
+
+.cardapio-admin-group-panel h3 {
+  margin: 0;
+  color: #51514f;
+  font-size: 1.55rem;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-admin-group-body {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardapio-admin-row-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #636363;
+  color: #484848;
+  background: #ececec;
+}
+
+.cardapio-admin-group-products {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 135px;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.cardapio-admin-menu-card.compact,
+.cardapio-admin-add-card.compact {
+  aspect-ratio: 1 / 1;
+}
+
+.cardapio-admin-menu-card.compact .cardapio-admin-menu-thumb {
+  flex: 1;
+}
+
+.cardapio-admin-menu-card.compact .cardapio-admin-menu-bottom {
+  padding: 6px;
+}
+
+.cardapio-admin-menu-card.compact .cardapio-admin-menu-text strong {
+  font-size: 0.68rem;
+}
+
+.cardapio-admin-menu-card.compact .cardapio-admin-menu-text p,
+.cardapio-admin-menu-card.compact .cardapio-admin-menu-text small {
+  font-size: 0.56rem;
+  max-width: 100px;
+}
+
+.cardapio-admin-menu-card.compact .cardapio-admin-mini-btn {
+  width: 16px;
+  height: 16px;
+  font-size: 0.52rem;
+}
+
+.cardapio-admin-add-card.compact .cardapio-admin-add-button span {
+  width: 22px;
+  height: 22px;
+}
+
+.cardapio-admin-add-card.compact .cardapio-admin-add-button small {
+  font-size: 0.56rem;
+}
+
+.cardapio-admin-group-footnote {
+  margin: 0;
+  color: #5d6965;
+  font-family: "Anuphan", sans-serif;
+}
+
+/* ── Admin Product Modal ──────────────────────────────────── */
+
+.cardapio-admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.60);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 30;
+  padding: 16px;
+}
+
+.cardapio-admin-modal {
+  width: min(920px, 97vw);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 94vh;
+}
+
+/* Header */
+.cardapio-admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid #f1f0ed;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-modal-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cardapio-admin-modal-header-icon {
+  background: #dcfce7;
+  color: #16a34a;
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-modal-header h2 {
+  margin: 0 0 2px;
+  color: #1a2420;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1.05rem;
+}
+
+.cardapio-admin-modal-header p {
+  margin: 0;
+  color: #8e9e97;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.8rem;
+}
+
+.cardapio-admin-modal-close {
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #9eaaa3;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-modal-close:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #3d4745;
+}
+
+/* Body / Layout */
+.cardapio-admin-modal-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.cardapio-admin-modal-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  padding: 28px 28px 20px;
+  flex: 1;
+}
+
+/* Image column */
+.cardapio-admin-modal-img-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardapio-admin-modal-upload-zone {
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  border: 2px dashed #d1d5db;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  background: #fafafa;
+}
+
+.cardapio-admin-modal-upload-zone:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.04);
+}
+
+.cardapio-admin-modal-upload-zone.has-image {
+  border-color: #16a34a;
+  border-style: solid;
+}
+
+.cardapio-admin-modal-upload-zone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-admin-modal-upload-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #fff;
+}
+
+.cardapio-admin-modal-upload-zone:hover .cardapio-admin-modal-upload-overlay {
+  opacity: 1;
+}
+
+.cardapio-admin-modal-upload-overlay span {
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.82rem;
+}
+
+.cardapio-admin-modal-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.cardapio-admin-modal-upload-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: grid;
+  place-items: center;
+  color: #9ca3af;
+  transition: transform 0.2s;
+}
+
+.cardapio-admin-modal-upload-zone:hover .cardapio-admin-modal-upload-icon {
+  transform: scale(1.08);
+}
+
+.cardapio-admin-modal-upload-placeholder p {
+  margin: 0;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.84rem;
+  color: #4b5563;
+}
+
+.cardapio-admin-modal-upload-placeholder small {
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Fields column */
+.cardapio-admin-modal-fields-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardapio-admin-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardapio-admin-modal-field-label {
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b7280;
+}
+
+.cardapio-admin-modal-form input,
+.cardapio-admin-modal-form textarea {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 11px 14px;
+  background: #f9fafb;
+  color: #1a2420;
+  font-size: 0.9rem;
+  font-family: "Muller-medium", sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardapio-admin-modal-form input:focus,
+.cardapio-admin-modal-form textarea:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+  background: #fff;
+}
+
+.cardapio-admin-modal-form textarea {
+  resize: none;
+  min-height: 86px;
+  line-height: 1.55;
+}
+
+.cardapio-admin-modal-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Price field */
+.cardapio-admin-price-field {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  overflow: hidden;
+}
+
+.cardapio-admin-price-field:focus-within {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+  background: #fff;
+}
+
+.cardapio-admin-price-field span {
+  padding: 0 4px 0 14px;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  font-family: "Muller-medium", sans-serif;
+  white-space: nowrap;
+}
+
+.cardapio-admin-price-field input {
+  border: 0 !important;
+  padding: 11px 14px 11px 2px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  flex: 1;
+}
+
+/* Select with icon */
+.cardapio-admin-select-wrap {
+  position: relative;
+}
+
+.cardapio-admin-select-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cardapio-admin-select-wrap select {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 11px 14px 11px 36px;
+  background: #f9fafb;
+  color: #1a2420;
+  font-size: 0.9rem;
+  font-family: "Muller-medium", sans-serif;
+  appearance: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+
+.cardapio-admin-select-wrap select:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+  background: #fff;
+}
+
+/* Status toggle */
+.cardapio-admin-status-toggle {
+  display: flex;
+  gap: 12px;
+}
+
+.cardapio-admin-status-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  color: #9ca3af;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cardapio-admin-status-btn.ativo.active {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.cardapio-admin-status-btn.ativo:not(.active):hover {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #4ade80;
+}
+
+.cardapio-admin-status-btn.inativo.active {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.cardapio-admin-status-btn.inativo:not(.active):hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #f87171;
+}
+
+.cardapio-admin-featured-upload-zone {
+  position: relative;
+  width: 100%;
+  min-height: 140px;
+  border: 2px dashed #d1d5db;
+  border-radius: 14px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, transform 0.1s;
+}
+
+.cardapio-admin-featured-upload-zone:hover {
+  border-color: #16a34a;
+  background: #ffffff;
+}
+
+.cardapio-admin-featured-upload-zone.has-image {
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+.cardapio-admin-featured-upload-zone img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+
+.cardapio-admin-featured-upload-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.58);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 0.83rem;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-admin-featured-upload-zone:hover .cardapio-admin-featured-upload-overlay {
+  opacity: 1;
+}
+
+.cardapio-admin-featured-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #475569;
+  font-size: 0.82rem;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-admin-featured-upload-placeholder p {
+  margin: 0;
+}
+
+.cardapio-admin-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cardapio-admin-featured-slot {
+  border: 2px solid #d1d5db;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-family: "Muller-medium", sans-serif;
+  font-weight: 700;
+  height: 46px;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+
+.cardapio-admin-featured-slot:hover:not(:disabled) {
+  border-color: #16a34a;
+  color: #16a34a;
+  transform: translateY(-1px);
+}
+
+.cardapio-admin-featured-slot.selected {
+  border-color: #16a34a;
+  background: #ecfdf3;
+  color: #15803d;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+}
+
+.cardapio-admin-featured-slot.unavailable {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.cardapio-admin-featured-slot.reserved {
+  opacity: 0.6;
+}
+
+.cardapio-admin-featured-grid-note {
+  margin-top: 8px;
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  font-family: "Muller-medium", sans-serif;
+}
+
+/* Footer */
+.cardapio-admin-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 18px 28px;
+  border-top: 1px solid #f1f0ed;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-modal-foot button {
+  border-radius: 12px;
+  padding: 11px 28px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: "Muller-medium", sans-serif;
+  font-weight: 700;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  border: none;
+}
+
+.cardapio-admin-modal-foot .ghost {
+  background: transparent;
+  color: #6b7280;
+  border: none;
+}
+
+.cardapio-admin-modal-foot .ghost:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.cardapio-admin-modal-foot .primary {
+  background: #16a34a;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.30);
+}
+
+.cardapio-admin-modal-foot .primary:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.cardapio-admin-modal-foot button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.cardapio-admin-modal-foot button:active:not(:disabled) {
+  transform: scale(0.98) translateY(0);
+}
+
+/* =============================================
+   GROUPS TABLE
+   ============================================= */
+
+.cardapio-admin-groups-table-wrap {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 2px 12px rgba(15, 32, 29, 0.06);
+  overflow: hidden;
+}
+
+.cardapio-admin-groups-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.cardapio-admin-groups-table thead tr {
+  background: #f8fafc;
+}
+
+.cardapio-admin-groups-table thead th {
+  padding: 16px 24px;
+  font-size: 0.65rem;
+  font-family: "Muller-bold", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+}
+
+.cardapio-admin-groups-table thead th.align-right {
+  text-align: right;
+}
+
+.cardapio-admin-groups-table tbody tr {
+  border-top: 1px solid #f8fafc;
+  transition: background 0.15s;
+}
+
+.cardapio-admin-groups-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.cardapio-admin-groups-table tbody td {
+  padding: 20px 24px;
+  color: #334155;
+}
+
+.cardapio-admin-groups-table tbody td.align-right {
+  text-align: right;
+}
+
+.cardapio-admin-group-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cardapio-admin-group-row-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-group-row-meta strong {
+  display: block;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.cardapio-admin-group-row-meta span {
+  display: block;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: "Anuphan", sans-serif;
+  margin-top: 2px;
+}
+
+.cardapio-admin-group-row-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.cardapio-admin-group-row-count svg {
+  color: #cbd5e1;
+}
+
+.cardapio-admin-group-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-family: "Muller-bold", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.cardapio-admin-group-status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-group-status-pill.ativo {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.cardapio-admin-group-status-pill.ativo .dot {
+  background: #16a34a;
+}
+
+.cardapio-admin-group-status-pill.inativo {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.cardapio-admin-group-status-pill.inativo .dot {
+  background: #94a3b8;
+}
+
+.cardapio-admin-group-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.cardapio-admin-group-row-actions button {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cardapio-admin-group-row-actions button.edit {
+  background: transparent;
+  color: #94a3b8;
+}
+
+.cardapio-admin-group-row-actions button.edit:hover {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.cardapio-admin-group-row-actions button.delete {
+  background: transparent;
+  color: #94a3b8;
+}
+
+.cardapio-admin-group-row-actions button.delete:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* Group modal size override */
+.cardapio-admin-group-modal {
+  max-width: 540px;
+  width: 100%;
+}
+
+/* Add padding to the form body (no layout grid like the product modal) */
+.cardapio-admin-group-modal .cardapio-admin-modal-body {
+  padding: 28px 28px 0;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardapio-admin-group-modal .cardapio-admin-modal-field {
+  gap: 10px;
+}
+
+.cardapio-admin-group-modal .cardapio-admin-modal-field-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.10em;
+  color: #94a3b8;
+}
+
+.cardapio-admin-group-modal .cardapio-admin-modal-form input {
+  padding: 13px 16px;
+  font-size: 0.95rem;
+  border-radius: 14px;
+}
+
+/* Status toggle inside group modal — taller, more prominent */
+.cardapio-admin-group-modal .cardapio-admin-status-toggle {
+  gap: 12px;
+}
+
+.cardapio-admin-group-modal .cardapio-admin-status-btn {
+  padding: 13px 16px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  gap: 8px;
+}
+
+/* Footer spacing */
+.cardapio-admin-group-modal .cardapio-admin-modal-foot {
+  padding: 20px 28px;
+  margin-top: 8px;
+}
+
+/* Icon picker grid */
+.cardapio-admin-group-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.cardapio-admin-group-icon-btn {
+  aspect-ratio: 1;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.cardapio-admin-group-icon-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.cardapio-admin-group-icon-btn.selected {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* Image upload styles for group modal */
+.cardapio-admin-image-upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  min-height: 140px;
+  padding: 16px;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+
+.cardapio-admin-image-upload-area:hover {
+  border-color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.cardapio-admin-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.cardapio-admin-upload-label svg {
+  color: #cbd5e1;
+}
+
+.cardapio-admin-image-preview {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: auto;
+}
+
+.cardapio-admin-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.cardapio-admin-image-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.9);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.cardapio-admin-image-remove:hover {
+  background: rgba(220, 38, 38, 0.95);
+}
+
+/* =============================================
+   SETTINGS / HOURS PAGE
+   ============================================= */
+
+.cardapio-admin-settings-page {
+  width: 100%;
+}
+
+.cardapio-admin-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.cardapio-admin-settings-header h1 {
+  margin: 0 0 4px;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1.75rem;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+}
+
+.cardapio-admin-settings-header p {
+  margin: 0;
+  color: #64748b;
+  font-family: "Anuphan", sans-serif;
+  font-size: 0.9rem;
+}
+
+.cardapio-admin-settings-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.30);
+  transition: background 0.15s, transform 0.1s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-settings-save-btn:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.cardapio-admin-settings-save-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.cardapio-admin-settings-save-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.cardapio-admin-settings-feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: "Muller-medium", sans-serif;
+  font-size: 0.86rem;
+  margin-bottom: 20px;
+}
+
+.cardapio-admin-settings-feedback.success {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.cardapio-admin-settings-feedback.error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+/* Sections stacked by default */
+.cardapio-admin-settings-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 48px;
+}
+
+.cardapio-admin-settings-section {
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 2px 12px rgba(15, 32, 29, 0.05);
+  padding: 28px 32px 32px;
+}
+
+.cardapio-admin-settings-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.cardapio-admin-settings-section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cardapio-admin-settings-section-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #f0fdf4;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardapio-admin-settings-section h3 {
+  margin: 0;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 1.05rem;
+  color: #1e293b;
+}
+
+.cardapio-admin-settings-warning-badge {
+  font-size: 0.72rem;
+  font-family: "Muller-medium", sans-serif;
+  font-style: italic;
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Address fields */
+.cardapio-admin-settings-addr-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px;
+}
+
+/* Social fields */
+.cardapio-admin-settings-social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Generic field */
+.cardapio-admin-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cardapio-admin-settings-field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  font-family: "Muller-bold", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+}
+
+.cardapio-admin-settings-field-label .social-icon.facebook { color: #2563eb; }
+.cardapio-admin-settings-field-label .social-icon.instagram { color: #db2777; }
+.cardapio-admin-settings-field-label .social-icon.whatsapp { color: #16a34a; }
+
+.cardapio-admin-settings-input {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 13px 16px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-family: "Muller-medium", sans-serif;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardapio-admin-settings-input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+  background: #fff;
+}
+
+.cardapio-admin-settings-input::placeholder {
+  color: #cbd5e1;
+}
+
+/* Hours grid */
+.cardapio-admin-hours-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cardapio-admin-hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  border: 2px solid #f0fdf4;
+  background: #fff;
+  min-width: 0;
+  transition: border-color 0.2s, opacity 0.2s, background 0.2s;
+}
+
+.cardapio-admin-hours-row.closed {
+  border-color: #f1f5f9;
+  background: #f8fafc;
+  opacity: 0.55;
+}
+
+/* Toggle switch pill */
+.cardapio-admin-hours-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.cardapio-admin-hours-toggle.on  { background: #22c55e; }
+.cardapio-admin-hours-toggle.off { background: #cbd5e1; }
+
+.cardapio-admin-hours-toggle-knob {
+  position: absolute;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.cardapio-admin-hours-toggle.on  .cardapio-admin-hours-toggle-knob { left: calc(100% - 21px); }
+.cardapio-admin-hours-toggle.off .cardapio-admin-hours-toggle-knob { left: 3px; }
+
+/* Day label */
+.cardapio-admin-hours-day {
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #334155;
+  min-width: 86px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* Time inputs area */
+.cardapio-admin-hours-times {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cardapio-admin-hours-time-input {
+  width: clamp(64px, 7vw, 84px);
+  text-align: center;
+  padding: 8px 6px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #334155;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.cardapio-admin-hours-time-input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+  background: #fff;
+}
+
+.cardapio-admin-hours-time-input:disabled {
+  background: transparent;
+  border-color: transparent;
+  color: #94a3b8;
+}
+
+.cardapio-admin-hours-sep {
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #cbd5e1;
+}
+
+/* ---- Wide screen: Location + Social side-by-side, Hours full-width ---- */
+@media (min-width: 1180px) {
+  .cardapio-admin-settings-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "location social"
+      "hours    hours";
+    align-items: start;
+  }
+
+  .cardapio-admin-settings-sections > section:nth-child(1) { grid-area: location; }
+  .cardapio-admin-settings-sections > section:nth-child(2) { grid-area: hours; }
+  .cardapio-admin-settings-sections > section:nth-child(3) { grid-area: social; }
+}
+
+@media (min-width: 1600px) {
+  .cardapio-admin-hours-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  .cardapio-admin-hours-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small screens */
+@media (max-width: 680px) {
+  .cardapio-admin-hours-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-settings-addr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-settings-social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardapio-admin-settings-section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =============================================
+   LEGACY ADMIN PANEL (kept for compatibility)
+   ============================================= */
+
+.cardapio-admin-dashboard {
+  display: grid;
+  gap: 18px;
+}
+
+.cardapio-admin-panel {
+  border-radius: 20px;
+  border: 1px solid rgba(16, 56, 51, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 28px rgba(15, 32, 29, 0.08);
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.cardapio-admin-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cardapio-admin-section-head h2,
+.cardapio-admin-group-row h3 {
+  margin: 0;
+  color: #103833;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-admin-section-head span {
+  color: #697874;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-page-copy {
+  margin: 0;
+  color: #5d6965;
+  line-height: 1.6;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-admin-back-link {
+  width: fit-content;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid rgba(13, 62, 55, 0.25);
+  background: #eef4f2;
+  color: #15423c;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-admin-group-row {
+  display: grid;
+  gap: 10px;
+}
+
+.cardapio-admin-product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.cardapio-admin-product {
+  border-radius: 14px;
+  border: 1px solid rgba(9, 39, 35, 0.14);
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ef 100%);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.cardapio-admin-product.compact {
+  background: #ffffff;
+}
+
+.cardapio-admin-product-content {
+  display: grid;
+  gap: 4px;
+}
+
+.cardapio-admin-product-content strong {
+  font-family: "Muller-medium", sans-serif;
+  color: #153a35;
+}
+
+.cardapio-admin-product-content small {
+  font-family: "Anuphan", sans-serif;
+  color: #5d6965;
+}
+
+.cardapio-admin-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cardapio-action-button {
+  flex: 1;
+  border-radius: 10px;
+  border: 0;
+  padding: 7px 10px;
+  cursor: pointer;
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-action-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.cardapio-action-button.pause {
+  background: #f39d3d;
+  color: #202022;
+}
+
+.cardapio-action-button.remove {
+  background: #d84f49;
+  color: #fff;
+}
+
+@media (max-width: 1080px) {
+  .cardapio-shell-page {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-sidebar-v2,
+  .cardapio-admin-sidebar-v2.expanded,
+  .cardapio-admin-sidebar-v2.collapsed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 0;
+  }
+
+  .cardapio-admin-sidebar-v2.expanded {
+    width: 220px;
+  }
+
+  .cardapio-admin-sidebar-v2.collapsed {
+    width: 76px;
+  }
+
+  .cardapio-admin-sidebar-toggle {
+    display: grid;
+  }
+
+  .cardapio-admin-main.expanded {
+    margin-left: 220px;
+  }
+
+  .cardapio-admin-main.collapsed {
+    margin-left: 76px;
+  }
+
+  .cardapio-admin-v2-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardapio-admin-v2-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .cardapio-admin-v2-search {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .cardapio-admin-v2-search input {
+    width: 100%;
+  }
+
+  .cardapio-admin-v2-row {
+    gap: 12px;
+  }
+
+  .cardapio-admin-v2-product-card,
+  .cardapio-admin-v2-add-card {
+    width: min(240px, calc(50% - 6px));
+  }
+
+  .cardapio-admin-v2-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardapio-admin-modal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-modal-inline {
+    grid-template-columns: 1fr;
+  }
+
+  .cardapio-admin-modal-img-col {
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .cardapio-admin-status-toggle {
+    flex-direction: column;
+  }
+
+  .cardapio-admin-modal-foot {
+    padding: 14px 20px;
+  }
+
+  .cardapio-sidebar {
+    gap: 16px;
+    position: static;
+    height: auto;
+  }
+
+  .cardapio-shell-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .cardapio-admin-sidebar-v2.expanded {
+    width: 200px;
+  }
+
+  .cardapio-admin-sidebar-v2.collapsed {
+    width: 64px;
+  }
+
+  .cardapio-admin-main.expanded {
+    margin-left: 200px;
+  }
+
+  .cardapio-admin-main.collapsed {
+    margin-left: 64px;
+  }
+
+  .cardapio-admin-sidebar-toggle {
+    top: 74px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.cardapio-product-card-button {
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.cardapio-product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(8, 35, 32, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.cardapio-product-modal {
+  position: relative;
+  width: min(920px, 96vw);
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 54, 49, 0.1);
+  box-shadow: 0 24px 50px rgba(15, 32, 29, 0.22);
+  padding: 18px 58px;
+}
+
+.cardapio-product-modal-content {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(280px, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.cardapio-product-modal-media {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #dbc09a 0%, #f1ece2 100%);
+}
+
+.cardapio-product-modal-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardapio-product-modal-info h3,
+.cardapio-product-modal-info p {
+  margin: 0;
+}
+
+.cardapio-product-modal-info strong {
+  display: block;
+  margin: 8px 0 10px;
+  color: #8b5d22;
+  font-family: "Muller-bold", sans-serif;
+}
+
+.cardapio-product-modal-info p {
+  color: #66706c;
+  line-height: 1.6;
+  font-family: "Anuphan", sans-serif;
+}
+
+.cardapio-product-modal-close,
+.cardapio-product-modal-nav {
+  position: absolute;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #f8f2e7;
+  background: rgba(6, 42, 39, 0.92);
+}
+
+.cardapio-product-modal-close {
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  font-size: 1.3rem;
+}
+
+.cardapio-product-modal-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  font-size: 1.4rem;
+}
+
+.cardapio-product-modal-nav.prev { left: 10px; }
+.cardapio-product-modal-nav.next { right: 10px; }
+
+@media (max-width: 760px) {
+  .cardapio-product-modal {
+    padding: 14px 44px;
+  }
+
+  .cardapio-product-modal-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Product Carousel (grupo selecionado) ──────────────────── */
+
+.cardapio-carousel-panel {
+  width: 100%;
+  max-width: none;
+  height: calc(100dvh - 130px);
+  min-height: 560px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #041d17 0%, #062920 60%, #041d17 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-inline: auto;
+  position: relative;
+}
+
+.cardapio-carousel-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 10px;
+}
+
+.cardapio-carousel-title {
+  color: #d4a96a;
+  font-family: "Muller-bold", sans-serif;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.cardapio-carousel-close {
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  font-family: "Muller-bold", sans-serif;
+  transition: background 0.18s;
+}
+
+.cardapio-carousel-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.cardapio-carousel-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.cardapio-carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d98e2f 0%, #b56912 100%);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: transform 0.16s, box-shadow 0.16s, opacity 0.16s;
+}
+
+.cardapio-carousel-nav-prev {
+  left: 14px;
+}
+
+.cardapio-carousel-nav-next {
+  right: 14px;
+}
+
+.cardapio-carousel-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cardapio-carousel-nav-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cardapio-carousel-nav-btn:not(:disabled):hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
+}
+
+.cardapio-carousel-viewport {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  padding: 0 8px 8px;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cardapio-carousel-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.cardapio-carousel-slide {
+  flex: 0 0 clamp(360px, 40vw, 560px);
+  min-width: 0;
+  height: 100%;
+  scroll-snap-align: start;
+}
+
+.cardapio-carousel-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0e1814;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.cardapio-carousel-card-media {
+  flex: 1;
+  min-height: 0;
+  background: #1a2420;
+}
+
+.cardapio-carousel-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.cardapio-carousel-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.24);
+  font-family: "Muller-bold", sans-serif;
+  font-size: 3rem;
+}
+
+.cardapio-carousel-card-info {
+  flex-shrink: 0;
+  padding: 16px 20px;
+  background: rgba(6, 16, 14, 0.92);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.cardapio-carousel-card-text h3 {
+  margin: 0 0 4px;
+  color: #ffffff;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26ch;
+}
+
+.cardapio-carousel-card-text p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: "Anuphan", sans-serif;
+  font-size: clamp(0.78rem, 0.85vw, 0.9rem);
+  line-height: 1.4;
+  max-width: 46ch;
+}
+
+.cardapio-carousel-card-price {
+  color: #e8a84c;
+  font-family: "Muller-bold", sans-serif;
+  font-size: clamp(0.96rem, 1.2vw, 1.2rem);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .cardapio-carousel-panel {
+    height: calc(100dvh - 120px);
+    min-height: 520px;
+  }
+
+  .cardapio-carousel-slide {
+    flex-basis: clamp(320px, 42vw, 480px);
+  }
+}
+
+/* Tablet retrato */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .cardapio-carousel-panel {
+    height: calc(100dvh - 118px);
+    min-height: 640px;
+    border-radius: 20px;
+  }
+
+  .cardapio-carousel-header {
+    padding: 12px 14px 8px;
+  }
+
+  .cardapio-carousel-slide {
+    flex-basis: clamp(280px, 60vw, 420px);
+  }
+
+  .cardapio-carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cardapio-carousel-nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cardapio-carousel-card-info {
+    padding: 12px 16px;
+  }
+}
+
+/* Tablet paisagem */
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape) {
+  .cardapio-carousel-panel {
+    height: calc(100dvh - 108px);
+    min-height: 520px;
+  }
+
+  .cardapio-carousel-header {
+    padding: 10px 14px 8px;
+  }
+
+  .cardapio-carousel-card-info {
+    padding: 12px 16px;
+  }
+
+  .cardapio-carousel-slide {
+    flex-basis: clamp(240px, 34vw, 360px);
+  }
+}
+
+.cardapio-carousel-empty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 32px;
+}
+
+.cardapio-carousel-empty h3 {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: "Muller-medium", sans-serif;
+}
+
+.cardapio-carousel-empty p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-family: "Anuphan", sans-serif;
+}
+
+/* Celular retrato */
+@media (max-width: 760px) {
+  .cardapio-carousel-panel {
+    height: calc(100dvh - 126px);
+    min-height: 520px;
+    border-radius: 18px;
+  }
+
+  .cardapio-carousel-header {
+    padding: 12px 12px 8px;
+  }
+
+  .cardapio-carousel-slide {
+    flex-basis: clamp(240px, 72vw, 320px);
+  }
+
+  .cardapio-carousel-nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cardapio-carousel-nav-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .cardapio-carousel-card-info {
+    padding: 10px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .cardapio-carousel-card-text h3 {
+    max-width: 20ch;
+    font-size: clamp(0.88rem, 3.5vw, 1.1rem);
+  }
+
+  .cardapio-carousel-card-text p {
+    max-width: 24ch;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cardapio-carousel-card-price {
+    font-size: 0.88rem;
+  }
+}
+
+/* Celular paisagem */
+@media (max-width: 900px) and (orientation: landscape) {
+  .cardapio-carousel-panel {
+    height: calc(100dvh - 84px);
+    min-height: 320px;
+    border-radius: 14px;
+  }
+
+  .cardapio-carousel-header {
+    padding: 8px 10px 6px;
+  }
+
+  .cardapio-carousel-title {
+    font-size: 0.72rem;
+  }
+
+  .cardapio-carousel-close {
+    min-height: 28px;
+    padding: 0 10px;
+    font-size: 0.64rem;
+  }
+
+  .cardapio-carousel-slide {
+    flex-basis: clamp(180px, 38vw, 260px);
+  }
+
+  .cardapio-carousel-nav-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cardapio-carousel-nav-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cardapio-carousel-card-info {
+    padding: 8px 12px;
+    gap: 2px;
+  }
+
+  .cardapio-carousel-card-text h3 {
+    font-size: clamp(0.78rem, 2.5vw, 0.9rem);
+    max-width: 22ch;
+  }
+
+  .cardapio-carousel-card-text p {
+    display: none;
+  }
+
+  .cardapio-carousel-card-price {
+    font-size: 0.78rem;
+  }
+}
