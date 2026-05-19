@@ -1,0 +1,362 @@
+/* Styles extracted from LandingPage styled-components */
+
+.namorados-page {
+    background-color: #FBF9F6;
+    color: #3b2a26;
+}
+
+.hero-section {
+    position: relative;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-image: linear-gradient(rgba(45, 14, 18, 0.7), rgba(45, 14, 18, 0.7)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 0 20px;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to top, #FBF9F6 0%, transparent 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+}
+
+.overline {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.primary-button {
+    background-color: #5d1725;
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    letter-spacing: 1px;
+}
+
+.primary-button:hover {
+    background-color: #4a121d;
+}
+
+.namorados-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #5d1725;
+    margin-bottom: 15px;
+    display: inline-block;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background-color: #d1b894;
+}
+
+.journey-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .journey-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .journey-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.journey-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon-box {
+    background-color: #F3EBE1;
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+    color: #a37c42;
+}
+
+.card-icon-box span {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.2rem;
+    font-family: 'EB Garamond', serif;
+    color: #c0aa8f;
+}
+
+.card-title {
+    color: #5d1725;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #665b55;
+    line-height: 1.5;
+}
+
+.atmosphere-section {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-top: 8rem;
+}
+
+@media (max-width: 992px) {
+    .atmosphere-section {
+        flex-direction: column;
+    }
+}
+
+.image-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 160px; /* base row height; tall images will span two rows */
+    gap: 15px;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+
+.image-grid-namorados-1 {
+    grid-column: 1;
+}
+
+.image-grid-namorados-2 {
+    grid-column: 1;
+}
+
+.image-grid-namorados-3 {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.image-grid-namorados-4 {
+    grid-column: 2;
+    grid-row: 2/4;
+}
+
+
+.image-grid img.tall {
+    grid-row: span 2;
+}
+
+@media (max-width: 768px) {
+    .image-grid { grid-auto-rows: 140px; }
+}
+
+@media (max-width: 576px) {
+    .image-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+    .image-grid img.tall { grid-row: span 1; }
+}
+
+.atmosphere-content {
+    flex: 1;
+}
+
+.gold-overline {
+    color: #a37c42;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.atmosphere-title {
+    font-size: 2.5rem;
+    color: #5d1725;
+    margin-bottom: 25px;
+    line-height: 1.2;
+}
+
+.atmosphere-text {
+    color: #665b55;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    color: #3b2a26;
+    font-size: 0.95rem;
+}
+
+.checklist-item svg {
+    color: #a37c42;
+}
+
+.policy-box {
+    background-color: #F8F1EB;
+    border: 1px solid #EBE0D5;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    margin: 60px auto 0;
+    max-width: 800px;
+}
+
+.policy-icon {
+    color: #5d1725;
+    margin-bottom: 15px;
+}
+
+.policy-title {
+    color: #5d1725;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.policy-text {
+    color: #665b55;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.shifts-text {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #8c7f76;
+}
+
+.cta-section {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: #FBF9F6;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    color: #5d1725;
+    margin-bottom: 15px;
+}
+
+.cta-subtitle {
+    color: #665b55;
+    margin-bottom: 30px;
+}
+
+.namorados-footer {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #EBE0D5;
+}
+
+.footer-logo {
+    font-family: 'EB Garamond', serif;
+    color: #5d1725;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: #8c7f76;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.footer-links a:hover {
+    color: #5d1725;
+}
+
+.copyright {
+    color: #a39b94;
+    font-size: 0.8rem;
+}
