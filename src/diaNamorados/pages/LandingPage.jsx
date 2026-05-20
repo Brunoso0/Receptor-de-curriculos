@@ -114,10 +114,10 @@ export default function LandingPage() {
       </section>
 
       <section className="cta-section">
-        <h2 className="cta-title">Pronto para viver esta poesia?</h2>
+        <h2 className="cta-title">Pronto para viver esta experiência?</h2>
         <p className="cta-subtitle">
           As vagas são limitadas e a exclusividade é o nosso compromisso.<br/>
-          Reserve agora o seu lugar no JrCoffee.
+          Reserve agora o seu lugar na JrCoffee.
         </p>
         <button className="primary-button" onClick={handleReservation}>
           Iniciar Reserva Agora

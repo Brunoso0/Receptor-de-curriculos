@@ -1,0 +1,387 @@
+/* Reserva Confirmada para o Dia dos Namorados - Confirmação (Step 6) Stylesheet */
+
+.confirm-layout-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 30px;
+    max-width: 1040px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px 40px 20px;
+    box-sizing: border-box;
+    align-items: start;
+}
+
+/* Success Checkmark Circle */
+.confirm-success-badge {
+    width: 56px;
+    height: 56px;
+    background-color: #4A0E17;
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto 20px auto;
+    box-shadow: 0 4px 12px rgba(74, 14, 23, 0.2);
+}
+
+/* Title & Subtitle */
+.confirm-main-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.2rem;
+    color: #4A0E17;
+    text-align: center;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.confirm-main-subtitle {
+    font-size: 0.92rem;
+    color: #7c726c;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+/* Left Column: Digital Voucher Pass */
+.voucher-ticket-card {
+    background-color: #FFFFFF;
+    border: 1px solid #EBE0D5;
+    border-top: 5px solid #4A0E17;
+    border-radius: 12px;
+    padding: 40px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.voucher-small-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #a37c42;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.voucher-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.85rem;
+    color: #4A0E17;
+    margin: 0 0 28px 0;
+    font-weight: 500;
+}
+
+/* QR Code Container Box */
+.voucher-qrcode-box {
+    border: 1px solid #EBE0D5;
+    border-radius: 12px;
+    padding: 32px 24px;
+    display: inline-block;
+    background-color: #FFFFFF;
+    margin-bottom: 28px;
+    width: 240px;
+    box-sizing: border-box;
+}
+
+.voucher-qrcode-shadow {
+    width: 140px;
+    height: 140px;
+    background-color: #FAF6F2;
+    border-radius: 8px;
+    margin: 0 auto 20px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voucher-qrcode-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.voucher-id-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #8c7f76;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    display: block;
+}
+
+.voucher-id-val {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.45rem;
+    color: #4A0E17;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Action Buttons */
+.voucher-actions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.voucher-btn-primary {
+    background-color: #4A0E17;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(74, 14, 23, 0.12);
+}
+
+.voucher-btn-primary:hover {
+    background-color: #3b0a12;
+    box-shadow: 0 6px 16px rgba(74, 14, 23, 0.22);
+}
+
+.voucher-btn-secondary {
+    background-color: #FFFFFF;
+    border: 1px solid #EBE0D5;
+    color: #8c7f76;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.voucher-btn-secondary:hover {
+    border-color: #c9b7a3;
+    color: #4A0E17;
+}
+
+/* Coupon Tear Line */
+.voucher-tear-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 36px;
+    gap: 12px;
+}
+
+.voucher-tear-line::before,
+.voucher-tear-line::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px dashed #C9B7A3;
+}
+
+.voucher-tear-icon {
+    color: #8c7f76;
+}
+
+/* Right Column: Booking Details Card */
+.details-ticket-card {
+    background-color: #FAF5F0;
+    border: 1px solid #EBE0D5;
+    border-radius: 12px;
+    padding: 30px;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+.details-ticket-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.45rem;
+    color: #4A0E17;
+    margin: 0 0 24px 0;
+    font-weight: 600;
+}
+
+.details-ticket-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.details-ticket-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.details-row-icon {
+    color: #a37c42;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.details-row-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.details-row-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #8c7f76;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.details-row-val {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #3b2a26;
+    line-height: 1.4;
+}
+
+/* Details Note Box */
+.details-note-box {
+    background-color: #FDF8F3;
+    border: 1px solid #EBE0D5;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.details-note-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #4A0E17;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-note-text {
+    font-size: 0.8rem;
+    color: #7c726c;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Map Card */
+.confirm-map-card {
+    height: 140px;
+    border: 1px solid #EBE0D5;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.confirm-map-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 100%);
+    z-index: 1;
+}
+
+.confirm-map-address {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    padding: 16px 20px;
+    z-index: 2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* Help Support Footer */
+.support-footer-container {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.support-footer-title {
+    font-size: 0.85rem;
+    color: #8c7f76;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.support-footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.support-footer-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #a37c42;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.support-footer-link:hover {
+    color: #4A0E17;
+    text-decoration: underline;
+}
+
+.support-footer-link svg {
+    color: #a37c42;
+}
+
+/* Responsive grid rules */
+@media (max-width: 992px) {
+    .confirm-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .voucher-ticket-card {
+        padding: 30px 20px;
+    }
+    
+    .voucher-actions-row {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+}

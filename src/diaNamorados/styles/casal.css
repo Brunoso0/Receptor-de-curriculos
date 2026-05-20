@@ -1,0 +1,298 @@
+/* Personalize seu Momento (Step 3) Stylesheet */
+
+.casal-layout-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 30px;
+    max-width: 1120px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px 40px 20px;
+    box-sizing: border-box;
+    align-items: start;
+}
+
+/* Card Styling */
+.casal-card {
+    background-color: #FAF5F0;
+    border-radius: 12px;
+    border: 1px solid #EBE0D5;
+    padding: 30px 24px;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+}
+
+.casal-card-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.45rem;
+    color: #4A0E17;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.casal-card-title svg {
+    color: #8c7f76;
+}
+
+/* Fields and Inputs */
+.casal-field {
+    margin-bottom: 20px;
+}
+
+.casal-field:last-of-type {
+    margin-bottom: 0;
+}
+
+.casal-field-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #8c7f76;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.casal-input {
+    width: 100%;
+    height: 48px;
+    background-color: #FFFDFB;
+    border: 1px solid #EBE0D5;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    color: #3b2a26;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.casal-input::placeholder {
+    color: #bfaea2;
+}
+
+.casal-input:focus {
+    outline: none;
+    border-color: #a37c42;
+    box-shadow: 0 0 0 2px rgba(163, 124, 66, 0.1);
+}
+
+/* Contact Inputs 2x2 Grid */
+.contact-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon .input-icon {
+    position: absolute;
+    left: 14px;
+    color: #bfaea2;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+.input-with-icon .casal-input {
+    padding-left: 38px;
+}
+
+/* Photo Upload Box */
+.casal-card-subtitle {
+    font-size: 0.85rem;
+    color: #7c726c;
+    line-height: 1.5;
+    margin-top: -12px;
+    margin-bottom: 20px;
+}
+
+.upload-dashed-box {
+    border: 1.5px dashed #C9B7A3;
+    border-radius: 8px;
+    background-color: #FAF8F5;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.upload-dashed-box:hover {
+    border-color: #a37c42;
+    background-color: #FFFFFF;
+}
+
+.upload-icon {
+    color: #8c7f76;
+}
+
+.upload-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #4A0E17;
+    letter-spacing: 1px;
+}
+
+.upload-desc {
+    font-size: 0.72rem;
+    color: #8c7f76;
+}
+
+/* File Preview Block */
+.file-preview-card {
+    background-color: #FFFFFF;
+    border: 1px solid #EBE0D5;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    box-sizing: border-box;
+}
+
+.file-thumbnail {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    object-fit: cover;
+    background-color: #EBE0D5;
+}
+
+.file-details {
+    flex: 1;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.file-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #3b2a26;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-status {
+    font-size: 0.72rem;
+    color: #8c7f76;
+    margin-top: 2px;
+}
+
+.file-delete-btn {
+    background: transparent;
+    border: none;
+    color: #EF4444;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.file-delete-btn:hover {
+    color: #DC2626;
+}
+
+/* Textarea / Remarks */
+.casal-textarea {
+    width: 100%;
+    height: 120px;
+    background-color: #FFFDFB;
+    border: 1px solid #EBE0D5;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+    color: #3b2a26;
+    box-sizing: border-box;
+    resize: none;
+    transition: all 0.3s ease;
+    line-height: 1.6;
+}
+
+.casal-textarea::placeholder {
+    color: #bfaea2;
+}
+
+.casal-textarea:focus {
+    outline: none;
+    border-color: #a37c42;
+    box-shadow: 0 0 0 2px rgba(163, 124, 66, 0.1);
+}
+
+/* Security Badge styling */
+.security-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #8c7f76;
+    font-size: 0.78rem;
+    max-width: 420px;
+    line-height: 1.5;
+}
+
+.security-icon {
+    color: #a37c42;
+    flex-shrink: 0;
+}
+
+/* Confirm Button utilities */
+.salvar-menu-btn {
+    background-color: #4A0E17;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(74, 14, 23, 0.15);
+    text-transform: uppercase;
+}
+
+.salvar-menu-btn:hover {
+    background-color: #3b0a12;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(74, 14, 23, 0.25);
+}
+
+/* Responsive grid */
+@media (max-width: 992px) {
+    .casal-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-inputs-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

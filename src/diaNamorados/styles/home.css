@@ -48,6 +48,8 @@
     font-size: 4rem;
     margin-bottom: 1.5rem;
     font-weight: 400;
+    font-family: 'EB Garamond', serif;
+    color: #FBBABA;
 }
 
 @media (max-width: 768px) {
@@ -65,10 +67,10 @@
 }
 
 .primary-button {
-    background-color: #5d1725;
+    background-color: #5E0B15;
     color: #fff;
     border: none;
-    padding: 14px 32px;
+    padding: 25px 32px;
     font-family: 'Manrope', sans-serif;
     font-size: 1rem;
     font-weight: 500;
@@ -76,10 +78,18 @@
     cursor: pointer;
     transition: background-color 0.3s;
     letter-spacing: 1px;
+    width: 400px;
+    margin: 0 auto;
 }
 
 .primary-button:hover {
-    background-color: #4a121d;
+    background-color: rgb(71, 3, 18);
+}
+
+@media (max-width: 992px) {
+    .primary-button {
+        width: 100%;
+    }
 }
 
 .namorados-section {
@@ -95,10 +105,12 @@
 
 .section-title {
     font-size: 2.5rem;
-    color: #5d1725;
+    color: #5E0B15;
     margin-bottom: 15px;
     display: inline-block;
     position: relative;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
 }
 
 .section-title::after {
@@ -154,12 +166,15 @@
     left: 20px;
     font-size: 1.2rem;
     font-family: 'EB Garamond', serif;
+    font-weight: 500;
     color: #c0aa8f;
 }
 
 .card-title {
     color: #5d1725;
     font-size: 1.4rem;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
     margin-bottom: 10px;
 }
 
@@ -174,6 +189,7 @@
     align-items: center;
     gap: 60px;
     margin-top: 8rem;
+
 }
 
 @media (max-width: 992px) {
@@ -249,6 +265,8 @@
     color: #5d1725;
     margin-bottom: 25px;
     line-height: 1.2;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
 }
 
 .atmosphere-text {
@@ -294,6 +312,8 @@
     color: #5d1725;
     font-size: 1.5rem;
     margin-bottom: 15px;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
 }
 
 .policy-text {
@@ -319,6 +339,8 @@
     font-size: 2.5rem;
     color: #5d1725;
     margin-bottom: 15px;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
 }
 
 .cta-subtitle {
@@ -334,6 +356,7 @@
 
 .footer-logo {
     font-family: 'EB Garamond', serif;
+    font-weight: 500;
     color: #5d1725;
     font-size: 2rem;
     margin-bottom: 20px;

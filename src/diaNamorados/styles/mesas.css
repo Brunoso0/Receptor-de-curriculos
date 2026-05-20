@@ -1,0 +1,605 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+/* Main Page Container */
+.mesas-page {
+    background-color: #FBF9F6;
+    color: #3b2a26;
+    font-family: 'Manrope', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.mesas-header {
+    border-bottom: 1px solid #EBE0D5;
+    padding: 20px 40px;
+    background-color: #FBF9F6;
+    display: flex;
+    align-items: center;
+}
+
+.mesas-header .logo-text {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    color: #4A0E17;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+/* Stepper */
+.mesas-stepper-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.mesas-stepper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    justify-content: space-between;
+}
+
+.mesas-stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    height: 1px;
+    background-color: #E6DDD4;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.mesas-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #EBE0D5;
+    color: #8c7f76;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 2;
+    transition: all 0.3s ease;
+    border: 3px solid #FBF9F6;
+}
+
+.mesas-dot.completed {
+    background-color: #4A0E17;
+    color: #FFFFFF;
+}
+
+.mesas-dot.active {
+    background-color: #4A0E17;
+    color: #FFFFFF;
+    outline: 2px solid #a37c42;
+    outline-offset: 2px;
+}
+
+.mesas-step-label {
+    margin-top: 14px;
+    color: #a37c42;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Headings */
+.mesas-title {
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-size: 2.5rem;
+    color: #4A0E17;
+    font-weight: 500;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.mesas-subtitle {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 40px auto;
+    font-size: 0.95rem;
+    color: #665b55;
+    line-height: 1.6;
+    font-weight: 400;
+    padding: 0 20px;
+}
+
+/* Two Column Layout Grid */
+.mesas-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    max-width: 1120px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    align-items: start;
+}
+
+.map-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Floor Selectors */
+.floor-selector-container {
+    display: flex;
+    background-color: #EBE0D5;
+    padding: 4px;
+    border-radius: 8px;
+    width: fit-content;
+    margin-bottom: 16px;
+}
+
+.floor-btn {
+    border: none;
+    background-color: transparent;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8c7f76;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.floor-btn.active {
+    background-color: #FFFFFF;
+    color: #4A0E17;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Legends Bar */
+.legends-bar {
+    display: flex;
+    background-color: #FFFDFB;
+    border: 1px solid #EBE0D5;
+    border-radius: 8px;
+    padding: 14px 20px;
+    gap: 24px;
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #665b55;
+    font-weight: 500;
+}
+
+.legend-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.legend-indicator.disponivel {
+    border: 2px solid #10B981;
+    background-color: transparent;
+}
+
+.legend-indicator.selecionada {
+    background-color: #FBB03B;
+}
+
+.legend-indicator.ocupada {
+    background-color: #D3C2BD;
+}
+
+/* Map Floor Plan Board */
+.map-board {
+    background-color: #FCF9F5;
+    border: 1px solid #EBE0D5;
+    border-radius: 12px;
+    height: 480px;
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+/* Cutlery Watermark */
+.cutlery-watermark {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    color: #EFE8E1;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.cutlery-watermark svg {
+    width: 220px;
+    height: 220px;
+}
+
+/* Map Elements Area */
+.map-elements-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+/* Table Card Base Styling */
+.map-table {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.table-num {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.table-lugs {
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Shapes */
+.map-table.circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.map-table.rectangle {
+    width: 82px;
+    height: 56px;
+    border-radius: 8px;
+}
+
+/* Status variants */
+.map-table.disponivel {
+    border: 2px solid #10B981;
+    background-color: #FFFFFF;
+    color: #3b2a26;
+    cursor: pointer;
+}
+
+.map-table.disponivel:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transform: scale(1.03);
+}
+
+.map-table.selecionada {
+    background-color: #FCDA9B;
+    border: 2px solid #FBB03B;
+    color: #4A0E17;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(251, 176, 59, 0.3);
+}
+
+.map-table.ocupada {
+    background-color: #D3C2BD;
+    color: #FFFFFF;
+    cursor: not-allowed;
+}
+
+/* Lounge Space styling */
+.map-lounge-bar {
+    position: absolute;
+    background-color: #EAE2D8;
+    color: #8c7f76;
+    border-radius: 20px;
+    height: 24px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+/* Map Floor Deco Icons */
+.map-deco-icons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    gap: 12px;
+    color: #bfaea2;
+}
+
+/* Sidebar Resumo da Reserva */
+.sidebar-resumo-card {
+    background-color: #F2ECE5;
+    border-radius: 12px;
+    padding: 30px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.resumo-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.7rem;
+    color: #4A0E17;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.resumo-field {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #E4DCD3;
+    padding-bottom: 16px;
+}
+
+.resumo-field:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.resumo-field-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #8c7f76;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.resumo-field-value {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.resumo-field-icon {
+    color: #4A0E17;
+    display: flex;
+    align-items: center;
+}
+
+.resumo-field-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3b2a26;
+}
+
+.resumo-field-subtext {
+    font-size: 0.8rem;
+    color: #7c726c;
+    margin-top: 2px;
+}
+
+/* Sidebar Highlight Info Box */
+.resumo-info-box {
+    background-color: #FFFFFF;
+    border: 1px solid #F3E4D3;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.resumo-info-icon-wrapper {
+    color: #a37c42;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.resumo-info-text {
+    font-size: 0.8rem;
+    color: #a37c42;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Confirm Button */
+.confirmar-mesa-btn {
+    width: 100%;
+    background-color: #4A0E17;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(74, 14, 23, 0.15);
+    margin-top: 20px;
+}
+
+.confirmar-mesa-btn:hover {
+    background-color: #38080f;
+    box-shadow: 0 6px 18px rgba(74, 14, 23, 0.25);
+    transform: translateY(-1px);
+}
+
+.confirmar-mesa-btn:active {
+    transform: translateY(0);
+}
+
+/* Back Link */
+.voltar-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #8c7f76;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.voltar-link:hover {
+    color: #4A0E17;
+}
+
+/* Sidebar Deco Quote Card */
+.sidebar-quote-card {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    height: 130px;
+    background-color: #000;
+}
+
+.sidebar-quote-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    display: block;
+    filter: brightness(0.7);
+}
+
+.sidebar-quote-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.sidebar-quote-text {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Footer */
+.mesas-footer {
+    padding: 50px 20px;
+    text-align: center;
+    border-top: 1px solid #EBE0D5;
+    background-color: #FBF9F6;
+    margin-top: 60px;
+}
+
+.mesas-footer-logo {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    color: #4A0E17;
+    font-size: 2rem;
+    margin-bottom: 24px;
+}
+
+.mesas-footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.mesas-footer-links a {
+    color: #8c7f76;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.mesas-footer-links a:hover {
+    color: #4A0E17;
+}
+
+.mesas-copyright {
+    color: #a39b94;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .mesas-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .map-board {
+        height: 440px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mesas-header {
+        padding: 15px 20px;
+        justify-content: center;
+    }
+    
+    .mesas-title {
+        font-size: 2rem;
+        padding: 0 15px;
+    }
+    
+    .mesas-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+    
+    .map-board {
+        height: 380px;
+        padding: 15px;
+    }
+    
+    /* Make map scale down or scroll if needed on mobile */
+    .map-elements-area {
+        transform-origin: top left;
+    }
+    
+    .legends-bar {
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 12px;
+    }
+}

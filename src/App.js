@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SitePrincipalContent from "./siteprincipal/App";
 import LandingPage from "./diaNamorados/pages/LandingPage";
-import ReservaPage from "./diaNamorados/pages/ReservaPage";
+import ReservaPage from "./diaNamorados/pages/Reserva";
 import "./diaNamorados/styles/home.css";
 import "./shared/styles/Fonts.css";
 
