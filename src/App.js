@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SitePrincipalContent from "./siteprincipal/App";
 import LandingPage from "./diaNamorados/pages/LandingPage";
 import ReservaPage from "./diaNamorados/pages/Reserva";
+import AdminLogin from "./diaNamorados/pages/AdminLogin";
+import AdminRegistro from "./diaNamorados/pages/AdminRegistro";
 import "./diaNamorados/styles/home.css";
 import "./shared/styles/Fonts.css";
 
@@ -15,6 +17,8 @@ function App() {
         {/* Dia dos namorados como rota principal temporariamente */}
         <Route path="/" element={<DiaNamoradosLayout><LandingPage /></DiaNamoradosLayout>} />
         <Route path="/reserva" element={<DiaNamoradosLayout><ReservaPage /></DiaNamoradosLayout>} />
+        <Route path="/namorados/login" element={<DiaNamoradosLayout><AdminLogin /></DiaNamoradosLayout>} />
+        <Route path="/namorados/registro" element={<DiaNamoradosLayout><AdminRegistro /></DiaNamoradosLayout>} />
         {/* Restante do site principal */}
         <Route path="/*" element={<SitePrincipalContent />} />
       </Routes>

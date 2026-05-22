@@ -218,6 +218,40 @@
     overflow: hidden;
     padding: 30px;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Wrapper that matches the exact aspect ratio of the SVG */
+.map-wrapper {
+    position: relative;
+    aspect-ratio: 1148 / 580;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Floor SVG background inside the map board */
+.floor-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* When SVG is inlined (inside a div), force the inner svg to fit the container */
+.floor-svg svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 /* Cutlery Watermark */
@@ -233,16 +267,20 @@
 }
 
 .cutlery-watermark svg {
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
 }
 
 /* Map Elements Area */
 .map-elements-area {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: 2;
+    transition: transform 220ms ease;
+    transform-origin: top left;
 }
 
 /* Table Card Base Styling */
@@ -258,14 +296,14 @@
 }
 
 .table-num {
-    font-size: 1.15rem;
+    font-size: 0.65rem;
     font-weight: 700;
     line-height: 1;
     margin-bottom: 2px;
 }
 
 .table-lugs {
-    font-size: 0.55rem;
+    font-size: 0.35rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -279,15 +317,15 @@
 }
 
 .map-table.rectangle {
-    width: 82px;
-    height: 56px;
+    width: 30px;
+    height: 28px;
     border-radius: 8px;
 }
 
 /* Status variants */
 .map-table.disponivel {
     border: 2px solid #10B981;
-    background-color: #FFFFFF;
+    background-color: #ffffff9d;
     color: #3b2a26;
     cursor: pointer;
 }
@@ -569,6 +607,8 @@
     .map-board {
         height: 440px;
     }
+
+    /* small shift is no longer needed because of aspect-ratio wrapper */
 }
 
 @media (max-width: 768px) {
@@ -591,11 +631,29 @@
         height: 380px;
         padding: 15px;
     }
-    
-    /* Make map scale down or scroll if needed on mobile */
-    .map-elements-area {
-        transform-origin: top left;
+
+    .map-table.rectangle {
+        width: 20px;
+        height: 18px;
+        border-radius: 8px;
     }
+
+    .map-board {
+    aspect-ratio: 16 / 9; /* Ajuste para a proporção exata do seu SVG */
+  }
+  
+  /* Garante que no mobile a coluna do mapa não quebre outras coisas */
+  .map-column {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cutlery-watermark svg {
+    width: 70px;
+    height: 70px;
+    }
+    
+    /* Make map scale down or scroll if needed on mobile - handled by aspect-ratio wrapper */
     
     .legends-bar {
         flex-wrap: wrap;
@@ -603,3 +661,5 @@
         padding: 12px;
     }
 }
+
+/* Extra small phones - handled by aspect-ratio wrapper */

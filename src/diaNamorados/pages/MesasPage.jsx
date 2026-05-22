@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Layers, Sofa } from 'lucide-react';
 import '../styles/mesas.css';
 
@@ -23,45 +23,41 @@ const StarBadgeIcon = () => (
   </svg>
 );
 
-// Cutlery Watermark Component
-const CutleryWatermark = () => (
-  <div className="cutlery-watermark">
-    <svg width="220" height="220" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Fork */}
-      <path d="M35 15V45C35 48.3 37.7 51 41 51V85C41 86.1 41.9 87 43 87H45C46.1 87 47 86.1 47 85V51C50.3 51 53 48.3 53 45V15" stroke="#EFE8E1" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M41 15V35" stroke="#EFE8E1" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M47 15V35" stroke="#EFE8E1" strokeWidth="2.5" strokeLinecap="round" />
-      
-      {/* Knife */}
-      <path d="M65 15C59 15 57 25 57 45H65V85C65 86.1 65.9 87 67 87H69C70.1 87 71 86.1 71 85V15H65Z" fill="#EFE8E1" />
-      
-      {/* Small pink dot in between */}
-      <circle cx="51" cy="51" r="2.5" fill="#D3C2BD" />
-    </svg>
-  </div>
-);
+
 
 // Floor Tables Configuration
 const tablesTerreo = [
-  { id: '01', capacity: 2, type: 'circle', x: '12%', y: '15%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela lateral.' },
-  { id: '02', capacity: 4, type: 'rectangle', x: '38%', y: '15%', status: 'ocupada', desc: 'Mesa familiar espaçosa.' },
-  { id: '03', capacity: 2, type: 'circle', x: '80%', y: '15%', status: 'disponivel', desc: 'Mesa íntima no canto do salão.' },
-  { id: '04', capacity: 6, type: 'rectangle', x: '10%', y: '45%', status: 'disponivel', desc: 'Mesa lounge perfeita para grupos.' },
-  { id: '05', capacity: 4, type: 'rectangle', x: '58%', y: '45%', status: 'disponivel', desc: 'Esta mesa possui vista privilegiada para o jardim de inverno.' },
-  { id: '06', capacity: 4, type: 'rectangle', x: '79%', y: '45%', status: 'disponivel', desc: 'Mesa central com ótima iluminação à luz de velas.' },
-  { id: '07', capacity: 2, type: 'circle', x: '59%', y: '75%', status: 'disponivel', desc: 'Mesa de casal com privacidade no centro.' },
-  { id: '08', capacity: 2, type: 'circle', x: '80%', y: '75%', status: 'ocupada', desc: 'Mesa para duas pessoas.' }
+  { id: '01', capacity: 2, type: 'rectangle', x: '2.5%', y: '74%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '02', capacity: 2, type: 'rectangle', x: '10%', y: '74%', status: 'ocupada', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '03', capacity: 2, type: 'rectangle', x: '16.5%', y: '74%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '04', capacity: 2, type: 'rectangle', x: '24%', y: '74%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '05', capacity: 2, type: 'rectangle', x: '55.7%', y: '76%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '06', capacity: 2, type: 'rectangle', x: '62.5%', y: '76%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '07', capacity: 2, type: 'rectangle', x: '69.3%', y: '76%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela Frontal, com sofá acolchoado.' },
+  { id: '08', capacity: 2, type: 'rectangle', x: '56.5%', y: '58%', status: 'ocupada', desc: 'Mesa para duas pessoas.' },
+  { id: '09', capacity: 2, type: 'rectangle', x: '56.5%', y: '49.1%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '10', capacity: 2, type: 'rectangle', x: '66.9%', y: '58%', status: 'ocupada', desc: 'Mesa para duas pessoas.' },
+  { id: '11', capacity: 2, type: 'rectangle', x: '66.9%', y: '49.1%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '12', capacity: 2, type: 'rectangle', x: '78.5%', y: '62%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '13', capacity: 2, type: 'rectangle', x: '78.5%', y: '78%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '14', capacity: 2, type: 'rectangle', x: '92.9%', y: '82%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela lateral, com sofá acolchoado.' },
+  { id: '15', capacity: 2, type: 'rectangle', x: '92.6%', y: '64%', status: 'disponivel', desc: 'Mesa aconchegante próxima à janela lateral, com sofá acolchoado.' },
+  { id: '16', capacity: 2, type: 'rectangle', x: '92.6%', y: '43%', status: 'ocupada', desc: 'Mesa aconchegante próxima à janela lateral, com sofá acolchoado.' },
+  { id: '17', capacity: 2, type: 'rectangle', x: '92.6%', y: '25%', status: 'ocupada', desc: 'Mesa aconchegante próxima à janela lateral, com sofá acolchoado.' },
+  { id: '18', capacity: 10, type: 'rectangle', x: '22.6%', y: '45%', status: 'disponivel', desc: 'Mesa aconchegante com sofá acolchoado para grupo de pessoas.' }
 ];
 
 const tablesPrimeiroAndar = [
-  { id: '11', capacity: 2, type: 'circle', x: '12%', y: '15%', status: 'disponivel', desc: 'Mesa silenciosa no andar superior com ótima vista.' },
-  { id: '12', capacity: 4, type: 'rectangle', x: '38%', y: '15%', status: 'disponivel', desc: 'Mesa com excelente vista do mezanino.' },
-  { id: '13', capacity: 2, type: 'circle', x: '80%', y: '15%', status: 'ocupada', desc: 'Mesa romântica superior.' },
-  { id: '14', capacity: 6, type: 'rectangle', x: '10%', y: '45%', status: 'ocupada', desc: 'Mesa grande no primeiro andar.' },
-  { id: '15', capacity: 4, type: 'rectangle', x: '58%', y: '45%', status: 'disponivel', desc: 'Mesa do andar de cima próxima à adega suspensa.' },
-  { id: '16', capacity: 4, type: 'rectangle', x: '79%', y: '45%', status: 'disponivel', desc: 'Mesa clássica suspensa com clima reservado.' },
-  { id: '17', capacity: 2, type: 'circle', x: '59%', y: '75%', status: 'disponivel', desc: 'Mesa super reservada no topo do mezanino.' },
-  { id: '18', capacity: 2, type: 'circle', x: '80%', y: '75%', status: 'disponivel', desc: 'Mesa no parapeito com vista para o térreo.' }
+  { id: '19', capacity: 2, type: 'rectangle', x: '12%', y: '15%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '20', capacity: 2, type: 'rectangle', x: '28%', y: '15%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '21', capacity: 2, type: 'rectangle', x: '44%', y: '15%', status: 'ocupada', desc: 'Mesa para duas pessoas.' },
+  { id: '22', capacity: 2, type: 'rectangle', x: '60%', y: '15%', status: 'ocupada', desc: 'Mesa para duas pessoas.' },
+  { id: '23', capacity: 2, type: 'rectangle', x: '10%', y: '45%', status: 'ocupada', desc: 'Mesa para duas pessoas.' },
+  { id: '24', capacity: 2, type: 'rectangle', x: '35%', y: '45%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '25', capacity: 2, type: 'rectangle', x: '58%', y: '45%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '26', capacity: 2, type: 'rectangle', x: '79%', y: '45%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '27', capacity: 2, type: 'rectangle', x: '59%', y: '75%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
+  { id: '28', capacity: 2, type: 'rectangle', x: '80%', y: '75%', status: 'disponivel', desc: 'Mesa para duas pessoas.' }
 ];
 
 export default function MesasPage({ 
@@ -71,6 +67,11 @@ export default function MesasPage({
   selectedTable, 
   setSelectedTable 
 }) {
+  const [svgMarkup, setSvgMarkup] = useState(null);
+  const [tablePoints, setTablePoints] = useState({});
+  const svgWrapperRef = useRef(null);
+  const mapElementsRef = useRef(null);
+  const resizeTimerRef = useRef(null);
   const tables = selectedFloor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
 
   // Initialize with Mesa 05 by default if nothing is selected
@@ -82,6 +83,74 @@ export default function MesasPage({
       setSelectedTable(defaultTable);
     }
   }, [selectedFloor, selectedTable, setSelectedTable]);
+
+  // Load SVG markup inline when térreo is selected so we can read element positions
+  useEffect(() => {
+    let cancelled = false;
+    if (selectedFloor === 'terreo' || selectedFloor === 'primeiro') {
+      const file = selectedFloor === 'terreo' ? '/plantas/terreo.svg' : '/plantas/1andar.svg';
+      fetch(file)
+        .then(res => res.text())
+        .then(text => {
+          if (!cancelled) setSvgMarkup(text);
+        })
+        .catch(() => {
+          if (!cancelled) setSvgMarkup(null);
+        });
+    } else {
+      setSvgMarkup(null);
+      setTablePoints({});
+    }
+    return () => { cancelled = true; };
+  }, [selectedFloor]);
+
+  // Compute mesa element centers and set tablePoints
+  const computeTablePoints = () => {
+    try {
+      const mapEl = mapElementsRef.current;
+      const svgRoot = svgWrapperRef.current && svgWrapperRef.current.querySelector('svg');
+      if (!mapEl || !svgRoot) return;
+      const containerRect = mapEl.getBoundingClientRect();
+      const activeTables = selectedFloor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
+      const newPoints = {};
+      activeTables.forEach((t) => {
+        const idx = parseInt(t.id, 10);
+        const svgId = `mesa${idx}`;
+        const svgNode = svgRoot.getElementById ? svgRoot.getElementById(svgId) : svgRoot.querySelector(`#${svgId}`);
+        if (svgNode) {
+          const box = svgNode.getBoundingClientRect();
+          const centerX = box.left + box.width / 2 - containerRect.left;
+          const centerY = box.top + box.height / 2 - containerRect.top;
+          newPoints[t.id] = { left: Math.round(centerX), top: Math.round(centerY) };
+        }
+      });
+      setTablePoints(newPoints);
+    } catch (err) {
+      // ignore
+    }
+  };
+
+  // After SVG is injected, compute positions and attach resize listeners
+  useEffect(() => {
+    if (!svgMarkup) return;
+    // compute shortly after injection so DOM is ready
+    const initialTimer = setTimeout(() => computeTablePoints(), 80);
+
+    const onResize = () => {
+      if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
+      resizeTimerRef.current = setTimeout(() => computeTablePoints(), 120);
+    };
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+
+    return () => {
+      clearTimeout(initialTimer);
+      if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
+  }, [svgMarkup]);
 
   const handleTableClick = (table) => {
     if (table.status === 'ocupada') return;
@@ -152,41 +221,47 @@ export default function MesasPage({
 
           {/* Map Floor Plan Board */}
           <div className="map-board">
-            {/* Cutlery watermark centered behind tables */}
-            <CutleryWatermark />
-
-            <div className="map-elements-area">
-              {tables.map((table) => {
-                const isSelected = selectedTable && selectedTable.id === table.id;
-                let tableStatusClass = table.status;
-                if (isSelected) {
-                  tableStatusClass = 'selecionada';
-                }
-
-                return (
+            <div className="map-wrapper">
+              {/* Floor SVG for Térreo (from public/plantas/terreo.svg) */}
+              {svgMarkup && (
                   <div
-                    key={table.id}
-                    className={`map-table ${table.type} ${tableStatusClass}`}
-                    style={{ top: table.y, left: table.x }}
-                    onClick={() => handleTableClick(table)}
-                  >
-                    <span className="table-num">{table.id}</span>
-                    <span className="table-lugs">{table.capacity} lug.</span>
-                  </div>
-                );
-              })}
+                    className="floor-svg"
+                    ref={svgWrapperRef}
+                    aria-hidden
+                    dangerouslySetInnerHTML={{ __html: svgMarkup }}
+                  />
+                )}
 
-              {/* ESPAÇO LOUNGE pill on Térreo only */}
-              {selectedFloor === 'terreo' && (
-                <div className="map-lounge-bar" style={{ top: '78%', left: '10%', width: '230px', justifyContent: 'center' }}>
-                  Espaço Lounge
+              <div className="map-elements-area" ref={mapElementsRef}>
+                {tables.map((table) => {
+                  const isSelected = selectedTable && selectedTable.id === table.id;
+                  let tableStatusClass = table.status;
+                  if (isSelected) {
+                    tableStatusClass = 'selecionada';
+                  }
+
+                  const point = tablePoints[table.id];
+                  const style = point
+                    ? { left: `${point.left}px`, top: `${point.top}px`, transform: 'translate(-50%, -50%)' }
+                    : { top: table.y, left: table.x };
+
+                  return (
+                    <div
+                      key={table.id}
+                      className={`map-table ${table.type} ${tableStatusClass}`}
+                      style={style}
+                      onClick={() => handleTableClick(table)}
+                    >
+                      <span className="table-num">{table.id}</span>
+                    </div>
+                  );
+                })}
+
+                {/* Map Floor Deco Icons in bottom-left corner */}
+                <div className="map-deco-icons">
+                  <Sofa size={18} strokeWidth={1.5} />
+                  <TableFurnitureIcon />
                 </div>
-              )}
-
-              {/* Map Floor Deco Icons in bottom-left corner */}
-              <div className="map-deco-icons">
-                <Sofa size={18} strokeWidth={1.5} />
-                <TableFurnitureIcon />
               </div>
             </div>
           </div>

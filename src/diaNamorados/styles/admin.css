@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&display=swap');
+
+/* Background styling */
+.admin-page-container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(20, 5, 5, 0.72) 0%, rgba(10, 2, 2, 0.85) 100%), url('/public/img/salao.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Manrope', sans-serif;
+}
+
+/* Glassmorphism card */
+.admin-card {
+    background: rgba(223, 215, 210, 0.75);
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+/* Header style inside card */
+.admin-card-header {
+    margin-bottom: 30px;
+}
+
+.admin-logo-wrapper {
+    display: flex;
+    align-items: baseline;
+}
+
+.logo-brand {
+    font-family: 'EB Garamond', serif;
+    font-weight: 700;
+    color: #4A0E17;
+    font-size: 2.2rem;
+    line-height: 1.1;
+}
+
+.logo-suffix {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    color: #a37c42;
+    font-size: 2.2rem;
+    margin-left: 6px;
+    line-height: 1.1;
+}
+
+.admin-subtitle {
+    font-size: 0.95rem;
+    color: #5c4e48;
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+/* Inputs styling */
+.admin-input-group {
+    margin-bottom: 22px;
+}
+
+.admin-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #a37c42;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.admin-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.admin-input-icon-left {
+    position: absolute;
+    left: 16px;
+    color: #8c7f76;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.admin-input-icon-right {
+    position: absolute;
+    right: 16px;
+    color: #8c7f76;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.admin-input-icon-right:hover {
+    color: #4A0E17;
+}
+
+.admin-field {
+    width: 100%;
+    padding: 14px 16px 14px 46px;
+    border: 1px solid #c2b5ab;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    color: #3b2a26;
+    font-family: 'Manrope', sans-serif;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-field:focus {
+    border-color: #a37c42;
+    box-shadow: 0 0 0 3px rgba(163, 124, 66, 0.15);
+}
+
+.admin-field::placeholder {
+    color: #b3a79f;
+}
+
+/* Actions styling */
+.admin-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    font-size: 0.85rem;
+}
+
+.admin-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #5c4e48;
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+}
+
+.admin-remember-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #4A0E17;
+    cursor: pointer;
+}
+
+.admin-forgot-link {
+    color: #4A0E17;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.admin-forgot-link:hover {
+    color: #38080f;
+    text-decoration: underline;
+}
+
+/* Primary submit button */
+.admin-submit-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #4A0E17;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s, transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(74, 14, 23, 0.2);
+    font-family: 'Manrope', sans-serif;
+}
+
+.admin-submit-btn:hover:not(:disabled) {
+    background-color: #38080f;
+    transform: translateY(-1px);
+}
+
+.admin-submit-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.admin-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Card footer/divider styling */
+.admin-card-footer {
+    border-top: 1px solid rgba(163, 124, 66, 0.2);
+    margin-top: 28px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.admin-footer-text {
+    font-size: 0.85rem;
+    color: #5c4e48;
+    font-weight: 500;
+}
+
+.admin-footer-link {
+    color: #a37c42;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.admin-footer-link:hover {
+    text-decoration: underline;
+}
+
+/* Page footer outside the card */
+.admin-page-footer {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.admin-footer-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Toastify custom style matching */
+.Toastify__toast {
+    font-family: 'Manrope', sans-serif !important;
+    border-radius: 8px !important;
+}
