@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, QrCode, ShieldCheck, Info, ChevronLeft } from 'lucide-react';
+import { CreditCard, QrCode, ShieldCheck, ChevronLeft } from 'lucide-react';
 import '../styles/payment.css';
 
 export default function PaymentPage({
@@ -18,20 +18,11 @@ export default function PaymentPage({
   turno,
   extraWine,
   extraWater,
+  onFinalize,
   setStep
 }) {
 
-  // Dynamic pricing calculation
   const BASE_PRICE = 480.00;
-  const WINE_PRICE = 145.00;
-  const WATER_PRICE = 28.00;
-
-  const calculateTotal = () => {
-    let total = BASE_PRICE;
-    if (extraWine) total += WINE_PRICE;
-    if (extraWater) total += WATER_PRICE;
-    return total;
-  };
 
   const handleFinalize = () => {
     if (paymentMethod === 'card') {
@@ -40,31 +31,29 @@ export default function PaymentPage({
         return;
       }
     }
-    // Proceed to Step 6: Confirmation
-    setStep(6);
+    onFinalize();
   };
 
   // Turno text helper
   const getTurnoTime = () => {
-    if (turno === 'primeiro') return '12 de Junho, 19:00';
-    if (turno === 'segundo') return '12 de Junho, 21:30';
-    return '12 de Junho, 20:00';
+    if (turno === 'primeiro' || turno === 'slot_19_00') return '12 de Junho, 19:00';
+    if (turno === 'segundo' || turno === 'slot_21_30') return '12 de Junho, 21:30';
+    return '12 de Junho';
   };
 
   // Floor text helper
   const getFloorName = () => {
-    if (selectedFloor === 'terreo') return 'Térreo';
-    if (selectedFloor === 'primeiro') return 'Mezanino';
+    if (selectedFloor === 'terreo' || selectedFloor === 0) return 'Térreo';
+    if (selectedFloor === 'primeiro' || selectedFloor === 1) return 'Mezanino';
     return 'Salão Principal';
   };
 
   // Table label helper
   const getTableLabel = () => {
     if (selectedTable) {
-      const typeLabel = selectedTable.type === 'window' ? 'Vista Janela' : 'Salão';
-      return `Mesa ${selectedTable.id} • ${typeLabel}`;
+      return `Mesa ${selectedTable.numero_mesa || selectedTable.id}`;
     }
-    return 'Mesa 14 • Vista Janela';
+    return 'Mesa Selecionada';
   };
 
   return (
@@ -233,21 +222,21 @@ export default function PaymentPage({
               {/* Course Items List */}
               <div className="ticket-items-list">
                 <div className="ticket-item-row">
-                  <span className="ticket-item-name">2x Menu Degustação 'Ametista'</span>
+                  <span className="ticket-item-name">Pacote Reserva de Mesa Namorados</span>
                   <span className="ticket-item-price">R$ {BASE_PRICE.toFixed(2).replace('.', ',')}</span>
                 </div>
 
                 {extraWine && (
                   <div className="ticket-item-row">
-                    <span className="ticket-item-name">1x Vinho Tinto Reserva Especial</span>
-                    <span className="ticket-item-price">R$ {WINE_PRICE.toFixed(2).replace('.', ',')}</span>
+                    <span className="ticket-item-name">Intenção: Vinho Tinto Reserva Especial</span>
+                    <span className="ticket-item-price">Incluso</span>
                   </div>
                 )}
 
                 {extraWater && (
                   <div className="ticket-item-row">
-                    <span className="ticket-item-name">1x Água San Pellegrino (750ml)</span>
-                    <span className="ticket-item-price">R$ {WATER_PRICE.toFixed(2).replace('.', ',')}</span>
+                    <span className="ticket-item-name">Intenção: Água San Pellegrino</span>
+                    <span className="ticket-item-price">Incluso</span>
                   </div>
                 )}
               </div>
@@ -257,7 +246,7 @@ export default function PaymentPage({
               {/* Total Price */}
               <div className="ticket-total-row">
                 <span className="ticket-total-label">Total do Investimento</span>
-                <span className="ticket-total-price">R$ {calculateTotal().toFixed(2).replace('.', ',')}</span>
+                <span className="ticket-total-price">R$ {BASE_PRICE.toFixed(2).replace('.', ',')}</span>
               </div>
               <p className="ticket-tax-note">
                 * Taxa de serviço (10%) será inclusa ao final da experiência.

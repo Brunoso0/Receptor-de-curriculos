@@ -48,7 +48,7 @@ export default function AdminLogin() {
         localStorage.setItem('adm_token', data.token);
         toast.success('Login efetuado com sucesso!');
         setTimeout(() => {
-          navigate('/admin');
+          navigate('/namorados/admin');
         }, 1200);
       } else {
         toast.error(data.mensagem || 'Falha ao autenticar. Verifique suas credenciais.');

@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import ReservaPage from './pages/Reserva';
+import AdminDashboard from './pages/AdminDashboard';
 import './styles/home.css';
 
 export default function DiaNamoradosApp() {
@@ -10,6 +11,7 @@ export default function DiaNamoradosApp() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/reserva" element={<ReservaPage />} />
+        <Route path="/namorados/admin" element={<AdminDashboard />} />
       </Routes>
     </>
   );

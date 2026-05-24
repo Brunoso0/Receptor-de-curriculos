@@ -8,26 +8,28 @@ export default function ConfirmacaoPage({
   turno,
   person1Name,
   person2Name,
+  bookingResult,
   setStep
 }) {
 
-  // Dynamic booking id (VAL-2024-8842 matches image exactly, but let's make it look authentic)
-  const bookingId = "VAL-2024-8842";
+  // Dynamic booking id
+  const bookingId = bookingResult?.token_voucher || "VAL-2024-8842";
+  const qrCodeSrc = bookingResult?.qr_code || `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=JrCoffee-${bookingId}`;
 
   // Formatted date and time based on selected shift
   const getFormattedDateTime = () => {
-    const time = turno === 'primeiro' ? '18h30' : '21h30';
+    const time = (turno === 'primeiro' || turno === 'slot_19_00') ? '18h30' : '21h30';
     return `12 de Junho, ${time}`;
   };
 
   // Formatted table location
   const getFormattedTable = () => {
     if (selectedTable) {
-      const typeLabel = selectedTable.type === 'window' ? 'Janela para o Jardim' : 'Salão Principal';
-      const floorLabel = selectedFloor === 'terreo' ? 'Térreo' : 'Mezanino';
-      return `Mesa ${selectedTable.id} - ${typeLabel} (${floorLabel})`;
+      const typeLabel = selectedTable.capacidade_maxima > 2 ? 'Mesa Grupo' : 'Mesa Casal';
+      const floorLabel = (selectedFloor === 'terreo' || selectedFloor === 0) ? 'Térreo' : 'Mezanino';
+      return `Mesa ${selectedTable.numero_mesa || selectedTable.id} - ${typeLabel} (${floorLabel})`;
     }
-    return "Mesa 12 - Janela para o Jardim";
+    return "Mesa Selecionada";
   };
 
   return (
@@ -59,7 +61,7 @@ export default function ConfirmacaoPage({
               <div className="voucher-qrcode-shadow">
                 <img 
                   className="voucher-qrcode-img" 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=JrCoffee-${bookingId}`} 
+                  src={qrCodeSrc} 
                   alt="Voucher QR Code" 
                 />
               </div>

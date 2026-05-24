@@ -2,32 +2,36 @@ import React from 'react';
 import { Utensils, Award, Dessert, GlassWater, Info, ChevronLeft } from 'lucide-react';
 import '../styles/menu.css';
 
-// Custom plate icon (since Lucide doesn't have a direct plate/cloche in some versions)
-const PlateIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-  </svg>
-);
+const getImageForName = (name) => {
+  const n = name.toLowerCase();
+  if (n.includes('frios')) return 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=80&w=600';
+  if (n.includes('bruschetta')) return 'https://images.unsplash.com/photo-1572656631137-7935297eff55?auto=format&fit=crop&q=80&w=600';
+  if (n.includes('risoto')) return 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=600';
+  if (n.includes('wellington')) return 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=600';
+  if (n.includes('salmão') || n.includes('salmao')) return 'https://images.unsplash.com/photo-1485962398705-ef6a13c41e8f?auto=format&fit=crop&q=80&w=600';
+  return 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=600';
+};
+
+const getTagForName = (name) => {
+  const n = name.toLowerCase();
+  if (n.includes('risoto')) return 'Vegetariano';
+  if (n.includes('wellington')) return 'Signature';
+  if (n.includes('salmão') || n.includes('salmao')) return 'Leve';
+  return '';
+};
 
 export default function MenuPage({
-  selectedEntrada,
-  setSelectedEntrada,
-  risotoP1,
-  setRisotoP1,
-  risotoP2,
-  setRisotoP2,
-  wellingtonP1,
-  setWellingtonP1,
-  wellingtonP2,
-  setWellingtonP2,
-  salmonP1,
-  setSalmonP1,
-  salmonP2,
-  setSalmonP2,
-  dessert1Qty,
-  setDessert1Qty,
-  dessert2Qty,
-  setDessert2Qty,
+  dbMenu,
+  selectedEntradaId,
+  setSelectedEntradaId,
+  selectedPrincipal1Id,
+  setSelectedPrincipal1Id,
+  selectedPrincipal2Id,
+  setSelectedPrincipal2Id,
+  selectedSobremesa1Id,
+  setSelectedSobremesa1Id,
+  selectedSobremesa2Id,
+  setSelectedSobremesa2Id,
   extraWine,
   setExtraWine,
   extraWater,
@@ -37,20 +41,7 @@ export default function MenuPage({
   setStep
 }) {
 
-  // Dynamic pricing calculation
-  const BASE_PRICE = 480.00;
-  const WINE_PRICE = 145.00;
-  const WATER_PRICE = 28.00;
-
-  const calculateTotal = () => {
-    let total = BASE_PRICE;
-    if (extraWine) total += WINE_PRICE;
-    if (extraWater) total += WATER_PRICE;
-    return total;
-  };
-
   const handleNextStep = () => {
-    alert(`Menu selecionado com sucesso!\nValor Total: R$ ${calculateTotal().toFixed(2)}\nRedirecionando para o Pagamento...`);
     setStep(5);
   };
 
@@ -76,41 +67,23 @@ export default function MenuPage({
           </div>
 
           <div className="entradas-grid">
-            {/* Card 1: Tábua de Frios */}
-            <div 
-              className={`menu-card ${selectedEntrada === 'tabua' ? 'selected' : ''}`}
-              onClick={() => setSelectedEntrada('tabua')}
-            >
-              <img 
-                className="menu-card-image"
-                src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=80&w=600" 
-                alt="Tábua de Frios Artesanal" 
-              />
-              <div className="menu-card-body">
-                <h3 className="menu-card-title">Tábua de Frios Artesanal</h3>
-                <p className="menu-card-desc">
-                  Queijos curados, prosciutto di Parma, frutas da estação e mel silvestre.
-                </p>
+            {dbMenu.entradas && dbMenu.entradas.map(item => (
+              <div 
+                key={item.id}
+                className={`menu-card ${selectedEntradaId === item.id ? 'selected' : ''}`}
+                onClick={() => setSelectedEntradaId(item.id)}
+              >
+                <img 
+                  className="menu-card-image"
+                  src={getImageForName(item.nome)} 
+                  alt={item.nome} 
+                />
+                <div className="menu-card-body">
+                  <h3 className="menu-card-title">{item.nome}</h3>
+                  <p className="menu-card-desc">{item.descricao}</p>
+                </div>
               </div>
-            </div>
-
-            {/* Card 2: Bruschettas */}
-            <div 
-              className={`menu-card ${selectedEntrada === 'bruschetta' ? 'selected' : ''}`}
-              onClick={() => setSelectedEntrada('bruschetta')}
-            >
-              <img 
-                className="menu-card-image"
-                src="https://images.unsplash.com/photo-1572656631137-7935297eff55?auto=format&fit=crop&q=80&w=600" 
-                alt="Bruschettas do Chef" 
-              />
-              <div className="menu-card-body">
-                <h3 className="menu-card-title">Bruschettas do Chef</h3>
-                <p className="menu-card-desc">
-                  Pão de fermentação natural tostado, tomates concassé, manjericão e redução de balsâmico.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -125,101 +98,38 @@ export default function MenuPage({
           </div>
 
           <div className="principais-grid">
-            {/* Card 1: Risoto */}
-            <div className="menu-card">
-              <img 
-                className="menu-card-image"
-                src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=600" 
-                alt="Risoto de Cogumelos Selvagens" 
-              />
-              <div className="menu-card-body">
-                <h3 className="menu-card-title">Risoto de Cogumelos Selvagens</h3>
-                <p className="menu-card-desc">
-                  Arroz arbóreo cremoso com cogumelos frescos, trufados e parmesão curado.
-                </p>
-                <div className="menu-card-footer">
-                  <span className="menu-item-tag" style={{ color: '#2E7D32' }}>Vegetariano</span>
-                  <div className="menu-selectors-wrapper">
-                    <button 
-                      className={`menu-selector-circle ${risotoP1 === 1 ? 'selected' : ''}`}
-                      onClick={() => setRisotoP1(risotoP1 === 1 ? 0 : 1)}
-                    >
-                      {risotoP1}
-                    </button>
-                    <button 
-                      className={`menu-selector-circle ${risotoP2 === 1 ? 'selected' : ''}`}
-                      onClick={() => setRisotoP2(risotoP2 === 1 ? 0 : 1)}
-                    >
-                      {risotoP2}
-                    </button>
+            {dbMenu.principais && dbMenu.principais.map(item => (
+              <div key={item.id} className="menu-card">
+                <img 
+                  className="menu-card-image"
+                  src={getImageForName(item.nome)} 
+                  alt={item.nome} 
+                />
+                <div className="menu-card-body">
+                  <h3 className="menu-card-title">{item.nome}</h3>
+                  <p className="menu-card-desc">{item.descricao}</p>
+                  <div className="menu-card-footer">
+                    <span className="menu-item-tag">{getTagForName(item.nome)}</span>
+                    <div className="menu-selectors-wrapper">
+                      <button 
+                        className={`menu-selector-circle ${selectedPrincipal1Id === item.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedPrincipal1Id(item.id)}
+                        title="Escolher para a Pessoa 1"
+                      >
+                        P1
+                      </button>
+                      <button 
+                        className={`menu-selector-circle ${selectedPrincipal2Id === item.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedPrincipal2Id(item.id)}
+                        title="Escolher para a Pessoa 2"
+                      >
+                        P2
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Card 2: Wellington */}
-            <div className="menu-card">
-              <img 
-                className="menu-card-image"
-                src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=600" 
-                alt="Filé Wellington Clássico" 
-              />
-              <div className="menu-card-body">
-                <h3 className="menu-card-title">Filé Wellington Clássico</h3>
-                <p className="menu-card-desc">
-                  Filé mignon envolto em cogumelos cogumelos picados e massa folhada dourada ao forno.
-                </p>
-                <div className="menu-card-footer">
-                  <span className="menu-item-tag">Signature</span>
-                  <div className="menu-selectors-wrapper">
-                    <button 
-                      className={`menu-selector-circle ${wellingtonP1 === 1 ? 'selected' : ''}`}
-                      onClick={() => setWellingtonP1(wellingtonP1 === 1 ? 0 : 1)}
-                    >
-                      {wellingtonP1}
-                    </button>
-                    <button 
-                      className={`menu-selector-circle ${wellingtonP2 === 1 ? 'selected' : ''}`}
-                      onClick={() => setWellingtonP2(wellingtonP2 === 1 ? 0 : 1)}
-                    >
-                      {wellingtonP2}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: Salmão */}
-            <div className="menu-card">
-              <img 
-                className="menu-card-image"
-                src="https://images.unsplash.com/photo-1485962398705-ef6a13c41e8f?auto=format&fit=crop&q=80&w=600" 
-                alt="Salmão ao Molho de Citrinos" 
-              />
-              <div className="menu-card-body">
-                <h3 className="menu-card-title">Salmão ao Molho de Citrinos</h3>
-                <p className="menu-card-desc">
-                  Lombo de salmão grelhado regado a molho de laranja, limão siciliano e especiarias.
-                </p>
-                <div className="menu-card-footer">
-                  <span className="menu-item-tag" style={{ color: '#0288D1' }}>Leve</span>
-                  <div className="menu-selectors-wrapper">
-                    <button 
-                      className={`menu-selector-circle ${salmonP1 === 1 ? 'selected' : ''}`}
-                      onClick={() => setSalmonP1(salmonP1 === 1 ? 0 : 1)}
-                    >
-                      {salmonP1}
-                    </button>
-                    <button 
-                      className={`menu-selector-circle ${salmonP2 === 1 ? 'selected' : ''}`}
-                      onClick={() => setSalmonP2(salmonP2 === 1 ? 0 : 1)}
-                    >
-                      {salmonP2}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -234,37 +144,32 @@ export default function MenuPage({
           </div>
 
           <div className="sobremesas-container">
-            {/* Row 1: Petit Gateau */}
-            <div className="sobremesa-row">
-              <div className="sobremesa-info">
-                <span className="sobremesa-name">Petit Gateau de Chocolate Belga</span>
-                <span className="sobremesa-desc">Com sorvete artesanal de baunilha Bourbon.</span>
-              </div>
-              <div className="qty-control-wrapper">
-                <span className="qty-label">Qtd: {dessert1Qty}</span>
-                <div className="qty-selector">
-                  <button className="qty-btn" onClick={() => setDessert1Qty(Math.max(0, dessert1Qty - 1))}>-</button>
-                  <span className="qty-value">{dessert1Qty}</span>
-                  <button className="qty-btn" onClick={() => setDessert1Qty(dessert1Qty + 1)}>+</button>
+            {dbMenu.sobremesas && dbMenu.sobremesas.map(item => (
+              <div key={item.id} className="sobremesa-row">
+                <div className="sobremesa-info">
+                  <span className="sobremesa-name">{item.nome}</span>
+                  <span className="sobremesa-desc">{item.descricao}</span>
+                </div>
+                <div className="qty-control-wrapper">
+                  <div className="menu-selectors-wrapper">
+                    <button 
+                      className={`menu-selector-circle ${selectedSobremesa1Id === item.id ? 'selected' : ''}`}
+                      onClick={() => setSelectedSobremesa1Id(item.id)}
+                      title="Escolher para a Pessoa 1"
+                    >
+                      P1
+                    </button>
+                    <button 
+                      className={`menu-selector-circle ${selectedSobremesa2Id === item.id ? 'selected' : ''}`}
+                      onClick={() => setSelectedSobremesa2Id(item.id)}
+                      title="Escolher para a Pessoa 2"
+                    >
+                      P2
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Row 2: Cheesecake */}
-            <div className="sobremesa-row">
-              <div className="sobremesa-info">
-                <span className="sobremesa-name">Cheesecake de Frutas Vermelhas</span>
-                <span className="sobremesa-desc">Coulis de framboesa e frutas frescas.</span>
-              </div>
-              <div className="qty-control-wrapper">
-                <span className="qty-label">Qtd: {dessert2Qty}</span>
-                <div className="qty-selector">
-                  <button className="qty-btn" onClick={() => setDessert2Qty(Math.max(0, dessert2Qty - 1))}>-</button>
-                  <span className="qty-value">{dessert2Qty}</span>
-                  <button className="qty-btn" onClick={() => setDessert2Qty(dessert2Qty + 1)}>+</button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -292,7 +197,6 @@ export default function MenuPage({
                 <span className="extra-name">Vinho Tinto Reserva Especial</span>
                 <span className="extra-desc">Harmonização sugerida para o Filé Wellington.</span>
               </div>
-              <span className="extra-price">R$ 145,00</span>
             </div>
 
             {/* Extra 2: Agua San Pellegrino */}
@@ -309,7 +213,6 @@ export default function MenuPage({
                 <span className="extra-name">Água Mineral San Pellegrino (750ml)</span>
                 <span className="extra-desc">Natural ou Com Gás.</span>
               </div>
-              <span className="extra-price">R$ 28,00</span>
             </div>
 
             {/* Footer Notice */}
@@ -347,8 +250,8 @@ export default function MenuPage({
           </a>
 
           <div className="menu-total-wrapper">
-            <span className="menu-total-label">Total Estimado</span>
-            <span className="menu-total-val">R$ {calculateTotal().toFixed(2).replace('.', ',')}</span>
+            <span className="menu-total-label">Total Reserva</span>
+            <span className="menu-total-val">R$ 480,00</span>
           </div>
 
           <button 

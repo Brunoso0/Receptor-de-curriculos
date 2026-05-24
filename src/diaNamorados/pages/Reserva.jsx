@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Users, Info, Utensils, ArrowRight, Check } from 'lucide-react';
+import { Heart, Users, Info, Utensils, ArrowRight } from 'lucide-react';
 import MesasPage from './MesasPage';
 import CasalPage from './CasalPage';
 import MenuPage from './MenuPage';
@@ -17,6 +17,14 @@ export default function ReservaPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   
+  // Helper to generate UUID for session locking
+  const generateUUID = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
   // Centralized Booking State
   const [experience, setExperience] = useState('casal'); // 'casal' or 'grupo'
   const [turno, setTurno] = useState(null); // 'primeiro' or 'segundo'
@@ -30,33 +38,58 @@ export default function ReservaPage() {
   const [contactEmail, setContactEmail] = useState('');
   const [contactWhatsapp, setContactWhatsapp] = useState('');
   const [contactInstagram, setContactInstagram] = useState('');
-  const [uploadedPhoto, setUploadedPhoto] = useState({
-    name: 'foto_casal_2024.jpg',
-    size: '2.4 MB',
-    preview: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=150'
-  });
+  const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [specialNotes, setSpecialNotes] = useState('');
 
-  // Step 4 (Menu Selection) State
-  const [selectedEntrada, setSelectedEntrada] = useState('tabua'); // 'tabua' or 'bruschetta'
-  const [risotoP1, setRisotoP1] = useState(1);
-  const [risotoP2, setRisotoP2] = useState(0);
-  const [wellingtonP1, setWellingtonP1] = useState(1);
-  const [wellingtonP2, setWellingtonP2] = useState(1);
-  const [salmonP1, setSalmonP1] = useState(0);
-  const [salmonP2, setSalmonP2] = useState(0);
-  const [dessert1Qty, setDessert1Qty] = useState(1);
-  const [dessert2Qty, setDessert2Qty] = useState(1);
+  // Database Menu & Dynamic Selection State
+  const [dbMenu, setDbMenu] = useState({ entradas: [], principais: [], sobremesas: [], bebidas: [] });
+  const [selectedEntradaId, setSelectedEntradaId] = useState(null);
+  const [selectedPrincipal1Id, setSelectedPrincipal1Id] = useState(null);
+  const [selectedPrincipal2Id, setSelectedPrincipal2Id] = useState(null);
+  const [selectedSobremesa1Id, setSelectedSobremesa1Id] = useState(null);
+  const [selectedSobremesa2Id, setSelectedSobremesa2Id] = useState(null);
   const [extraWine, setExtraWine] = useState(false);
   const [extraWater, setExtraWater] = useState(false);
   const [localInterest, setLocalInterest] = useState(false);
 
-  // Step 5 (Payment Selection) State
+  // Step 5 (Payment Selection) State & Final Response
   const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' or 'pix'
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
+  const [bookingResult, setBookingResult] = useState(null);
+
+  // Load Menu and initialize locks session on mount
+  useEffect(() => {
+    if (!sessionStorage.getItem('sessao_bloqueio')) {
+      sessionStorage.setItem('sessao_bloqueio', generateUUID());
+    }
+
+    const loadMenu = async () => {
+      try {
+        const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+        const res = await fetch(`${base}/v1/evento/cardapio`);
+        const data = await res.json();
+        if (res.ok) {
+          setDbMenu(data);
+          // Set initial defaults from first available options
+          if (data.entradas?.length > 0) setSelectedEntradaId(data.entradas[0].id);
+          if (data.principais?.length > 0) {
+            setSelectedPrincipal1Id(data.principais[0].id);
+            setSelectedPrincipal2Id(data.principais[0].id);
+          }
+          if (data.sobremesas?.length > 0) {
+            setSelectedSobremesa1Id(data.sobremesas[0].id);
+            setSelectedSobremesa2Id(data.sobremesas[0].id);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar cardapio do servidor:', err);
+      }
+    };
+    loadMenu();
+  }, []);
 
   const handleSelectExperience = (type) => {
     setExperience(type);
@@ -71,6 +104,107 @@ export default function ReservaPage() {
       setStep(2);
     } else if (!turno) {
       alert('Por favor, selecione um horário para sua reserva antes de continuar.');
+    }
+  };
+
+  // Submission Handler
+  const handleCreateReservation = async () => {
+    // Front-end validations
+    if (!person1Name || person1Name.trim().length < 3) {
+      alert('Por favor, informe o nome completo da primeira pessoa.');
+      return;
+    }
+    if (!person2Name || person2Name.trim().length < 3) {
+      alert('Por favor, informe o nome completo da segunda pessoa.');
+      return;
+    }
+    if (!contactName || contactName.trim().length < 3) {
+      alert('Por favor, informe o nome do contato.');
+      return;
+    }
+    if (!contactEmail || !contactEmail.includes('@')) {
+      alert('Por favor, informe um e-mail de contato válido.');
+      return;
+    }
+    const cleanWhatsapp = contactWhatsapp.replace(/\D/g, '');
+    if (!cleanWhatsapp || cleanWhatsapp.length < 10) {
+      alert('Por favor, informe um WhatsApp de contato válido com DDD.');
+      return;
+    }
+    if (!selectedTable) {
+      alert('Nenhuma mesa selecionada. Por favor, volte e selecione uma mesa.');
+      return;
+    }
+
+    try {
+      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+      const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
+
+      const integrantes = [
+        {
+          nome_integrante: person1Name,
+          principal_cardapio_id: selectedPrincipal1Id,
+          sobremesa_cardapio_id: selectedSobremesa1Id
+        },
+        {
+          nome_integrante: person2Name,
+          principal_cardapio_id: selectedPrincipal2Id,
+          sobremesa_cardapio_id: selectedSobremesa2Id
+        }
+      ];
+
+      const bebidas_intencao = [];
+      if (extraWine) {
+        const wineItem = dbMenu.bebidas.find(b => b.nome.toLowerCase().includes('vinho'));
+        if (wineItem) {
+          bebidas_intencao.push({
+            bebida_cardapio_id: wineItem.id,
+            tipo_consumo: 'garrafa',
+            quantidade: 1
+          });
+        }
+      }
+      if (extraWater) {
+        const waterItem = dbMenu.bebidas.find(b => b.nome.toLowerCase().includes('água') || b.nome.toLowerCase().includes('agua'));
+        if (waterItem) {
+          bebidas_intencao.push({
+            bebida_cardapio_id: waterItem.id,
+            tipo_consumo: 'garrafa',
+            quantidade: 1
+          });
+        }
+      }
+
+      const payload = {
+        cliente: {
+          nome_completo: contactName || person1Name,
+          email: contactEmail,
+          whatsapp: contactWhatsapp
+        },
+        mesa_id: Number(selectedTable.dbId || selectedTable.id),
+        sessao_bloqueio,
+        entrada_cardapio_id: selectedEntradaId,
+        observacoes: specialNotes,
+        foto_url: uploadedPhoto ? uploadedPhoto.preview : null,
+        integrantes,
+        bebidas_intencao
+      };
+
+      const res = await fetch(`${base}/v1/evento/reservas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (res.ok && data.sucesso) {
+        setBookingResult(data);
+        setStep(6);
+      } else {
+        alert(data.erro || 'Erro ao realizar a reserva. Verifique se a mesa ainda está disponível.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro de conexão ao realizar a reserva.');
     }
   };
 
@@ -243,6 +377,7 @@ export default function ReservaPage() {
         {step === 2 && (
           <MesasPage 
             setStep={setStep}
+            turno={turno}
             selectedFloor={selectedFloor}
             setSelectedFloor={setSelectedFloor}
             selectedTable={selectedTable}
@@ -276,29 +411,23 @@ export default function ReservaPage() {
         {/* Step 4: Menu Selection */}
         {step === 4 && (
           <MenuPage
-            selectedEntrada={selectedEntrada}
-            setSelectedEntrada={setSelectedEntrada}
-            risotoP1={risotoP1}
-            setRisotoP1={setRisotoP1}
-            risotoP2={risotoP2}
-            setRisotoP2={setRisotoP2}
-            wellingtonP1={wellingtonP1}
-            setWellingtonP1={setWellingtonP1}
-            wellingtonP2={wellingtonP2}
-            setWellingtonP2={setWellingtonP2}
-            salmonP1={salmonP1}
-            setSalmonP1={setSalmonP1}
-            salmonP2={salmonP2}
-            setSalmonP2={setSalmonP2}
-            dessert1Qty={dessert1Qty}
-            setDessert1Qty={setDessert1Qty}
-            dessert2Qty={dessert2Qty}
-            setDessert2Qty={setDessert2Qty}
+            dbMenu={dbMenu}
+            selectedEntradaId={selectedEntradaId}
+            setSelectedEntradaId={setSelectedEntradaId}
+            selectedPrincipal1Id={selectedPrincipal1Id}
+            setSelectedPrincipal1Id={setSelectedPrincipal1Id}
+            selectedPrincipal2Id={selectedPrincipal2Id}
+            setSelectedPrincipal2Id={setSelectedPrincipal2Id}
+            selectedSobremesa1Id={selectedSobremesa1Id}
+            setSelectedSobremesa1Id={setSelectedSobremesa1Id}
+            selectedSobremesa2Id={selectedSobremesa2Id}
+            setSelectedSobremesa2Id={setSelectedSobremesa2Id}
             extraWine={extraWine}
             setExtraWine={setExtraWine}
             extraWater={extraWater}
             setExtraWater={setExtraWater}
             localInterest={localInterest}
+            setLocalInterest={setLocalInterest}
             setStep={setStep}
           />
         )}
@@ -321,6 +450,7 @@ export default function ReservaPage() {
             turno={turno}
             extraWine={extraWine}
             extraWater={extraWater}
+            onFinalize={handleCreateReservation}
             setStep={setStep}
           />
         )}
@@ -333,6 +463,7 @@ export default function ReservaPage() {
             turno={turno}
             person1Name={person1Name}
             person2Name={person2Name}
+            bookingResult={bookingResult}
             setStep={setStep}
           />
         )}

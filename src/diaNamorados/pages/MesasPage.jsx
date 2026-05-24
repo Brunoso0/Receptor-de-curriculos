@@ -62,6 +62,7 @@ const tablesPrimeiroAndar = [
 
 export default function MesasPage({ 
   setStep, 
+  turno,
   selectedFloor, 
   setSelectedFloor, 
   selectedTable, 
@@ -69,20 +70,68 @@ export default function MesasPage({
 }) {
   const [svgMarkup, setSvgMarkup] = useState(null);
   const [tablePoints, setTablePoints] = useState({});
+  const [dynamicStatuses, setDynamicStatuses] = useState({});
+  const [dbIds, setDbIds] = useState({});
   const svgWrapperRef = useRef(null);
   const mapElementsRef = useRef(null);
   const resizeTimerRef = useRef(null);
-  const tables = selectedFloor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
 
-  // Initialize with Mesa 05 by default if nothing is selected
+  const rawTables = selectedFloor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
+  const tables = rawTables.map(t => ({
+    ...t,
+    status: dynamicStatuses[parseInt(t.id, 10)] || t.status
+  }));
+
+  // Fetch real-time statuses from backend
+  const fetchTableStatuses = async () => {
+    try {
+      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+      const slot = turno === 'primeiro' ? '19:00' : '21:30';
+      const res = await fetch(`${base}/v1/evento/mesas?horario_slot=${slot}`);
+      const data = await res.json();
+      if (res.ok && data.mesas) {
+        const statuses = {};
+        const ids = {};
+        const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio');
+        data.mesas.forEach(m => {
+          let status = m.status; // 'disponivel', 'reservada', 'bloqueada'
+          if (status === 'reservada') {
+            status = 'ocupada';
+          } else if (status === 'bloqueada' && m.sessao_bloqueio === sessao_bloqueio) {
+            status = 'disponivel'; // locked by us, so it is available to select
+          } else if (status === 'bloqueada') {
+            status = 'ocupada'; // locked by someone else
+          }
+          statuses[m.numero_mesa] = status;
+          ids[m.numero_mesa] = m.id;
+        });
+        setDynamicStatuses(statuses);
+        setDbIds(ids);
+      }
+    } catch (err) {
+      console.error('Erro ao buscar status das mesas:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTableStatuses();
+    const interval = setInterval(fetchTableStatuses, 5000); // Poll every 5s
+    return () => clearInterval(interval);
+  }, [selectedFloor, turno]);
+
+  // Initialize default table if nothing is selected
   useEffect(() => {
     if (!selectedTable) {
-      const defaultTable = selectedFloor === 'terreo' 
-        ? tablesTerreo.find(t => t.id === '05') 
-        : tablesPrimeiroAndar.find(t => t.status === 'disponivel');
-      setSelectedTable(defaultTable);
+      const defaultTable = tables.find(t => t.status === 'disponivel');
+      if (defaultTable) {
+        const realDbId = dbIds[parseInt(defaultTable.id, 10)];
+        setSelectedTable({
+          ...defaultTable,
+          dbId: realDbId
+        });
+      }
     }
-  }, [selectedFloor, selectedTable, setSelectedTable]);
+  }, [selectedFloor, selectedTable, setSelectedTable, dynamicStatuses, dbIds]);
 
   // Load SVG markup inline when térreo is selected so we can read element positions
   useEffect(() => {
@@ -111,9 +160,8 @@ export default function MesasPage({
       const svgRoot = svgWrapperRef.current && svgWrapperRef.current.querySelector('svg');
       if (!mapEl || !svgRoot) return;
       const containerRect = mapEl.getBoundingClientRect();
-      const activeTables = selectedFloor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
       const newPoints = {};
-      activeTables.forEach((t) => {
+      tables.forEach((t) => {
         const idx = parseInt(t.id, 10);
         const svgId = `mesa${idx}`;
         const svgNode = svgRoot.getElementById ? svgRoot.getElementById(svgId) : svgRoot.querySelector(`#${svgId}`);
@@ -133,7 +181,6 @@ export default function MesasPage({
   // After SVG is injected, compute positions and attach resize listeners
   useEffect(() => {
     if (!svgMarkup) return;
-    // compute shortly after injection so DOM is ready
     const initialTimer = setTimeout(() => computeTablePoints(), 80);
 
     const onResize = () => {
@@ -150,28 +197,90 @@ export default function MesasPage({
       window.removeEventListener('resize', onResize);
       window.removeEventListener('orientationchange', onResize);
     };
-  }, [svgMarkup]);
+  }, [svgMarkup, dynamicStatuses]);
 
-  const handleTableClick = (table) => {
+  const handleTableClick = async (table) => {
     if (table.status === 'ocupada') return;
-    setSelectedTable(table);
+
+    const realDbId = dbIds[parseInt(table.id, 10)];
+    if (!realDbId) {
+      alert('Erro: Mesa não encontrada no servidor.');
+      return;
+    }
+
+    try {
+      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+      const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
+      const res = await fetch(`${base}/v1/evento/mesas/bloquear`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mesa_id: Number(realDbId), sessao_bloqueio })
+      });
+      const data = await res.json();
+      if (res.ok && data.sucesso) {
+        setSelectedTable({
+          ...table,
+          dbId: realDbId
+        });
+      } else {
+        alert(data.erro || 'Esta mesa está ocupada ou bloqueada por outro cliente.');
+        fetchTableStatuses();
+      }
+    } catch (err) {
+      console.error('Erro ao bloquear mesa:', err);
+      alert('Erro de conexão ao selecionar a mesa.');
+    }
   };
 
   const handleFloorChange = (floor) => {
     setSelectedFloor(floor);
-    // Automatically select a matching table on the new floor
-    const firstAvail = floor === 'terreo' 
-      ? tablesTerreo.find(t => t.id === '05') 
-      : tablesPrimeiroAndar.find(t => t.status === 'disponivel');
-    setSelectedTable(firstAvail || null);
+    const floorTables = floor === 'terreo' ? tablesTerreo : tablesPrimeiroAndar;
+    const firstAvail = floorTables.find(t => (dynamicStatuses[parseInt(t.id, 10)] || t.status) === 'disponivel');
+    if (firstAvail) {
+      setSelectedTable({
+        ...firstAvail,
+        dbId: dbIds[parseInt(firstAvail.id, 10)]
+      });
+    } else {
+      setSelectedTable(null);
+    }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selectedTable) {
       alert('Por favor, selecione uma mesa disponível para continuar.');
       return;
     }
-    setStep(3);
+
+    const realDbId = selectedTable.dbId || dbIds[parseInt(selectedTable.id, 10)];
+    if (!realDbId) {
+      alert('Erro: Mesa não identificada no servidor.');
+      return;
+    }
+
+    try {
+      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+      const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
+      const res = await fetch(`${base}/v1/evento/mesas/bloquear`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mesa_id: Number(realDbId), sessao_bloqueio })
+      });
+      const data = await res.json();
+      if (res.ok && data.sucesso) {
+        setSelectedTable({
+          ...selectedTable,
+          dbId: realDbId
+        });
+        setStep(3);
+      } else {
+        alert(data.erro || 'Esta mesa está ocupada ou bloqueada por outro cliente.');
+        fetchTableStatuses();
+      }
+    } catch (err) {
+      console.error('Erro ao bloquear mesa:', err);
+      alert('Erro de conexão ao selecionar a mesa.');
+    }
   };
 
   return (

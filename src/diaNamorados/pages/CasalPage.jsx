@@ -40,18 +40,46 @@ export default function CasalPage({
   setSpecialNotes,
   setStep
 }) {
+  const fileInputRef = React.useRef(null);
 
-  // Mock uploading a photo when clicking the upload box
-  const handleMockUpload = () => {
-    setUploadedPhoto({
-      name: 'foto_casal_2024.jpg',
-      size: '2.4 MB',
-      preview: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=150'
-    });
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
+      const formData = new FormData();
+      formData.append('foto', file);
+
+      const res = await fetch(`${base}/v1/evento/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok && data.sucesso) {
+        setUploadedPhoto({
+          name: file.name,
+          size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
+          preview: data.url
+        });
+      } else {
+        alert(data.erro || 'Erro ao fazer upload da imagem.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao conectar ao servidor para fazer o upload.');
+    }
   };
 
   const handleRemovePhoto = () => {
     setUploadedPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSave = () => {
@@ -192,7 +220,14 @@ export default function CasalPage({
 
             {/* Upload Area */}
             {!uploadedPhoto ? (
-              <div className="upload-dashed-box" onClick={handleMockUpload}>
+              <div className="upload-dashed-box" onClick={handleUploadClick}>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                />
                 <div className="upload-icon">
                   <CloudUploadIcon />
                 </div>
@@ -231,7 +266,7 @@ export default function CasalPage({
               <label className="casal-field-label">Observações e Experiências</label>
               <textarea
                 className="casal-textarea"
-                placeholder="Alergias, restrições alimentares, se é uma surpresa de aniversário ou pedido de casamento... Conte-nos tudo para tornarmos inesquecível."
+                placeholder="Se é uma surpresa de aniversário, pedido de casamento ou outra observação... Conte-nos tudo para tornarmos inesquecível."
                 value={specialNotes}
                 onChange={(e) => setSpecialNotes(e.target.value)}
               />
