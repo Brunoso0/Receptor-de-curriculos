@@ -58,6 +58,7 @@ const tablesPrimeiroAndar = [
   { id: '26', capacity: 2, type: 'rectangle', x: '79%', y: '45%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
   { id: '27', capacity: 2, type: 'rectangle', x: '59%', y: '75%', status: 'disponivel', desc: 'Mesa para duas pessoas.' },
   { id: '28', capacity: 2, type: 'rectangle', x: '80%', y: '75%', status: 'disponivel', desc: 'Mesa para duas pessoas.' }
+  ,{ id: '29', capacity: 2, type: 'rectangle', x: '88%', y: '75%', status: 'disponivel', desc: 'Mesa para duas pessoas.' }
 ];
 
 export default function MesasPage({ 
@@ -86,7 +87,8 @@ export default function MesasPage({
   const fetchTableStatuses = async () => {
     try {
       const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
-      const slot = turno === 'primeiro' ? '19:00' : '21:30';
+      // Backend expects enum values: 'slot_19_00' or 'slot_21_30'
+      const slot = turno === 'primeiro' ? 'slot_19_00' : 'slot_21_30';
       const res = await fetch(`${base}/v1/evento/mesas?horario_slot=${slot}`);
       const data = await res.json();
       if (res.ok && data.mesas) {

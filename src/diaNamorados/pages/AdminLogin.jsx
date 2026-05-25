@@ -24,7 +24,7 @@ export default function AdminLogin() {
     try {
       const baseEnv = (process.env.REACT_APP_URL_NAMORADOS || '').trim();
       const base = baseEnv ? baseEnv.replace(/\/+$/, '') : '';
-      const endpoint = base ? `${base}/v1/admin/login` : `/namorados/v1/admin/login`;
+      const endpoint = base ? `${base}/v1/admin/login` : `/api/v1/admin/login`;
 
       const res = await fetch(endpoint, {
         method: 'POST',

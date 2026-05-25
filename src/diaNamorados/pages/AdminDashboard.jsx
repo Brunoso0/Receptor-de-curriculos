@@ -254,7 +254,8 @@ export default function AdminDashboard() {
   const fetchTables = async () => {
     try {
       const token = localStorage.getItem('adm_token') || '';
-      const res = await fetch(`${base}/v1/admin/mesas?horario_slot=${horarioSlot}`, {
+      const horarioSlotEnum = horarioSlot === '19:00' ? 'slot_19_00' : 'slot_21_30';
+      const res = await fetch(`${base}/v1/admin/mesas?horario_slot=${horarioSlotEnum}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -270,7 +271,8 @@ export default function AdminDashboard() {
     setLoadingDetails(true);
     try {
       const token = localStorage.getItem('adm_token') || '';
-      const res = await fetch(`${base}/v1/admin/mesas/${id}/detalhes?horario_slot=${horarioSlot}`, {
+      const horarioSlotEnum = horarioSlot === '19:00' ? 'slot_19_00' : 'slot_21_30';
+      const res = await fetch(`${base}/v1/admin/mesas/${id}/detalhes?horario_slot=${horarioSlotEnum}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -805,13 +807,14 @@ export default function AdminDashboard() {
   const handleUpdateTableStatus = async (tableId, newStatus) => {
     try {
       const token = localStorage.getItem('adm_token') || '';
+      const horarioSlotEnum = horarioSlot === '19:00' ? 'slot_19_00' : 'slot_21_30';
       const res = await fetch(`${base}/v1/admin/mesas/${tableId}/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ status: newStatus, horario_slot: horarioSlot })
+        body: JSON.stringify({ status: newStatus, horario_slot: horarioSlotEnum })
       });
       const data = await res.json();
       if (res.ok && data.sucesso) {
