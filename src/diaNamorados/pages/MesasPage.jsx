@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Layers, Sofa } from 'lucide-react';
+import { getMesas, bloquearMesa } from '../services/eventoApi';
 import '../styles/mesas.css';
 
 // Custom Table Furniture Icon
@@ -83,15 +84,11 @@ export default function MesasPage({
     status: dynamicStatuses[parseInt(t.id, 10)] || t.status
   }));
 
-  // Fetch real-time statuses from backend
+  // Fetch real-time statuses from backend via service
   const fetchTableStatuses = async () => {
     try {
-      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
-      // Backend expects enum values: 'slot_19_00' or 'slot_21_30'
-      const slot = turno === 'primeiro' ? 'slot_19_00' : 'slot_21_30';
-      const res = await fetch(`${base}/v1/evento/mesas?horario_slot=${slot}`);
-      const data = await res.json();
-      if (res.ok && data.mesas) {
+      const data = await getMesas(turno);
+      if (data?.mesas) {
         const statuses = {};
         const ids = {};
         const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio');
@@ -211,15 +208,9 @@ export default function MesasPage({
     }
 
     try {
-      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
       const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
-      const res = await fetch(`${base}/v1/evento/mesas/bloquear`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mesa_id: Number(realDbId), sessao_bloqueio })
-      });
-      const data = await res.json();
-      if (res.ok && data.sucesso) {
+      const data = await bloquearMesa(Number(realDbId), sessao_bloqueio);
+      if (data?.sucesso) {
         setSelectedTable({
           ...table,
           dbId: realDbId
@@ -261,15 +252,9 @@ export default function MesasPage({
     }
 
     try {
-      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
       const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
-      const res = await fetch(`${base}/v1/evento/mesas/bloquear`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mesa_id: Number(realDbId), sessao_bloqueio })
-      });
-      const data = await res.json();
-      if (res.ok && data.sucesso) {
+      const data = await bloquearMesa(Number(realDbId), sessao_bloqueio);
+      if (data?.sucesso) {
         setSelectedTable({
           ...selectedTable,
           dbId: realDbId

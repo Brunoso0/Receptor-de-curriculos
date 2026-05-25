@@ -100,24 +100,6 @@ const MOCK_RESERVATIONS = [
   }
 ];
 
-// Mock Tables Database
-const INITIAL_TABLES = [
-  { id: 1, status: 'Ocupada', name: 'Ana & Mateus', time: '19:45', footer: 'RESERVADO', highlight: true, loading: false, size: 'normal' },
-  { id: 2, status: 'Aguardando', name: 'Mesa Disponível', time: '20:30', footer: 'LIVRE', highlight: false, loading: false, size: 'normal' },
-  { id: 3, status: 'Ocupada', name: 'Julia & Ricardo', time: '19:15', footer: 'PEDIDO EM PREPARO', highlight: false, loading: false, size: 'normal' },
-  { id: 4, status: 'Ocupada', name: 'Carla & Felipe', time: '19:30', footer: 'SOBREMESA', highlight: false, loading: false, size: 'normal' },
-  { id: 5, status: 'Finalizada', name: 'Beatriz & João', time: '20:05', footer: 'LIMPEZA PENDENTE', highlight: false, loading: false, size: 'normal' },
-  { id: 6, status: 'Aguardando', name: 'Mesa Disponível', time: '21:00', footer: 'LIVRE', highlight: false, loading: false, size: 'normal' },
-  { id: 7, status: 'Ocupada', name: 'Patrícia & Paulo', time: '20:00', footer: 'DRINKS', highlight: false, loading: false, size: 'normal' },
-  { id: 8, status: 'Ocupada', name: 'Fernanda & Fábio', time: '20:10', footer: 'RESERVADO', highlight: true, loading: false, size: 'normal' },
-  { id: 9, status: 'Aguardando', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'normal' },
-  { id: 10, status: 'Aguardando', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'normal' },
-  { id: 11, status: 'Ocupada', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'small' },
-  { id: 12, status: 'Ocupada', name: 'André & Sofia', time: '20:35', footer: 'SOBREMESA', highlight: false, loading: false, size: 'normal' }, // Mesa 12 is active and occupied
-  { id: 13, status: 'Ocupada', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'small' },
-  { id: 14, status: 'Ocupada', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'small' },
-  { id: 15, status: 'Finalizada', name: 'Carregando...', time: '', footer: '', highlight: false, loading: true, size: 'small' }
-];
 
 // Detailed Database for Tables (when clicked)
 const TABLE_DETAILS_MAP = {

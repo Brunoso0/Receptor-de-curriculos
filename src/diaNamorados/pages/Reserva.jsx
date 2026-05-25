@@ -65,24 +65,20 @@ export default function ReservaPage() {
     if (!sessionStorage.getItem('sessao_bloqueio')) {
       sessionStorage.setItem('sessao_bloqueio', generateUUID());
     }
-
     const loadMenu = async () => {
       try {
-        const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
-        const res = await fetch(`${base}/v1/evento/cardapio`);
-        const data = await res.json();
-        if (res.ok) {
-          setDbMenu(data);
-          // Set initial defaults from first available options
-          if (data.entradas?.length > 0) setSelectedEntradaId(data.entradas[0].id);
-          if (data.principais?.length > 0) {
-            setSelectedPrincipal1Id(data.principais[0].id);
-            setSelectedPrincipal2Id(data.principais[0].id);
-          }
-          if (data.sobremesas?.length > 0) {
-            setSelectedSobremesa1Id(data.sobremesas[0].id);
-            setSelectedSobremesa2Id(data.sobremesas[0].id);
-          }
+        const mod = await import('../services/eventoApi');
+        const data = await mod.getCardapio();
+        setDbMenu(data);
+        // Set initial defaults from first available options
+        if (data.entradas?.length > 0) setSelectedEntradaId(data.entradas[0].id);
+        if (data.principais?.length > 0) {
+          setSelectedPrincipal1Id(data.principais[0].id);
+          setSelectedPrincipal2Id(data.principais[0].id);
+        }
+        if (data.sobremesas?.length > 0) {
+          setSelectedSobremesa1Id(data.sobremesas[0].id);
+          setSelectedSobremesa2Id(data.sobremesas[0].id);
         }
       } catch (err) {
         console.error('Erro ao carregar cardapio do servidor:', err);
@@ -137,10 +133,19 @@ export default function ReservaPage() {
     }
 
     try {
+      // Ensure menu has required categories
+      if (!dbMenu.principais || dbMenu.principais.length === 0) {
+        alert('Ainda não temos os pratos principais cadastrados. Por favor, tente novamente mais tarde.');
+        return;
+      }
+      if (!dbMenu.sobremesas || dbMenu.sobremesas.length === 0) {
+        alert('Ainda não temos sobremesas cadastradas. Por favor, tente novamente mais tarde.');
+        return;
+      }
       const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
       const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
 
-      const integrantes = [
+      const integrantesRaw = [
         {
           nome_integrante: person1Name,
           principal_cardapio_id: selectedPrincipal1Id,
@@ -152,6 +157,17 @@ export default function ReservaPage() {
           sobremesa_cardapio_id: selectedSobremesa2Id
         }
       ];
+
+      // Remove null/undefined fields to satisfy backend validation
+      const integrantes = integrantesRaw.map(i => {
+        const fallbackPrincipal = selectedEntradaId || (dbMenu.principais && dbMenu.principais.length > 0 ? dbMenu.principais[0].id : null);
+        const fallbackSobremesa = (dbMenu.sobremesas && dbMenu.sobremesas.length > 0) ? dbMenu.sobremesas[0].id : (selectedEntradaId || null);
+        return {
+          nome_integrante: i.nome_integrante,
+          principal_cardapio_id: typeof i.principal_cardapio_id === 'number' ? i.principal_cardapio_id : fallbackPrincipal,
+          sobremesa_cardapio_id: typeof i.sobremesa_cardapio_id === 'number' ? i.sobremesa_cardapio_id : fallbackSobremesa
+        };
+      });
 
       const bebidas_intencao = [];
       if (extraWine) {
@@ -175,6 +191,9 @@ export default function ReservaPage() {
         }
       }
 
+      // Filter out any bebida entries without a valid cardapio id
+      const bebidas_intencao_sanitized = bebidas_intencao.filter(b => b.bebida_cardapio_id);
+
       const payload = {
         cliente: {
           nome_completo: contactName || person1Name,
@@ -187,20 +206,21 @@ export default function ReservaPage() {
         observacoes: specialNotes,
         foto_url: uploadedPhoto ? uploadedPhoto.preview : null,
         integrantes,
-        bebidas_intencao
+        bebidas_intencao: bebidas_intencao_sanitized
       };
 
-      const res = await fetch(`${base}/v1/evento/reservas`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (res.ok && data.sucesso) {
-        setBookingResult(data);
-        setStep(6);
-      } else {
-        alert(data.erro || 'Erro ao realizar a reserva. Verifique se a mesa ainda está disponível.');
+      try {
+        const mod = await import('../services/eventoApi');
+        const data = await mod.criarReserva(payload);
+        if (data?.sucesso) {
+          setBookingResult(data);
+          setStep(6);
+        } else {
+          alert(data.erro || 'Erro ao realizar a reserva. Verifique se a mesa ainda está disponível.');
+        }
+      } catch (err) {
+        console.error('Erro na criação da reserva:', err);
+        alert('Erro ao realizar a reserva.');
       }
     } catch (err) {
       console.error(err);
