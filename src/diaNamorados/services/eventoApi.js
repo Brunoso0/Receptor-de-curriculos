@@ -4,8 +4,14 @@ const getBase = () => {
 };
 
 const mapHorarioSlot = (horario) => {
+  // Normalize various inputs into the slot enum expected by the backend.
   if (horario === '19:00' || horario === 'primeiro' || horario === 'slot_19_00') return 'slot_19_00';
-  return 'slot_21_30';
+  // Support both possible backend variants for the later slot
+  if (horario === '21:00' || horario === 'segundo' || horario === 'slot_21_00') return 'slot_21_00';
+  // Fallback to older name if present
+  if (horario === 'slot_21_30' || horario === '21:30') return 'slot_21_30';
+  // Default to 21:00-style slot where appropriate
+  return 'slot_21_00';
 };
 
 export async function getCardapio() {
@@ -49,6 +55,30 @@ export async function criarReserva(payload) {
   }
 }
 
+export async function criarPreference(reserva_id) {
+  const base = getBase();
+  const res = await fetch(`${base}/v1/pagamento/preference`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reserva_id })
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`preference:${res.status}:${txt}`);
+  }
+  return res.json();
+}
+
+export async function getReserva(reserva_id) {
+  const base = getBase();
+  const res = await fetch(`${base}/v1/evento/reservas/${reserva_id}`);
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`getReserva:${res.status}:${txt}`);
+  }
+  return res.json();
+}
+
 export async function checkinVoucher(token_voucher) {
   const base = getBase();
   const res = await fetch(`${base}/v1/evento/checkin`, {
@@ -59,4 +89,4 @@ export async function checkinVoucher(token_voucher) {
   return res.json();
 }
 
-export default { getBase, mapHorarioSlot, getCardapio, getMesas, bloquearMesa, criarReserva, checkinVoucher };
+export default { getBase, mapHorarioSlot, getCardapio, getMesas, bloquearMesa, criarReserva, criarPreference, getReserva, checkinVoucher };

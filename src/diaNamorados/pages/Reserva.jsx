@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Users, Info, Utensils, ArrowRight } from 'lucide-react';
+import { Heart, Info, Utensils, ArrowRight } from 'lucide-react';
 import MesasPage from './MesasPage';
 import CasalPage from './CasalPage';
 import MenuPage from './MenuPage';
@@ -27,9 +27,12 @@ export default function ReservaPage() {
 
   // Centralized Booking State
   const [experience, setExperience] = useState('casal'); // 'casal' or 'grupo'
-  const [turno, setTurno] = useState(null); // 'primeiro' or 'segundo'
+  const [turno, setTurno] = useState(null); // will store horario_slot like 'slot_19_00'
   const [selectedFloor, setSelectedFloor] = useState('terreo');
   const [selectedTable, setSelectedTable] = useState(null);
+
+  // Available horario slots fetched from backend
+  const [availableSlots, setAvailableSlots] = useState([]);
 
   // Step 3 (Personalization) Form State
   const [person1Name, setPerson1Name] = useState('');
@@ -85,14 +88,98 @@ export default function ReservaPage() {
       }
     };
     loadMenu();
+    // try to load saved reserva state from localStorage
+    try {
+      const saved = localStorage.getItem('reserva_state_v1');
+      if (saved) {
+        const obj = JSON.parse(saved);
+        if (obj.step) setStep(obj.step);
+        if (obj.turno) setTurno(obj.turno);
+        if (obj.selectedFloor) setSelectedFloor(obj.selectedFloor);
+        if (obj.selectedTable) setSelectedTable(obj.selectedTable);
+        if (obj.person1Name) setPerson1Name(obj.person1Name);
+        if (obj.person2Name) setPerson2Name(obj.person2Name);
+        if (obj.contactName) setContactName(obj.contactName);
+        if (obj.contactEmail) setContactEmail(obj.contactEmail);
+        if (obj.contactWhatsapp) setContactWhatsapp(obj.contactWhatsapp);
+        if (obj.selectedEntradaId) setSelectedEntradaId(obj.selectedEntradaId);
+        if (obj.selectedPrincipal1Id) setSelectedPrincipal1Id(obj.selectedPrincipal1Id);
+        if (obj.selectedPrincipal2Id) setSelectedPrincipal2Id(obj.selectedPrincipal2Id);
+        if (obj.selectedSobremesa1Id) setSelectedSobremesa1Id(obj.selectedSobremesa1Id);
+        if (obj.selectedSobremesa2Id) setSelectedSobremesa2Id(obj.selectedSobremesa2Id);
+        if (obj.extraWine) setExtraWine(obj.extraWine);
+        if (obj.extraWater) setExtraWater(obj.extraWater);
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+  }, []);
+
+  // Persist reservation state to localStorage whenever key parts change
+  useEffect(() => {
+    try {
+      const toSave = {
+        step,
+        turno,
+        selectedFloor,
+        selectedTable,
+        person1Name,
+        person2Name,
+        contactName,
+        contactEmail,
+        contactWhatsapp,
+        selectedEntradaId,
+        selectedPrincipal1Id,
+        selectedPrincipal2Id,
+        selectedSobremesa1Id,
+        selectedSobremesa2Id,
+        extraWine,
+        extraWater
+      };
+      localStorage.setItem('reserva_state_v1', JSON.stringify(toSave));
+    } catch (e) {
+      // ignore localStorage errors
+    }
+  }, [step, turno, selectedFloor, selectedTable, person1Name, person2Name, contactName, contactEmail, contactWhatsapp, selectedEntradaId, selectedPrincipal1Id, selectedPrincipal2Id, selectedSobremesa1Id, selectedSobremesa2Id, extraWine, extraWater]);
+
+  // Load available horario slots from backend so UI uses real data
+  useEffect(() => {
+    let cancelled = false;
+    const loadSlots = async () => {
+      try {
+        const mod = await import('../services/eventoApi');
+        // Only two official slots: 19:00 and 21:00. Do not probe the legacy/alias slot_21_30.
+        const probe = ['slot_19_00', 'slot_21_00'];
+        const results = await Promise.all(probe.map(async (s) => {
+          try {
+            const res = await mod.getMesas(s);
+            return { slot: s, ok: Array.isArray(res?.mesas) && res.mesas.length > 0 };
+          } catch (e) {
+            return { slot: s, ok: false };
+          }
+        }));
+        if (cancelled) return;
+        const slots = results.filter(r => r.ok).map(r => {
+          let label = r.slot === 'slot_19_00' ? '19:00 — 20:30' : (r.slot === 'slot_21_00' ? '21:00 — 22:30' : (r.slot === 'slot_21_30' ? '21:30 — 00:00' : r.slot));
+          return { value: r.slot, label };
+        });
+        setAvailableSlots(slots);
+        // if no turno selected yet, pick first available
+        if (!turno && slots.length > 0) setTurno(slots[0].value);
+      } catch (err) {
+        // ignore
+      }
+    };
+    loadSlots();
+    return () => { cancelled = true; };
   }, []);
 
   const handleSelectExperience = (type) => {
     setExperience(type);
   };
 
-  const handleSelectTurno = (turnoId) => {
-    setTurno(turnoId);
+  const handleSelectTurno = (slotValue) => {
+    setTurno(slotValue);
   };
 
   const handleContinueToStep2 = () => {
@@ -143,7 +230,11 @@ export default function ReservaPage() {
         return;
       }
       const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
-      const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
+      let sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
+      if (!sessao_bloqueio) {
+        sessao_bloqueio = generateUUID();
+        try { sessionStorage.setItem('sessao_bloqueio', sessao_bloqueio); } catch (e) {}
+      }
 
       const integrantesRaw = [
         {
@@ -194,6 +285,8 @@ export default function ReservaPage() {
       // Filter out any bebida entries without a valid cardapio id
       const bebidas_intencao_sanitized = bebidas_intencao.filter(b => b.bebida_cardapio_id);
 
+      const entradaFallback = selectedEntradaId || (dbMenu.entradas && dbMenu.entradas.length > 0 ? dbMenu.entradas[0].id : (dbMenu.principais && dbMenu.principais.length > 0 ? dbMenu.principais[0].id : null));
+
       const payload = {
         cliente: {
           nome_completo: contactName || person1Name,
@@ -202,31 +295,116 @@ export default function ReservaPage() {
         },
         mesa_id: Number(selectedTable.dbId || selectedTable.id),
         sessao_bloqueio,
-        entrada_cardapio_id: selectedEntradaId,
+        entrada_cardapio_id: entradaFallback,
         observacoes: specialNotes,
         foto_url: uploadedPhoto ? uploadedPhoto.preview : null,
         integrantes,
         bebidas_intencao: bebidas_intencao_sanitized
       };
 
+      // Validate payload locally to avoid backend DADOS_INVALIDOS
+      const validateReservaPayload = (p) => {
+        const errs = [];
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!p.cliente || typeof p.cliente.nome_completo !== 'string' || p.cliente.nome_completo.trim().length < 3) errs.push('Nome do contato inválido');
+        if (!p.cliente || typeof p.cliente.email !== 'string' || !emailRe.test(p.cliente.email)) errs.push('E-mail inválido');
+        const digits = (p.cliente?.whatsapp || '').replace(/\D/g, '');
+        if (!digits || digits.length < 10) errs.push('WhatsApp inválido (incluir DDD)');
+        if (!p.mesa_id || Number.isNaN(Number(p.mesa_id))) errs.push('Mesa inválida');
+        if (!p.sessao_bloqueio || typeof p.sessao_bloqueio !== 'string') errs.push('Sessão de bloqueio inválida');
+        if (!p.entrada_cardapio_id || Number.isNaN(Number(p.entrada_cardapio_id))) errs.push('Entrada inválida');
+        if (!Array.isArray(p.integrantes) || p.integrantes.length < 1) errs.push('Integrantes ausentes');
+        else {
+          p.integrantes.forEach((i, idx) => {
+            if (!i.nome_integrante || String(i.nome_integrante).trim().length < 2) errs.push(`Nome do integrante ${idx + 1} inválido`);
+            if (Number.isNaN(Number(i.principal_cardapio_id))) errs.push(`Principal do integrante ${idx + 1} inválido`);
+            if (Number.isNaN(Number(i.sobremesa_cardapio_id))) errs.push(`Sobremesa do integrante ${idx + 1} inválida`);
+          });
+        }
+        if (p.bebidas_intencao) {
+          p.bebidas_intencao.forEach((b, idx) => {
+            if (Number.isNaN(Number(b.bebida_cardapio_id))) errs.push(`Bebida intenção ${idx + 1} inválida`);
+            if (!['garrafa', 'taca'].includes(b.tipo_consumo)) errs.push(`Tipo de consumo da bebida ${idx + 1} inválido`);
+            if (!b.quantidade || Number(b.quantidade) < 1) errs.push(`Quantidade da bebida ${idx + 1} inválida`);
+          });
+        }
+        return errs;
+      };
+
       try {
+        console.debug('Criando reserva - payload:', payload);
         const mod = await import('../services/eventoApi');
+        const validationErrors = validateReservaPayload(payload);
+        if (validationErrors.length > 0) {
+          console.warn('Validação local falhou:', validationErrors);
+          alert('Dados inválidos: ' + validationErrors.join('; '));
+          return;
+        }
+
         const data = await mod.criarReserva(payload);
+
+        // If backend already returned an init_point, redirect immediately
+        const initFromCreate = data?.init_point || data?.preference?.init_point || data?.preference?.body?.init_point;
+        const reservaId = data?.reserva_id || data?.id || (data?.reserva && data.reserva.id);
+        if (initFromCreate) {
+          try { localStorage.setItem('last_reserva_id', String(reservaId)); } catch (e) {}
+          window.location.href = initFromCreate;
+          return;
+        }
+
+        // Fallback: if we only received reserva id, request preference separately
+        if (reservaId) {
+          try {
+            const pref = await mod.criarPreference(reservaId);
+            const init = pref?.preference?.init_point || pref?.init_point || (pref?.preference && pref.preference.init_point);
+            if (init) {
+              try { localStorage.setItem('last_reserva_id', String(reservaId)); } catch (e) {}
+              window.location.href = init;
+              return;
+            }
+            console.warn('Payment preference returned no init_point', pref);
+            if (data?.sucesso) {
+              setBookingResult(data);
+              setStep(6);
+              return;
+            }
+            alert('Não foi possível obter o link de pagamento. Tente novamente mais tarde.');
+            return;
+          } catch (errPref) {
+            console.error('Erro ao solicitar preferência de pagamento:', errPref);
+            alert('Erro ao iniciar o pagamento. Tente novamente mais tarde.');
+            return;
+          }
+        }
+
         if (data?.sucesso) {
           setBookingResult(data);
           setStep(6);
         } else {
-          alert(data.erro || 'Erro ao realizar a reserva. Verifique se a mesa ainda está disponível.');
+          const detalhes = data?.detalhes ? JSON.stringify(data.detalhes, null, 2) : null;
+          alert((data.erro || 'Erro ao realizar a reserva. Verifique se a mesa ainda está disponível.') + (detalhes ? '\n\nDetalhes:\n' + detalhes : ''));
         }
-      } catch (err) {
+        } catch (err) {
         console.error('Erro na criação da reserva:', err);
-        alert('Erro ao realizar a reserva.');
+        alert('Erro ao realizar a reserva. Veja console para detalhes.');
       }
     } catch (err) {
       console.error(err);
       alert('Erro de conexão ao realizar a reserva.');
     }
   };
+
+  // Auto-trigger payment creation when entering step 5 (redirect to Mercado Pago)
+  const paymentTriggeredRef = useRef(false);
+  useEffect(() => {
+    if (step === 5 && !paymentTriggeredRef.current) {
+      paymentTriggeredRef.current = true;
+      // trigger creation which will redirect to MP init_point if available
+      handleCreateReservation();
+    }
+    // reset trigger when leaving step 5 so user can retry if they go back
+    if (step !== 5) paymentTriggeredRef.current = false;
+  }, [step]);
 
   return (
     <div className="reserva-page">
@@ -275,8 +453,7 @@ export default function ReservaPage() {
               <section className="reserva-left-col">
                 <h2 className="reserva-section-title">Formato da Experiência</h2>
                 <div className="experience-cards-wrapper">
-                  
-                  {/* Casal Card */}
+                  {/* Only Casal option for agora */}
                   <div 
                     className={`experience-card ${experience === 'casal' ? 'selected' : ''}`}
                     onClick={() => handleSelectExperience('casal')}
@@ -289,21 +466,6 @@ export default function ReservaPage() {
                       <span className="experience-info-desc">Mesa íntima com iluminação à luz de velas.</span>
                     </div>
                   </div>
-
-                  {/* Grupo Personalizado Card */}
-                  <div 
-                    className={`experience-card ${experience === 'grupo' ? 'selected' : ''}`}
-                    onClick={() => handleSelectExperience('grupo')}
-                  >
-                    <div className="experience-icon-circle">
-                      <Users size={20} />
-                    </div>
-                    <div className="experience-info">
-                      <span className="experience-info-title">Grupo Personalizado</span>
-                      <span className="experience-info-desc">Configuração flexível para amigos e celebrações.</span>
-                    </div>
-                  </div>
-
                 </div>
               </section>
 
@@ -312,31 +474,26 @@ export default function ReservaPage() {
                 <h2 className="reserva-section-title">Horário da Reserva</h2>
                 
                 <div className="turnos-grid">
-                  {/* First Shift */}
-                  <div className={`turno-card ${turno === 'primeiro' ? 'selected' : ''}`}>
-                    <span className="turno-label">Primeiro Turno</span>
-                    <span className="turno-time">18:30 — 21:00</span>
-                    <p className="turno-desc">Ideal para o pôr do sol e coquetéis iniciais.</p>
-                    <button 
-                      className="turno-button"
-                      onClick={() => handleSelectTurno('primeiro')}
-                    >
-                      {turno === 'primeiro' ? 'Selecionado' : 'Selecionar'}
-                    </button>
-                  </div>
-
-                  {/* Second Shift */}
-                  <div className={`turno-card ${turno === 'segundo' ? 'selected' : ''}`}>
-                    <span className="turno-label">Segundo Turno</span>
-                    <span className="turno-time">21:30 — 00:00</span>
-                    <p className="turno-desc">O ápice do requinte sob as estrelas da noite.</p>
-                    <button 
-                      className="turno-button"
-                      onClick={() => handleSelectTurno('segundo')}
-                    >
-                      {turno === 'segundo' ? 'Selecionado' : 'Selecionar'}
-                    </button>
-                  </div>
+                  {availableSlots.length === 0 && (
+                    <div className="turno-card disabled">
+                      <span className="turno-label">Carregando horários...</span>
+                      <span className="turno-time">—</span>
+                      <p className="turno-desc">Aguarde enquanto carregamos horários disponíveis.</p>
+                    </div>
+                  )}
+                  {availableSlots.map(s => (
+                    <div key={s.value} className={`turno-card ${turno === s.value ? 'selected' : ''}`}>
+                      <span className="turno-label">{s.label}</span>
+                      <span className="turno-time">{s.label}</span>
+                      <p className="turno-desc">Selecionar para ver mapa de mesas disponíveis neste horário.</p>
+                      <button
+                        className="turno-button"
+                        onClick={() => handleSelectTurno(s.value)}
+                      >
+                        {turno === s.value ? 'Selecionado' : 'Selecionar'}
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Courtesy Alert Info */}
@@ -452,27 +609,21 @@ export default function ReservaPage() {
           />
         )}
 
-        {/* Step 5: Payment Selection */}
+        {/* Step 5: Redirecting to Mercado Pago (no local payment screen) */}
         {step === 5 && (
-          <PaymentPage
-            paymentMethod={paymentMethod}
-            setPaymentMethod={setPaymentMethod}
-            cardName={cardName}
-            setCardName={setCardName}
-            cardNumber={cardNumber}
-            setCardNumber={setCardNumber}
-            cardExpiry={cardExpiry}
-            setCardExpiry={setCardExpiry}
-            cardCvv={cardCvv}
-            setCardCvv={setCardCvv}
-            selectedTable={selectedTable}
-            selectedFloor={selectedFloor}
-            turno={turno}
-            extraWine={extraWine}
-            extraWater={extraWater}
-            onFinalize={handleCreateReservation}
-            setStep={setStep}
-          />
+          <div style={{ padding: 28, textAlign: 'center' }}>
+            <h2>Redirecionando para o Mercado Pago...</h2>
+            <p>Você será levado ao ambiente seguro do Mercado Pago para finalizar o pagamento.</p>
+            <p style={{ marginTop: 12, color: '#666' }}>Se não for redirecionado automaticamente, aguarde ou clique em "Tentar novamente".</p>
+            <div style={{ marginTop: 18 }}>
+              <button
+                onClick={() => handleCreateReservation()}
+                style={{ padding: '10px 16px', borderRadius: 6, background: '#2b7cff', color: '#fff', border: 'none' }}
+              >
+                Tentar novamente
+              </button>
+            </div>
+          </div>
         )}
 
         {/* Step 6: Confirmation Screen */}

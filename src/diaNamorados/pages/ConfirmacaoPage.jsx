@@ -18,14 +18,17 @@ export default function ConfirmacaoPage({
 
   // Formatted date and time based on selected shift
   const getFormattedDateTime = () => {
-    const time = (turno === 'primeiro' || turno === 'slot_19_00') ? '18h30' : '21h30';
-    return `12 de Junho, ${time}`;
+    if (turno === 'primeiro' || turno === 'slot_19_00') return '12 de Junho, 19:00 — 20:30';
+    if (turno === 'slot_21_00') return '12 de Junho, 21:00 — 22:30';
+    if (turno === 'segundo' || turno === 'slot_21_30') return '12 de Junho, 21:30 — 00:00';
+    return '12 de Junho';
   };
 
   // Formatted table location
   const getFormattedTable = () => {
     if (selectedTable) {
-      const typeLabel = selectedTable.capacidade_maxima > 2 ? 'Mesa Grupo' : 'Mesa Casal';
+      const capacidade = selectedTable.capacidade_maxima || selectedTable.capacity || selectedTable.capacidade || 2;
+      const typeLabel = capacidade > 2 ? 'Mesa Grupo' : 'Mesa Casal';
       const floorLabel = (selectedFloor === 'terreo' || selectedFloor === 0) ? 'Térreo' : 'Mezanino';
       return `Mesa ${selectedTable.numero_mesa || selectedTable.id} - ${typeLabel} (${floorLabel})`;
     }

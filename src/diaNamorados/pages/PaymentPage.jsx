@@ -25,19 +25,17 @@ export default function PaymentPage({
   const BASE_PRICE = 480.00;
 
   const handleFinalize = () => {
-    if (paymentMethod === 'card') {
-      if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
-        alert('Por favor, preencha todos os campos do cartão de crédito para prosseguir.');
-        return;
-      }
-    }
+    // New flow: payment is handled by Mercado Pago via init_point.
+    // Do not collect card details on our site; just proceed to create the reservation
+    // and request payment preference from the backend.
     onFinalize();
   };
 
   // Turno text helper
   const getTurnoTime = () => {
-    if (turno === 'primeiro' || turno === 'slot_19_00') return '12 de Junho, 19:00';
-    if (turno === 'segundo' || turno === 'slot_21_30') return '12 de Junho, 21:30';
+    if (turno === 'primeiro' || turno === 'slot_19_00') return '12 de Junho, 19:00 — 20:30';
+    if (turno === 'slot_21_00') return '12 de Junho, 21:00 — 22:30';
+    if (turno === 'segundo' || turno === 'slot_21_30') return '12 de Junho, 21:30 — 00:00';
     return '12 de Junho';
   };
 
