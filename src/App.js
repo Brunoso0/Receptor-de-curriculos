@@ -7,6 +7,8 @@ import AdminLogin from "./diaNamorados/pages/AdminLogin";
 import AdminRegistro from "./diaNamorados/pages/AdminRegistro";
 import AdminDashboard from "./diaNamorados/pages/AdminDashboard";
 import SuccessPage from "./diaNamorados/pages/SuccessPage";
+import ErrorPage from "./diaNamorados/pages/ErrorPage";
+import PendingPage from "./diaNamorados/pages/PendingPage";
 import "./diaNamorados/styles/home.css";
 import "./shared/styles/Fonts.css";
 
@@ -23,8 +25,8 @@ function App() {
         <Route path="/namorados/registro" element={<DiaNamoradosLayout><AdminRegistro /></DiaNamoradosLayout>} />
         <Route path="/namorados/admin" element={<DiaNamoradosLayout><AdminDashboard /></DiaNamoradosLayout>} />
         <Route path="/namorados/sucesso" element={<DiaNamoradosLayout><SuccessPage /></DiaNamoradosLayout>} />
-        <Route path="/namorados/erro" element={<DiaNamoradosLayout><SuccessPage /></DiaNamoradosLayout>} />
-        <Route path="/namorados/pendente" element={<DiaNamoradosLayout><SuccessPage /></DiaNamoradosLayout>} />
+        <Route path="/namorados/erro" element={<DiaNamoradosLayout><ErrorPage /></DiaNamoradosLayout>} />
+        <Route path="/namorados/pendente" element={<DiaNamoradosLayout><PendingPage /></DiaNamoradosLayout>} />
         {/* Restante do site principal */}
         <Route path="/*" element={<SitePrincipalContent />} />
       </Routes>
