@@ -16,20 +16,63 @@ export default function SuccessPage() {
     for (const [k, v] of query.entries()) params[k] = v;
     setMpParams(params);
 
-    const lastReserva = localStorage.getItem('last_reserva_id');
-    if (lastReserva) {
-      api.getReserva(lastReserva)
+    const paymentId = query.get('payment_id');
+    const externalReference = query.get('external_reference');
+    const collectionStatus = query.get('collection_status');
+
+    if (collectionStatus === 'approved' && paymentId && externalReference) {
+      // 1. Silently sync payment
+      api.syncPagamento(paymentId, externalReference)
         .then((data) => {
-          setReserva(data.reserva || data);
+          if (data.sucesso && data.reserva) {
+            setReserva(data.reserva);
+          } else {
+            // Fallback load
+            const lastReserva = localStorage.getItem('last_reserva_id');
+            if (lastReserva) {
+              return api.getReserva(lastReserva).then((res) => {
+                setReserva(res.reserva || res);
+              });
+            }
+          }
+        })
+        .then(() => {
+          // 2. Clear booking from localStorage
+          localStorage.removeItem('reserva_state_v1');
+          localStorage.removeItem('last_reserva_id');
           setLoading(false);
         })
         .catch((err) => {
-          console.warn('Não foi possível obter reserva pelo id local:', err);
-          setLoading(false);
+          console.warn('Erro ao sincronizar pagamento:', err);
+          // Fallback load
+          const lastReserva = localStorage.getItem('last_reserva_id');
+          if (lastReserva) {
+            api.getReserva(lastReserva)
+              .then((data) => {
+                setReserva(data.reserva || data);
+                setLoading(false);
+              })
+              .catch(() => setLoading(false));
+          } else {
+            setLoading(false);
+          }
         });
     } else {
-      // no local reserva id, try to redirect to main reserva page after short timeout
-      setTimeout(() => setLoading(false), 400);
+      const lastReserva = localStorage.getItem('last_reserva_id');
+      if (lastReserva) {
+        api.getReserva(lastReserva)
+          .then((data) => {
+            setReserva(data.reserva || data);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.warn('Não foi possível obter reserva pelo id local:', err);
+            setLoading(false);
+          });
+      } else {
+        // no local reserva id, try to redirect to main reserva page after short timeout
+        setTimeout(() => setLoading(false), 400);
+      }
     }
   }, [location.search]);
 

@@ -198,7 +198,7 @@ export default function MesasPage({
     };
   }, [svgMarkup, dynamicStatuses]);
 
-  const handleTableClick = async (table) => {
+  const handleTableClick = (table) => {
     if (table.status === 'ocupada') return;
 
     const realDbId = dbIds[parseInt(table.id, 10)];
@@ -207,22 +207,10 @@ export default function MesasPage({
       return;
     }
 
-    try {
-      const sessao_bloqueio = sessionStorage.getItem('sessao_bloqueio') || '';
-      const data = await bloquearMesa(Number(realDbId), sessao_bloqueio);
-      if (data?.sucesso) {
-        setSelectedTable({
-          ...table,
-          dbId: realDbId
-        });
-      } else {
-        alert(data.erro || 'Esta mesa está ocupada ou bloqueada por outro cliente.');
-        fetchTableStatuses();
-      }
-    } catch (err) {
-      console.error('Erro ao bloquear mesa:', err);
-      alert('Erro de conexão ao selecionar a mesa.');
-    }
+    setSelectedTable({
+      ...table,
+      dbId: realDbId
+    });
   };
 
   const handleFloorChange = (floor) => {

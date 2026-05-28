@@ -89,4 +89,18 @@ export async function checkinVoucher(token_voucher) {
   return res.json();
 }
 
-export default { getBase, mapHorarioSlot, getCardapio, getMesas, bloquearMesa, criarReserva, criarPreference, getReserva, checkinVoucher };
+export async function syncPagamento(payment_id, external_reference) {
+  const base = getBase();
+  const res = await fetch(`${base}/v1/pagamento/sync`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ payment_id, external_reference })
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`syncPagamento:${res.status}:${txt}`);
+  }
+  return res.json();
+}
+
+export default { getBase, mapHorarioSlot, getCardapio, getMesas, bloquearMesa, criarReserva, criarPreference, getReserva, checkinVoucher, syncPagamento };

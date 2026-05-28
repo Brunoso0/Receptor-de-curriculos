@@ -90,6 +90,13 @@
 .stepper-dot.completed {
     background-color: #4A0E17;
     color: #FFFFFF;
+    cursor: pointer;
+}
+
+.stepper-dot.completed:hover {
+    background-color: #a37c42;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(163, 124, 66, 0.3);
 }
 
 .stepper-step-label {

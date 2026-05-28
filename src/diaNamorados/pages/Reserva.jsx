@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Info, Utensils, ArrowRight } from 'lucide-react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import MesasPage from './MesasPage';
 import CasalPage from './CasalPage';
 import MenuPage from './MenuPage';
@@ -93,22 +95,29 @@ export default function ReservaPage() {
       const saved = localStorage.getItem('reserva_state_v1');
       if (saved) {
         const obj = JSON.parse(saved);
-        if (obj.step) setStep(obj.step);
-        if (obj.turno) setTurno(obj.turno);
-        if (obj.selectedFloor) setSelectedFloor(obj.selectedFloor);
-        if (obj.selectedTable) setSelectedTable(obj.selectedTable);
-        if (obj.person1Name) setPerson1Name(obj.person1Name);
-        if (obj.person2Name) setPerson2Name(obj.person2Name);
-        if (obj.contactName) setContactName(obj.contactName);
-        if (obj.contactEmail) setContactEmail(obj.contactEmail);
-        if (obj.contactWhatsapp) setContactWhatsapp(obj.contactWhatsapp);
-        if (obj.selectedEntradaId) setSelectedEntradaId(obj.selectedEntradaId);
-        if (obj.selectedPrincipal1Id) setSelectedPrincipal1Id(obj.selectedPrincipal1Id);
-        if (obj.selectedPrincipal2Id) setSelectedPrincipal2Id(obj.selectedPrincipal2Id);
-        if (obj.selectedSobremesa1Id) setSelectedSobremesa1Id(obj.selectedSobremesa1Id);
-        if (obj.selectedSobremesa2Id) setSelectedSobremesa2Id(obj.selectedSobremesa2Id);
-        if (obj.extraWine) setExtraWine(obj.extraWine);
-        if (obj.extraWater) setExtraWater(obj.extraWater);
+        const now = Date.now();
+        // Ignore if older than 5 minutes (300,000 ms)
+        if (obj.timestamp && now - obj.timestamp > 300000) {
+          localStorage.removeItem('reserva_state_v1');
+          localStorage.removeItem('last_reserva_id');
+        } else {
+          if (obj.step) setStep(obj.step);
+          if (obj.turno) setTurno(obj.turno);
+          if (obj.selectedFloor) setSelectedFloor(obj.selectedFloor);
+          if (obj.selectedTable) setSelectedTable(obj.selectedTable);
+          if (obj.person1Name) setPerson1Name(obj.person1Name);
+          if (obj.person2Name) setPerson2Name(obj.person2Name);
+          if (obj.contactName) setContactName(obj.contactName);
+          if (obj.contactEmail) setContactEmail(obj.contactEmail);
+          if (obj.contactWhatsapp) setContactWhatsapp(obj.contactWhatsapp);
+          if (obj.selectedEntradaId) setSelectedEntradaId(obj.selectedEntradaId);
+          if (obj.selectedPrincipal1Id) setSelectedPrincipal1Id(obj.selectedPrincipal1Id);
+          if (obj.selectedPrincipal2Id) setSelectedPrincipal2Id(obj.selectedPrincipal2Id);
+          if (obj.selectedSobremesa1Id) setSelectedSobremesa1Id(obj.selectedSobremesa1Id);
+          if (obj.selectedSobremesa2Id) setSelectedSobremesa2Id(obj.selectedSobremesa2Id);
+          if (obj.extraWine) setExtraWine(obj.extraWine);
+          if (obj.extraWater) setExtraWater(obj.extraWater);
+        }
       }
     } catch (e) {
       // ignore parse errors
@@ -118,7 +127,14 @@ export default function ReservaPage() {
   // Persist reservation state to localStorage whenever key parts change
   useEffect(() => {
     try {
+      // Task 2: From the moment the customer finalizes the reservation, clear saved data
+      if (step === 6) {
+        localStorage.removeItem('reserva_state_v1');
+        localStorage.removeItem('last_reserva_id');
+        return;
+      }
       const toSave = {
+        timestamp: Date.now(), // Task 1: Add timestamp to saved object
         step,
         turno,
         selectedFloor,
@@ -408,6 +424,9 @@ export default function ReservaPage() {
 
   return (
     <div className="reserva-page">
+      {/* ToastContainer global configuration */}
+      <ToastContainer position="top-right" autoClose={3000} style={{ zIndex: 99999 }} />
+
       {/* Shared Header */}
       <header className="reserva-header">
         <a href="/" className="logo-text" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
@@ -429,7 +448,16 @@ export default function ReservaPage() {
                   dotClass += " active";
                 }
                 return (
-                  <div key={num} className={dotClass}>
+                  <div 
+                    key={num} 
+                    className={dotClass}
+                    onClick={() => {
+                      if (num < step) {
+                        setStep(num);
+                      }
+                    }}
+                    style={{ cursor: num < step ? 'pointer' : 'default' }}
+                  >
                     {num}
                   </div>
                 );

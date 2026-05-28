@@ -1,6 +1,21 @@
 import React from 'react';
 import { Users, Camera, Sparkles, ShieldCheck, UtensilsCrossed, Trash2, Phone, AtSign } from 'lucide-react';
+import { toast } from 'react-toastify';
 import '../styles/casal.css';
+
+const formatWhatsapp = (value) => {
+  const digits = value.replace(/\D/g, '');
+  if (digits.length <= 2) {
+    return digits ? `(${digits}` : '';
+  }
+  if (digits.length <= 6) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  }
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 3)} ${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
+};
 
 // Custom Contact Card Icon
 const ContactCardIcon = () => (
@@ -83,6 +98,26 @@ export default function CasalPage({
   };
 
   const handleSave = () => {
+    // 1. Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!contactEmail || !emailRegex.test(contactEmail)) {
+      toast.error('Por favor, informe um e-mail de contato válido.');
+      return;
+    }
+
+    // 2. WhatsApp validation (minimum 10 to 11 digits)
+    const digits = contactWhatsapp.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 11) {
+      toast.error('O WhatsApp deve conter de 10 a 11 dígitos (com DDD).');
+      return;
+    }
+
+    // 3. 9 mandatory for 11 digits
+    if (digits.length === 11 && digits[2] !== '9') {
+      toast.error('Para números com 11 dígitos, o nono dígito (9) é obrigatório.');
+      return;
+    }
+
     setStep(4);
   };
 
@@ -179,7 +214,10 @@ export default function CasalPage({
                     className="casal-input"
                     placeholder="(11) 99999-9999"
                     value={contactWhatsapp}
-                    onChange={(e) => setContactWhatsapp(e.target.value)}
+                    onChange={(e) => {
+                      const formatted = formatWhatsapp(e.target.value);
+                      setContactWhatsapp(formatted);
+                    }}
                   />
                 </div>
               </div>
