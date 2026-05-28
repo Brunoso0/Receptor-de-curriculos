@@ -20,9 +20,9 @@ export default function LandingPage() {
             Mergulhe em uma experiência sensorial inesquecível, onde cada detalhe foi
             cuidadosamente curado para celebrar o amor em sua forma mais refinada.
           </p>
-          <button className="primary-button" onClick={handleReservation}>
+          {/* <button className="primary-button" onClick={handleReservation}>
             Reservar Minha Experiência
-          </button>
+          </button> */}
         </div>
       </section>
 
@@ -109,7 +109,7 @@ export default function LandingPage() {
           <p className="policy-text">
             Para garantir que todos os casais desfrutem da mesma qualidade de experiência, operamos com turnos fixos. Pedimos gentilmente que a mesa seja liberada ao final de seu horário selecionado para que nossa equipe realize a higienização e preparação completa para os próximos convidados.
           </p>
-          <p className="shifts-text">TURNO 1: 18:30 - 21:30 | TURNO 2: 21:30 - 00:00</p>
+          <p className="shifts-text">TURNO 1: 19:00 - 20:30 | TURNO 2: 21:30</p>
         </div>
       </section>
 
@@ -119,9 +119,9 @@ export default function LandingPage() {
           As vagas são limitadas e a exclusividade é o nosso compromisso.<br/>
           Reserve agora o seu lugar na JrCoffee.
         </p>
-        <button className="primary-button" onClick={handleReservation}>
+        {/* <button className="primary-button" onClick={handleReservation}>
           Iniciar Reserva Agora
-        </button>
+        </button> */}
       </section>
 
       <footer className="namorados-footer">
