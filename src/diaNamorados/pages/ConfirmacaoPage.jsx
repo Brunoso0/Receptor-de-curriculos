@@ -148,12 +148,18 @@ export default function ConfirmacaoPage({
 
           </div>
 
-          {/* Card 2: Map Static View */}
-          <div 
-            className="confirm-map-card"
-            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=400')` }}
-          >
-            <span className="confirm-map-address">Alameda das Flores, 450 - Jardins</span>
+          {/* Card 2: Map (Google Maps iframe) */}
+          <div className="confirm-map-card">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d419.2322093399306!2d-40.187350105101785!3d-10.463007217146345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x76d5933555939b3%3A0xf73285125c3edafc!2sJr%20Coffee!5e1!3m2!1spt-BR!2sbr!4v1780086448615!5m2!1spt-BR!2sbr"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Jr Coffee - Localização"
+            />
           </div>
 
         </section>
