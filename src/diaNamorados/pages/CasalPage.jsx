@@ -61,33 +61,16 @@ export default function CasalPage({
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    try {
-      const base = (process.env.REACT_APP_URL_NAMORADOS || '').trim().replace(/\/+$/, '') || 'http://localhost:3003/api';
-      const formData = new FormData();
-      formData.append('foto', file);
-
-      const res = await fetch(`${base}/v1/evento/upload`, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (res.ok && data.sucesso) {
-        setUploadedPhoto({
-          name: file.name,
-          size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
-          preview: data.url
-        });
-      } else {
-        alert(data.erro || 'Erro ao fazer upload da imagem.');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao conectar ao servidor para fazer o upload.');
-    }
+    setUploadedPhoto({
+      file,
+      name: file.name,
+      size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
+      preview: URL.createObjectURL(file)
+    });
   };
 
   const handleRemovePhoto = () => {

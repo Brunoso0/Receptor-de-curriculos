@@ -22,7 +22,7 @@ export default function PaymentPage({
   setStep
 }) {
 
-  const BASE_PRICE = 480.00;
+  const BASE_PRICE = 600.00;
 
   const handleFinalize = () => {
     // New flow: payment is handled by Mercado Pago via init_point.

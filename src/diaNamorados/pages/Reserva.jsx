@@ -303,6 +303,31 @@ export default function ReservaPage() {
 
       const entradaFallback = selectedEntradaId || (dbMenu.entradas && dbMenu.entradas.length > 0 ? dbMenu.entradas[0].id : (dbMenu.principais && dbMenu.principais.length > 0 ? dbMenu.principais[0].id : null));
 
+      let fotoUrl = null;
+      if (uploadedPhoto && uploadedPhoto.file) {
+        try {
+          const formData = new FormData();
+          formData.append('foto', uploadedPhoto.file);
+          
+          const uploadRes = await fetch(`${base}/v1/upload`, {
+            method: 'POST',
+            body: formData
+          });
+          const uploadData = await uploadRes.json();
+          if (uploadRes.ok && uploadData.sucesso) {
+            fotoUrl = uploadData.url;
+          } else {
+            console.error('Erro no upload da imagem:', uploadData);
+            alert(uploadData.erro || 'Falha ao realizar upload da foto. Continuando sem foto...');
+          }
+        } catch (uploadErr) {
+          console.error('Erro de rede no upload da imagem:', uploadErr);
+          alert('Erro ao enviar foto para o servidor. Continuando sem foto...');
+        }
+      } else if (uploadedPhoto && uploadedPhoto.preview) {
+        fotoUrl = uploadedPhoto.preview;
+      }
+
       const payload = {
         cliente: {
           nome_completo: contactName || person1Name,
@@ -313,7 +338,7 @@ export default function ReservaPage() {
         sessao_bloqueio,
         entrada_cardapio_id: entradaFallback,
         observacoes: specialNotes,
-        foto_url: uploadedPhoto ? uploadedPhoto.preview : null,
+        foto_url: fotoUrl,
         integrantes,
         bebidas_intencao: bebidas_intencao_sanitized
       };

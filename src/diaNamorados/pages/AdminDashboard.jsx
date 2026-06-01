@@ -446,6 +446,7 @@ export default function AdminDashboard() {
   const [menuFormCategoria, setMenuFormCategoria] = useState('Entrada');
   const [menuFormDescricao, setMenuFormDescricao] = useState('');
   const [menuFormImagem, setMenuFormImagem] = useState('');
+  const [menuFormImagemFile, setMenuFormImagemFile] = useState(null);
   const [menuFilter, setMenuFilter] = useState('Todos'); // 'Todos', 'Entrada', 'Prato Principal', 'Sobremesa'
 
   // CRUD Event Handlers
@@ -457,6 +458,7 @@ export default function AdminDashboard() {
     setMenuFormCategoria('Entrada');
     setMenuFormDescricao('');
     setMenuFormImagem('');
+    setMenuFormImagemFile(null);
   };
 
   const handleMenuEdit = (dish) => {
@@ -465,6 +467,7 @@ export default function AdminDashboard() {
     setMenuFormCategoria(dish.categoria);
     setMenuFormDescricao(dish.descricao);
     setMenuFormImagem(dish.imagem);
+    setMenuFormImagemFile(null);
     
     // Smooth scroll to form on mobile or focus
     const formElement = document.getElementById('menu-form-title');
@@ -509,11 +512,8 @@ export default function AdminDashboard() {
         toast.error('A imagem excede o tamanho máximo de 5MB.');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setMenuFormImagem(event.target?.result);
-      };
-      reader.readAsDataURL(file);
+      setMenuFormImagemFile(file);
+      setMenuFormImagem(URL.createObjectURL(file));
     }
   };
 
@@ -531,17 +531,39 @@ export default function AdminDashboard() {
       'Bebida': 'bebida'
     };
 
-    const payload = {
-      nome: menuFormNome,
-      descricao: menuFormDescricao,
-      tipo_item: tipoItemMap[menuFormCategoria],
-      estoque_disponivel: 100,
-      ativo: true
-    };
-
     const token = localStorage.getItem('adm_token') || '';
+    let finalImageUrl = menuFormImagem;
 
     try {
+      if (menuFormImagemFile) {
+        const formData = new FormData();
+        formData.append('foto', menuFormImagemFile);
+
+        const uploadRes = await fetch(`${base}/v1/upload`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok && uploadData.sucesso) {
+          finalImageUrl = uploadData.url;
+        } else {
+          toast.error(uploadData.erro || 'Falha ao fazer upload da imagem do prato.');
+          return;
+        }
+      }
+
+      const payload = {
+        nome: menuFormNome,
+        descricao: menuFormDescricao,
+        tipo_item: tipoItemMap[menuFormCategoria],
+        estoque_disponivel: 100,
+        ativo: true,
+        imagem: finalImageUrl || null
+      };
+
       if (menuFormId) {
         const res = await fetch(`${base}/v1/admin/cardapio/${menuFormId}`, {
           method: 'PUT',
