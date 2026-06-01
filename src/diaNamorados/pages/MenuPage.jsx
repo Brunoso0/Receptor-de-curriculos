@@ -75,8 +75,9 @@ export default function MenuPage({
               >
                 <img 
                   className="menu-card-image"
-                  src={getImageForName(item.nome)} 
+                  src={item.imagem || getImageForName(item.nome)} 
                   alt={item.nome} 
+                  onError={(e) => { e.target.src = getImageForName(item.nome); }}
                 />
                 <div className="menu-card-body">
                   <h3 className="menu-card-title">{item.nome}</h3>
@@ -102,8 +103,9 @@ export default function MenuPage({
               <div key={item.id} className="menu-card">
                 <img 
                   className="menu-card-image"
-                  src={getImageForName(item.nome)} 
+                  src={item.imagem || getImageForName(item.nome)} 
                   alt={item.nome} 
+                  onError={(e) => { e.target.src = getImageForName(item.nome); }}
                 />
                 <div className="menu-card-body">
                   <h3 className="menu-card-title">{item.nome}</h3>
@@ -173,68 +175,6 @@ export default function MenuPage({
           </div>
         </section>
 
-        {/* Section 4: Bebidas e Extras */}
-        <section className="menu-section">
-          <div className="menu-section-header">
-            <h2 className="menu-section-title">
-              <GlassWater size={20} />
-              Bebidas e Extras
-            </h2>
-          </div>
-
-          <div className="extras-container">
-            {/* Extra 1: Vinho Tinto */}
-            <div 
-              className={`extra-option-row ${extraWine ? 'selected' : ''}`}
-              onClick={() => setExtraWine(!extraWine)}
-            >
-              <div className="extra-checkbox-wrapper">
-                <div className={`extra-checkbox ${extraWine ? 'checked' : ''}`}>
-                  {extraWine && '✓'}
-                </div>
-              </div>
-              <div className="extra-details">
-                <span className="extra-name">Vinho Tinto Reserva Especial</span>
-                <span className="extra-desc">Harmonização sugerida para o Filé Wellington.</span>
-              </div>
-            </div>
-
-            {/* Extra 2: Agua San Pellegrino */}
-            <div 
-              className={`extra-option-row ${extraWater ? 'selected' : ''}`}
-              onClick={() => setExtraWater(!extraWater)}
-            >
-              <div className="extra-checkbox-wrapper">
-                <div className={`extra-checkbox ${extraWater ? 'checked' : ''}`}>
-                  {extraWater && '✓'}
-                </div>
-              </div>
-              <div className="extra-details">
-                <span className="extra-name">Água Mineral San Pellegrino (750ml)</span>
-                <span className="extra-desc">Natural ou Com Gás.</span>
-              </div>
-            </div>
-
-            {/* Footer Notice */}
-            <div className="local-purchase-notice">
-              <div className="notice-message-wrapper">
-                <Info size={18} className="notice-icon" />
-                <span>Bebidas extras serão cobradas no checkout final na unidade.</span>
-              </div>
-
-              <button 
-                className={`local-interest-btn ${localInterest ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLocalInterest(!localInterest);
-                }}
-              >
-                Interessa em compra no local
-              </button>
-            </div>
-          </div>
-        </section>
-
       </div>
 
       {/* Shared Bottom Actions Bar */}
@@ -251,7 +191,7 @@ export default function MenuPage({
 
           <div className="menu-total-wrapper">
             <span className="menu-total-label">Total Reserva</span>
-            <span className="menu-total-val">R$ 480,00</span>
+            <span className="menu-total-val">R$ 600,00</span>
           </div>
 
           <button 

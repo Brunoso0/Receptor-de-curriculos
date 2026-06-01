@@ -420,14 +420,20 @@ export default function AdminDashboard() {
           ...data.sobremesas.map(i => ({ ...i, categoria: 'Sobremesa' })),
           ...data.bebidas.map(i => ({ ...i, categoria: 'Bebida' }))
         ];
-        
-        setMenuItems(allItems.map(item => ({
-          id: item.id,
-          nome: item.nome,
-          categoria: item.categoria,
-          descricao: item.descricao,
-          imagem: '/img/Saladas.png'
-        })));
+        const origin = String(base).replace(/\/api\/?$/, '');
+        setMenuItems(allItems.map(item => {
+          let imagem = item.imagem || '';
+          if (imagem && !/^https?:\/\//i.test(imagem)) {
+            imagem = imagem.startsWith('/') ? `${origin}${imagem}` : `${origin}/${imagem}`;
+          }
+          return {
+            id: item.id,
+            nome: item.nome,
+            categoria: item.categoria,
+            descricao: item.descricao,
+            imagem: imagem || '/img/Saladas.png'
+          };
+        }));
       }
     } catch (error) {
       toast.error('Erro ao buscar o cardápio do servidor.');

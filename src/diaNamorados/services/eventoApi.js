@@ -18,7 +18,39 @@ export async function getCardapio() {
   const base = getBase();
   const res = await fetch(`${base}/v1/evento/cardapio`);
   if (!res.ok) throw new Error(`cardapio:${res.status}`);
-  return res.json();
+  const data = await res.json();
+
+  try {
+    // Normalize imagem paths returned by backend: if backend returns only a relative path
+    // (e.g. "/uploads/xxx.jpg"), prefix it with the API origin like
+    // http://localhost:3003 so images load correctly in development and production.
+    const origin = String(base).replace(/\/api\/?$/, '');
+
+    const normalizeArray = (arr) => {
+      if (!Array.isArray(arr)) return arr;
+      return arr.map(item => {
+        if (item && item.imagem) {
+          const img = String(item.imagem || '').trim();
+          if (img && !/^https?:\/\//i.test(img)) {
+            // ensure leading slash
+            const path = img.startsWith('/') ? img : `/${img}`;
+            return { ...item, imagem: `${origin}${path}` };
+          }
+        }
+        return item;
+      });
+    };
+
+    if (data.entradas) data.entradas = normalizeArray(data.entradas);
+    if (data.principais) data.principais = normalizeArray(data.principais);
+    if (data.sobremesas) data.sobremesas = normalizeArray(data.sobremesas);
+    if (data.bebidas) data.bebidas = normalizeArray(data.bebidas);
+  } catch (e) {
+    // fail silently and return original data if anything goes wrong
+    console.warn('Erro ao normalizar URLs de imagem do cardápio:', e);
+  }
+
+  return data;
 }
 
 export async function getMesas(horario) {
