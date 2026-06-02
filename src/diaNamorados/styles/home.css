@@ -7,14 +7,14 @@
 
 .hero-section {
     position: relative;
-    height: 85vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
-    background-image: linear-gradient(rgba(45, 14, 18, 0.7), rgba(45, 14, 18, 0.7)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80');
+    background-image: linear-gradient(rgba(45, 14, 18, 0.7), rgba(45, 14, 18, 0.7)), url('/public/img/capanamorados.jpg');
     background-size: cover;
     background-position: center;
     padding: 0 20px;
@@ -26,7 +26,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 150px;
+    height: 80px;
     background: linear-gradient(to top, #FBF9F6 0%, transparent 100%);
 }
 

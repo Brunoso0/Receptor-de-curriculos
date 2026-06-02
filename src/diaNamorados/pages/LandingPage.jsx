@@ -14,12 +14,6 @@ export default function LandingPage() {
     <div className="namorados-page">
       <section className="hero-section">
         <div className="hero-content">
-          <p className="overline">Dia dos Namorados</p>
-          <h1 className="hero-title">Uma Noite de Amor</h1>
-          <p className="hero-subtitle">
-            Mergulhe em uma experiência sensorial inesquecível, onde cada detalhe foi
-            cuidadosamente curado para celebrar o amor em sua forma mais refinada.
-          </p>
           {/* <button className="primary-button" onClick={handleReservation}>
             Reservar Minha Experiência
           </button> */}
