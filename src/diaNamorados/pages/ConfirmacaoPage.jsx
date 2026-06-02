@@ -29,7 +29,7 @@ export default function ConfirmacaoPage({
     if (selectedTable) {
       const capacidade = selectedTable.capacidade_maxima || selectedTable.capacity || selectedTable.capacidade || 2;
       const typeLabel = capacidade > 2 ? 'Mesa Grupo' : 'Mesa Casal';
-      const floorLabel = (selectedFloor === 'terreo' || selectedFloor === 0) ? 'Térreo' : 'Mezanino';
+      const floorLabel = (selectedFloor === 'terreo' || selectedFloor === 0) ? '' : '';
       return `Mesa ${selectedTable.numero_mesa || selectedTable.id} - ${typeLabel} (${floorLabel})`;
     }
     return "Mesa Selecionada";

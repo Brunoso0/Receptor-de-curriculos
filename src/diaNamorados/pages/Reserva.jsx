@@ -303,6 +303,15 @@ export default function ReservaPage() {
 
       const entradaFallback = selectedEntradaId || (dbMenu.entradas && dbMenu.entradas.length > 0 ? dbMenu.entradas[0].id : (dbMenu.principais && dbMenu.principais.length > 0 ? dbMenu.principais[0].id : null));
 
+      const apiOrigin = String(base).replace(/\/api\/?$/, '');
+      const toAbsoluteHttpUrl = (value) => {
+        const raw = String(value || '').trim();
+        if (!raw) return null;
+        if (/^https?:\/\//i.test(raw)) return raw;
+        if (raw.startsWith('/')) return `${apiOrigin}${raw}`;
+        return null;
+      };
+
       let fotoUrl = null;
       if (uploadedPhoto && uploadedPhoto.file) {
         try {
@@ -315,7 +324,7 @@ export default function ReservaPage() {
           });
           const uploadData = await uploadRes.json();
           if (uploadRes.ok && uploadData.sucesso) {
-            fotoUrl = uploadData.url;
+            fotoUrl = toAbsoluteHttpUrl(uploadData.url);
           } else {
             console.error('Erro no upload da imagem:', uploadData);
             alert(uploadData.erro || 'Falha ao realizar upload da foto. Continuando sem foto...');
@@ -325,7 +334,8 @@ export default function ReservaPage() {
           alert('Erro ao enviar foto para o servidor. Continuando sem foto...');
         }
       } else if (uploadedPhoto && uploadedPhoto.preview) {
-        fotoUrl = uploadedPhoto.preview;
+        // preview local (blob/data) nao deve ser enviado ao backend
+        fotoUrl = toAbsoluteHttpUrl(uploadedPhoto.preview);
       }
 
       const payload = {
@@ -338,10 +348,11 @@ export default function ReservaPage() {
         sessao_bloqueio,
         entrada_cardapio_id: entradaFallback,
         observacoes: specialNotes,
-        foto_url: fotoUrl,
         integrantes,
         bebidas_intencao: bebidas_intencao_sanitized
       };
+
+      if (fotoUrl) payload.foto_url = fotoUrl;
 
       // Validate payload locally to avoid backend DADOS_INVALIDOS
       const validateReservaPayload = (p) => {
