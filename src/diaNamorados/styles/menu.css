@@ -47,6 +47,13 @@
     gap: 24px;
 }
 
+/* Sobremesas grid: 2x2 layout for up to 4 items */
+.sobremesas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
 /* Menu Card Box */
 .menu-card {
     background-color: #FFFFFF;
@@ -395,6 +402,10 @@
         grid-template-columns: 1fr;
         gap: 20px;
     }
+    .sobremesas-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
     
     .menu-card-image {
         height: 240px;
@@ -403,6 +414,11 @@
 
 @media (max-width: 768px) {
     .entradas-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .sobremesas-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }

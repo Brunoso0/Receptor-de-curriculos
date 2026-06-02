@@ -176,7 +176,7 @@ export default function ReservaPage() {
         }));
         if (cancelled) return;
         const slots = results.filter(r => r.ok).map(r => {
-          let label = r.slot === 'slot_19_00' ? '19:00 — 20:30' : (r.slot === 'slot_21_00' ? '21:00 — 22:30' : (r.slot === 'slot_21_30' ? '21:30 — 00:00' : r.slot));
+          let label = r.slot === 'slot_19_00' ? '19:00 — 21:00' : (r.slot === 'slot_21_00' ? '21:30 — 23:30' : (r.slot === 'slot_21_30' ? '21:30 — 00:00' : r.slot));
           return { value: r.slot, label };
         });
         setAvailableSlots(slots);

@@ -145,29 +145,36 @@ export default function MenuPage({
             <span className="menu-section-tag">Uma por pessoa</span>
           </div>
 
-          <div className="sobremesas-container">
+          <div className="sobremesas-grid">
             {dbMenu.sobremesas && dbMenu.sobremesas.map(item => (
-              <div key={item.id} className="sobremesa-row">
-                <div className="sobremesa-info">
-                  <span className="sobremesa-name">{item.nome}</span>
-                  <span className="sobremesa-desc">{item.descricao}</span>
-                </div>
-                <div className="qty-control-wrapper">
-                  <div className="menu-selectors-wrapper">
-                    <button 
-                      className={`menu-selector-circle ${selectedSobremesa1Id === item.id ? 'selected' : ''}`}
-                      onClick={() => setSelectedSobremesa1Id(item.id)}
-                      title="Escolher para a Pessoa 1"
-                    >
-                      P1
-                    </button>
-                    <button 
-                      className={`menu-selector-circle ${selectedSobremesa2Id === item.id ? 'selected' : ''}`}
-                      onClick={() => setSelectedSobremesa2Id(item.id)}
-                      title="Escolher para a Pessoa 2"
-                    >
-                      P2
-                    </button>
+              <div key={item.id} className="menu-card">
+                <img 
+                  className="menu-card-image"
+                  src={item.imagem || getImageForName(item.nome)} 
+                  alt={item.nome} 
+                  onError={(e) => { e.target.src = getImageForName(item.nome); }}
+                />
+                <div className="menu-card-body">
+                  <h3 className="menu-card-title">{item.nome}</h3>
+                  <p className="menu-card-desc">{item.descricao}</p>
+                  <div className="menu-card-footer">
+                    <span className="menu-item-tag">{getTagForName(item.nome)}</span>
+                    <div className="menu-selectors-wrapper">
+                      <button 
+                        className={`menu-selector-circle ${selectedSobremesa1Id === item.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedSobremesa1Id(item.id)}
+                        title="Escolher para a Pessoa 1"
+                      >
+                        P1
+                      </button>
+                      <button 
+                        className={`menu-selector-circle ${selectedSobremesa2Id === item.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedSobremesa2Id(item.id)}
+                        title="Escolher para a Pessoa 2"
+                      >
+                        P2
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
