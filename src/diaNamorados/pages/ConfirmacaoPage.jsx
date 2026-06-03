@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Check, Download, Send, Calendar, Users, Utensils, Info, Scissors, HelpCircle, MessageSquare } from 'lucide-react';
+import html2canvas from 'html2canvas';
 import '../styles/confirmacao.css';
 
 export default function ConfirmacaoPage({
@@ -11,6 +12,9 @@ export default function ConfirmacaoPage({
   bookingResult,
   setStep
 }) {
+
+  // 1. Cria a referência para capturar a div do voucher
+  const voucherRef = useRef(null);
 
   // Dynamic booking id
   const bookingId = bookingResult?.token_voucher || "VAL-2024-8842";
@@ -52,6 +56,28 @@ export default function ConfirmacaoPage({
     return "Mesa Selecionada";
   };
 
+  // 2. Função que gera a imagem a partir do HTML e força o download
+  const handleDownloadImage = async () => {
+    if (!voucherRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(voucherRef.current, { 
+        scale: 2, 
+        useCORS: true // Permite carregar imagens externas (como o QR Code)
+      });
+      
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      const link = document.createElement('a');
+      link.download = `Voucher-JrCoffee-${bookingId}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error('Erro ao gerar imagem do voucher:', error);
+      alert('Não foi possível gerar o voucher no momento.');
+    }
+  };
+
   return (
     <>
       {/* Icon Checkmark Circle */}
@@ -70,7 +96,8 @@ export default function ConfirmacaoPage({
         
         {/* Left Column (Digital Voucher Ticket) */}
         <section className="confirm-left-col">
-          <div className="voucher-ticket-card">
+          {/* 3. Atrela o ref à div principal do voucher */}
+          <div className="voucher-ticket-card" ref={voucherRef}>
             
             {/* Header info */}
             <span className="voucher-small-tag">Voucher Digital</span>
@@ -83,6 +110,7 @@ export default function ConfirmacaoPage({
                   className="voucher-qrcode-img" 
                   src={qrCodeSrc} 
                   alt="Voucher QR Code" 
+                  crossOrigin="anonymous" // Ajuda a evitar erros de CORS na geração da imagem
                 />
               </div>
               <span className="voucher-id-label">Reserva ID</span>
@@ -91,12 +119,13 @@ export default function ConfirmacaoPage({
 
             {/* Print/Download and WhatsApp actions */}
             <div className="voucher-actions-row">
+              {/* 4. Aciona a função no clique do botão */}
               <button 
                 className="voucher-btn-primary"
-                onClick={() => alert('Fazendo download do PDF da sua reserva...')}
+                onClick={handleDownloadImage}
               >
                 <Download size={15} />
-                <span>Baixar PDF</span>
+                <span>Baixar Voucher</span>
               </button>
 
               <button 
@@ -166,7 +195,7 @@ export default function ConfirmacaoPage({
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d419.2322093399306!2d-40.187350105101785!3d-10.463007217146345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x76d5933555939b3%3A0xf73285125c3edafc!2sJr%20Coffee!5e1!3m2!1spt-BR!2sbr!4v1780086448615!5m2!1spt-BR!2sbr"
               width="100%"
-              height="400"
+              height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
