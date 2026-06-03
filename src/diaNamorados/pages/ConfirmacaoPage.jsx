@@ -19,8 +19,13 @@ export default function ConfirmacaoPage({
   // Formatted date and time based on selected shift.
   // Accept several possible `turno` formats (slot keys, labels or raw times)
   const getFormattedDateTime = () => {
-    if (!turno) return '12 de Junho';
-    const t = String(turno);
+    // 1. Tenta pegar da prop, se não tiver, busca direto dos dados da reserva do banco
+    const turnoAtivo = turno || bookingResult?.mesa?.horario_slot;
+
+    // 2. Se ainda assim não existir, retorna o padrão
+    if (!turnoAtivo) return '12 de Junho';
+    
+    const t = String(turnoAtivo);
 
     // Common slot keys or labels containing 19
     if (t === 'primeiro' || t === 'slot_19_00' || /19/.test(t)) {
@@ -29,7 +34,7 @@ export default function ConfirmacaoPage({
 
     // Prefer the later slot for any 21/21:30 references
     if (t === 'segundo' || t === 'slot_21_30' || t === 'slot_21_00' || /21/.test(t)) {
-      return '12 de Junho, 21:30 — 23:30';
+      return '12 de Junho, 21:00 — 23:00'; // Ajustei para 21:00 de acordo com seu banco
     }
 
     // Fallback: show the raw turno value after the date
