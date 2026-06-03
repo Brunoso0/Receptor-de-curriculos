@@ -134,18 +134,6 @@ export default function ConfirmacaoPage({
                 </div>
               </div>
             </div>
-
-            {/* Observações Importantes Box */}
-            <div className="details-note-box">
-              <span className="details-note-label">
-                <Info size={15} />
-                Observações Importantes
-              </span>
-              <p className="details-note-text">
-                O presente exclusivo da JrCoffee será entregue antecipadamente no endereço cadastrado até o dia 12/02. Traje sugerido: Social Elegante.
-              </p>
-            </div>
-
           </div>
 
           {/* Card 2: Map (Google Maps iframe) */}
