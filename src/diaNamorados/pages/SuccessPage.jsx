@@ -86,6 +86,7 @@ export default function SuccessPage() {
         selectedTable={reserva.mesa || reserva.mesa_id}
         selectedFloor={reserva.andar || reserva.selectedFloor}
         turno={reserva.turno || reserva.mesa?.horario_slot}
+        obs={reserva.obs || reserva.observacoes}
       />
     );
   }

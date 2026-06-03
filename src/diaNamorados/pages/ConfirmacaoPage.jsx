@@ -150,6 +150,14 @@ export default function ConfirmacaoPage({
                   <span className="details-row-val">Dia dos Namorados JrCoffee</span>
                 </div>
               </div>
+
+              <div className="details-ticket-row">
+                <Info size={18} className="details-row-icon" />
+                <div className="details-row-content">
+                  <span className="details-row-label">Observações</span>
+                  <span className="details-row-val">{bookingResult?.obs || bookingResult?.observacoes || 'Nenhuma'}</span>
+                </div>
+              </div>
             </div>
           </div>
 
