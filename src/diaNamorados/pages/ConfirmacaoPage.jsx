@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Check, Download, Send, Calendar, Users, Utensils, Info, Scissors, HelpCircle, MessageSquare } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import QRCode from 'qrcode';
 import '../styles/confirmacao.css';
 
 export default function ConfirmacaoPage({
@@ -27,26 +28,16 @@ export default function ConfirmacaoPage({
     let cancelled = false;
     const text = bookingResult?.qr_text || `JrCoffee-${bookingId}`;
 
-    // Prefer generating QR locally using the `qrcode` package (in-browser).
-    // Dynamic import so the app still runs if the package is missing,
-    // with a graceful fallback to the external `qrCodeSrc` URL.
-    (async () => {
-      try {
-        const QR = await import('qrcode');
-        const opts = { margin: 1, width: 140 };
-        const data = await QR.toDataURL(text, opts);
+    QRCode.toDataURL(text, { margin: 1, width: 140 })
+      .then((data) => {
         if (!cancelled) setQrDataUrl(data);
-      } catch (err) {
-        console.warn('Geração local de QR falhou, usando URL externa:', err);
-        // fallback: if external URL already a data URL, use it
-        if (qrCodeSrc && qrCodeSrc.startsWith('data:')) {
+      })
+      .catch((err) => {
+        console.error('Erro ao gerar QR Code local:', err);
+        if (!cancelled) {
           setQrDataUrl(qrCodeSrc);
-        } else {
-          // leave null so <img> uses qrCodeSrc
-          setQrDataUrl(null);
         }
-      }
-    })();
+      });
 
     return () => { cancelled = true; };
   }, [qrCodeSrc, bookingId, bookingResult]);
@@ -138,11 +129,11 @@ export default function ConfirmacaoPage({
             <div className="voucher-qrcode-box">
               <div className="voucher-qrcode-shadow">
                 
-                {/* Renderiza a imagem APENAS quando o Base64 local estiver pronto */}
-                {qrDataUrl ? (
+                {/* Renderiza a imagem quando o Base64 local ou URL externa estiver pronto */}
+                {(qrDataUrl || qrCodeSrc) ? (
                   <img
                     className="voucher-qrcode-img"
-                    src={qrDataUrl}
+                    src={qrDataUrl || qrCodeSrc}
                     alt="Voucher QR Code"
                     // Forçamos as dimensões aqui para o html2canvas não se perder
                     style={{ width: '140px', height: '140px', objectFit: 'contain' }}
