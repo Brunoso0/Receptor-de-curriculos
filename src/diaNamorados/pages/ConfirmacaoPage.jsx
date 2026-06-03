@@ -149,13 +149,11 @@ export default function ConfirmacaoPage({
               title="Jr Coffee - Localização"
             />
           </div>
-
         </section>
-
       </div>
 
       {/* FAQ / Concierge support footer links */}
-      <div className="support-footer-container">
+      {/* <div className="support-footer-container">
         <p className="support-footer-title">Restou alguma dúvida sobre sua reserva?</p>
         <div className="support-footer-links">
           <a 
@@ -175,7 +173,7 @@ export default function ConfirmacaoPage({
             <span>Falar com Concierge</span>
           </a>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
