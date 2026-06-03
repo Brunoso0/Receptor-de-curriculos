@@ -16,12 +16,24 @@ export default function ConfirmacaoPage({
   const bookingId = bookingResult?.token_voucher || "VAL-2024-8842";
   const qrCodeSrc = bookingResult?.qr_code || `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=JrCoffee-${bookingId}`;
 
-  // Formatted date and time based on selected shift
+  // Formatted date and time based on selected shift.
+  // Accept several possible `turno` formats (slot keys, labels or raw times)
   const getFormattedDateTime = () => {
-    if (turno === 'primeiro' || turno === 'slot_19_00') return '12 de Junho, 19:00 — 20:30';
-    if (turno === 'slot_21_00') return '12 de Junho, 21:00 — 22:30';
-    if (turno === 'segundo' || turno === 'slot_21_30') return '12 de Junho, 21:30 — 00:00';
-    return '12 de Junho';
+    if (!turno) return '12 de Junho';
+    const t = String(turno);
+
+    // Common slot keys or labels containing 19
+    if (t === 'primeiro' || t === 'slot_19_00' || /19/.test(t)) {
+      return '12 de Junho, 19:00 — 21:00';
+    }
+
+    // Prefer the later slot for any 21/21:30 references
+    if (t === 'segundo' || t === 'slot_21_30' || t === 'slot_21_00' || /21/.test(t)) {
+      return '12 de Junho, 21:30 — 23:30';
+    }
+
+    // Fallback: show the raw turno value after the date
+    return `12 de Junho, ${t}`;
   };
 
   // Formatted table location
@@ -30,7 +42,7 @@ export default function ConfirmacaoPage({
       const capacidade = selectedTable.capacidade_maxima || selectedTable.capacity || selectedTable.capacidade || 2;
       const typeLabel = capacidade > 2 ? 'Mesa Grupo' : 'Mesa Casal';
       const floorLabel = (selectedFloor === 'terreo' || selectedFloor === 0) ? '' : '';
-      return `Mesa ${selectedTable.numero_mesa || selectedTable.id} - ${typeLabel} (${floorLabel})`;
+      return `Mesa ${selectedTable.numero_mesa || selectedTable.id}`;
     }
     return "Mesa Selecionada";
   };
@@ -130,7 +142,7 @@ export default function ConfirmacaoPage({
                 <Utensils size={18} className="details-row-icon" />
                 <div className="details-row-content">
                   <span className="details-row-label">Experiência Selecionada</span>
-                  <span className="details-row-val">Menu Degustação 'Amour'</span>
+                  <span className="details-row-val">Dia dos Namorados JrCoffee</span>
                 </div>
               </div>
             </div>
