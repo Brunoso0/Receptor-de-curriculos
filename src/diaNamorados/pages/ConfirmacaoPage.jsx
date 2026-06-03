@@ -136,7 +136,7 @@ export default function ConfirmacaoPage({
                     src={qrDataUrl || qrCodeSrc}
                     alt="Voucher QR Code"
                     // Forçamos as dimensões aqui para o html2canvas não se perder
-                    style={{ width: '140px', height: '140px', objectFit: 'contain' }}
+                    style={{ width: '140px', height: '140px' }}
                   />
                 ) : (
                   // Um placeholder do exato mesmo tamanho enquanto o código é gerado
