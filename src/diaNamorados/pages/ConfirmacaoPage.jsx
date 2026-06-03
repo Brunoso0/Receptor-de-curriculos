@@ -25,32 +25,31 @@ export default function ConfirmacaoPage({
 
   useEffect(() => {
     let cancelled = false;
-    const src = qrCodeSrc;
-    // If already a data URL, use it directly
-    if (!src) return;
-    if (src.startsWith('data:')) {
-      setQrDataUrl(src);
-      return;
-    }
+    const text = bookingResult?.qr_text || `JrCoffee-${bookingId}`;
 
-    // Try to fetch the image as a blob and convert to data URL.
-    // This avoids cross-origin image tainting when html2canvas renders the DOM.
-    fetch(src)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (!cancelled) setQrDataUrl(reader.result);
-        };
-        reader.readAsDataURL(blob);
-      })
-      .catch((err) => {
-        console.warn('Não foi possível inline o QR code:', err);
-        // fallback: leave qrDataUrl null so original src is used
-      });
+    // Prefer generating QR locally using the `qrcode` package (in-browser).
+    // Dynamic import so the app still runs if the package is missing,
+    // with a graceful fallback to the external `qrCodeSrc` URL.
+    (async () => {
+      try {
+        const QR = await import('qrcode');
+        const opts = { margin: 1, width: 140 };
+        const data = await QR.toDataURL(text, opts);
+        if (!cancelled) setQrDataUrl(data);
+      } catch (err) {
+        console.warn('Geração local de QR falhou, usando URL externa:', err);
+        // fallback: if external URL already a data URL, use it
+        if (qrCodeSrc && qrCodeSrc.startsWith('data:')) {
+          setQrDataUrl(qrCodeSrc);
+        } else {
+          // leave null so <img> uses qrCodeSrc
+          setQrDataUrl(null);
+        }
+      }
+    })();
 
     return () => { cancelled = true; };
-  }, [qrCodeSrc]);
+  }, [qrCodeSrc, bookingId, bookingResult]);
 
   // Formatted date and time based on selected shift.
   // Accept several possible `turno` formats (slot keys, labels or raw times)
