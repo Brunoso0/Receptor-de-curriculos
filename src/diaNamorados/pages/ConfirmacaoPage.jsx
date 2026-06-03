@@ -137,18 +137,27 @@ export default function ConfirmacaoPage({
             {/* QR Code display */}
             <div className="voucher-qrcode-box">
               <div className="voucher-qrcode-shadow">
-                <img
-                  className="voucher-qrcode-img"
-                  src={qrDataUrl || qrCodeSrc}
-                  alt="Voucher QR Code"
-                  // Só usa o crossOrigin se for a URL externa. Se for o Base64 local (qrDataUrl), remove o atributo.
-                  crossOrigin={qrDataUrl ? undefined : "anonymous"} 
-                />
+                
+                {/* Renderiza a imagem APENAS quando o Base64 local estiver pronto */}
+                {qrDataUrl ? (
+                  <img
+                    className="voucher-qrcode-img"
+                    src={qrDataUrl}
+                    alt="Voucher QR Code"
+                    // Forçamos as dimensões aqui para o html2canvas não se perder
+                    style={{ width: '140px', height: '140px', objectFit: 'contain' }}
+                  />
+                ) : (
+                  // Um placeholder do exato mesmo tamanho enquanto o código é gerado
+                  <div style={{ width: '140px', height: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9f9' }}>
+                    <span style={{ fontSize: '12px', color: '#ccc' }}>Gerando QR...</span>
+                  </div>
+                )}
+
               </div>
               <span className="voucher-id-label">Reserva ID</span>
               <p className="voucher-id-val">{bookingId}</p>
             </div>
-
             {/* Print/Download and WhatsApp actions */}
             <div className="voucher-actions-row">
               {/* 4. Aciona a função no clique do botão */}
