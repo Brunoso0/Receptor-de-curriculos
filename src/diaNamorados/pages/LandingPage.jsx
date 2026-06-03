@@ -63,12 +63,20 @@ export default function LandingPage() {
           </div>
         </div>
 
+        <div className="section-header">
+            <button className="primary-button button-header" onClick={handleReservation}>
+            Reservar Minha Experiência
+          </button>
+        </div>
+
+        
+
         <div className="atmosphere-section">
           <div className="image-grid">
-            <img className="tall image-grid-namorados-1" src="/img/interior.jpg" alt="Ambiente 1" />
-            <img className="image-grid-namorados-2" src="https://images.unsplash.com/photo-1474722883778-792e7990302f?auto=format&fit=crop&q=80" alt="Drink" />
-            <img className="image-grid-namorados-3" src="/img/caplaura.jpg" alt="Café" />
-            <img className="image-grid-namorados-4" src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&q=80" alt="Casal" />
+            <img className="tall image-grid-namorados-1" src="/img/henrique.jpeg" alt="Saxofonista" />
+            <img className="image-grid-namorados-2" src="/img/maosdadas.jpeg" alt="mãos dadas" />
+            <img className="image-grid-namorados-3" src="/img/casal-reserva.jpeg" alt="casal" />
+            <img className="image-grid-namorados-4" src="/img/taça.jpeg" alt="taças" />
           </div>
 
           <div className="atmosphere-content">
@@ -103,7 +111,7 @@ export default function LandingPage() {
           <p className="policy-text">
             Para garantir que todos os casais desfrutem da mesma qualidade de experiência, operamos com turnos fixos. Pedimos gentilmente que a mesa seja liberada ao final de seu horário selecionado para que nossa equipe realize a higienização e preparação completa para os próximos convidados.
           </p>
-          <p className="shifts-text">TURNO 1: 19:00 - 20:30 | TURNO 2: 21:30</p>
+          <p className="shifts-text">TURNO 1: 19:00 - 21:00 | TURNO 2: 21:30 - 23:30</p>
         </div>
       </section>
 
@@ -113,9 +121,9 @@ export default function LandingPage() {
           As vagas são limitadas e a exclusividade é o nosso compromisso.<br/>
           Reserve agora o seu lugar na JrCoffee.
         </p>
-        {/* <button className="primary-button" onClick={handleReservation}>
+        <button className="primary-button" onClick={handleReservation}>
           Iniciar Reserva Agora
-        </button> */}
+        </button>
       </section>
 
       <footer className="namorados-footer">

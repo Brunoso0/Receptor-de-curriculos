@@ -14,10 +14,18 @@
     justify-content: center;
     text-align: center;
     color: white;
-    background-image: linear-gradient(rgba(45, 14, 18, 0.7), rgba(45, 14, 18, 0.7)), url('/public/img/capanamorados.jpg');
+    background-image: linear-gradient(rgba(45, 14, 18, 0.267), rgba(45, 14, 18, 0.123)), url('/public/img/casal.svg');
     background-size: cover;
     background-position: center;
     padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 60dvh;
+        padding: 60px 20px;animation: right-left 20.3s infinite;
+    }
+
 }
 
 .hero-section::after {
@@ -101,6 +109,10 @@
 .section-header {
     text-align: center;
     margin-bottom: 60px;
+}
+
+.button-header {
+    margin-top: 40px;
 }
 
 .section-title {
@@ -242,10 +254,6 @@
     .image-grid { grid-auto-rows: 140px; }
 }
 
-@media (max-width: 576px) {
-    .image-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-    .image-grid img.tall { grid-row: span 1; }
-}
 
 .atmosphere-content {
     flex: 1;
