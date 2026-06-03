@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Check, Download, Send, Calendar, Users, Utensils, Info, Scissors, HelpCircle, MessageSquare } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import '../styles/confirmacao.css';
@@ -19,6 +19,38 @@ export default function ConfirmacaoPage({
   // Dynamic booking id
   const bookingId = bookingResult?.token_voucher || "VAL-2024-8842";
   const qrCodeSrc = bookingResult?.qr_code || `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=JrCoffee-${bookingId}`;
+
+  // Inline the external QR image as a data URL so html2canvas can render it
+  const [qrDataUrl, setQrDataUrl] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const src = qrCodeSrc;
+    // If already a data URL, use it directly
+    if (!src) return;
+    if (src.startsWith('data:')) {
+      setQrDataUrl(src);
+      return;
+    }
+
+    // Try to fetch the image as a blob and convert to data URL.
+    // This avoids cross-origin image tainting when html2canvas renders the DOM.
+    fetch(src)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (!cancelled) setQrDataUrl(reader.result);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((err) => {
+        console.warn('Não foi possível inline o QR code:', err);
+        // fallback: leave qrDataUrl null so original src is used
+      });
+
+    return () => { cancelled = true; };
+  }, [qrCodeSrc]);
 
   // Formatted date and time based on selected shift.
   // Accept several possible `turno` formats (slot keys, labels or raw times)
@@ -106,11 +138,11 @@ export default function ConfirmacaoPage({
             {/* QR Code display */}
             <div className="voucher-qrcode-box">
               <div className="voucher-qrcode-shadow">
-                <img 
-                  className="voucher-qrcode-img" 
-                  src={qrCodeSrc} 
-                  alt="Voucher QR Code" 
-                  crossOrigin="anonymous" 
+                <img
+                  className="voucher-qrcode-img"
+                  src={qrDataUrl || qrCodeSrc}
+                  alt="Voucher QR Code"
+                  crossOrigin="anonymous"
                 />
               </div>
               <span className="voucher-id-label">Reserva ID</span>
