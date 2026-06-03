@@ -110,7 +110,7 @@ export default function ConfirmacaoPage({
                   className="voucher-qrcode-img" 
                   src={qrCodeSrc} 
                   alt="Voucher QR Code" 
-                  crossOrigin="anonymous" // Ajuda a evitar erros de CORS na geração da imagem
+                  crossOrigin="anonymous" 
                 />
               </div>
               <span className="voucher-id-label">Reserva ID</span>
