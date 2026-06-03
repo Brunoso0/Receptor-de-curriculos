@@ -141,7 +141,8 @@ export default function ConfirmacaoPage({
                   className="voucher-qrcode-img"
                   src={qrDataUrl || qrCodeSrc}
                   alt="Voucher QR Code"
-                  crossOrigin="anonymous"
+                  // Só usa o crossOrigin se for a URL externa. Se for o Base64 local (qrDataUrl), remove o atributo.
+                  crossOrigin={qrDataUrl ? undefined : "anonymous"} 
                 />
               </div>
               <span className="voucher-id-label">Reserva ID</span>
