@@ -159,14 +159,6 @@ export default function ConfirmacaoPage({
                 <Download size={15} />
                 <span>Baixar Voucher</span>
               </button>
-
-              <button 
-                className="voucher-btn-secondary"
-                onClick={() => alert('Abrindo WhatsApp para compartilhar...')}
-              >
-                <Send size={15} style={{ transform: 'rotate(-25deg)' }} />
-                <span>Enviar WhatsApp</span>
-              </button>
             </div>
 
             {/* Coupon Tear Dashed Line */}
