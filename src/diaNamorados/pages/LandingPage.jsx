@@ -76,7 +76,7 @@ export default function LandingPage() {
             <img className="tall image-grid-namorados-1" src="/img/henrique.jpeg" alt="Saxofonista" />
             <img className="image-grid-namorados-2" src="/img/maosdadas.jpeg" alt="mãos dadas" />
             <img className="image-grid-namorados-3" src="/img/casal-reserva.jpeg" alt="casal" />
-            <img className="image-grid-namorados-4" src="/img/taça.jpeg" alt="taças" />
+            <img className="image-grid-namorados-4" src="/img/Brow.jpeg" alt="Brow" />
           </div>
 
           <div className="atmosphere-content">
@@ -89,15 +89,23 @@ export default function LandingPage() {
             <ul className="checklist">
               <li className="checklist-item">
                 <CheckCircle2 size={20} />
-                Música ambiente suave e curada
+                Menu especial em etapas
               </li>
               <li className="checklist-item">
                 <CheckCircle2 size={20} />
-                Iluminação de velas
+                Música ao vivo
               </li>
               <li className="checklist-item">
                 <CheckCircle2 size={20} />
-                Serviço de mesa atento e discreto
+                Fotógrafo profissional registrando os melhores momentos
+              </li>
+              <li className="checklist-item">
+                <CheckCircle2 size={20} />
+                Ambiente decorado e aconchegante
+              </li>
+              <li className="checklist-item">
+                <CheckCircle2 size={20} />
+                Vagas limitadas
               </li>
             </ul>
           </div>
