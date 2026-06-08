@@ -1197,6 +1197,60 @@ body {
   color: var(--white);
 }
 
+/* Scanner / Voucher controls styling */
+.scanner-open-btn,
+.scanner-stop-btn {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.scanner-open-btn {
+  background-color: var(--accent-gold);
+  color: var(--white);
+  border: 1px solid rgba(166,124,78,0.9);
+}
+
+.scanner-open-btn:hover { background-color: #8f623a; }
+
+.scanner-stop-btn {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-beige);
+}
+
+.voucher-input {
+  min-width: 260px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-beige);
+  box-shadow: none;
+}
+
+.btn-search-voucher {
+  background-color: var(--dark-red);
+  color: var(--white);
+  border: 1px solid var(--dark-red);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-search-voucher:hover { background-color: #27070A; }
+
+/* Structured reserva display */
+.structured-reserva .details-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
+.structured-reserva .details-value { font-size: 0.95rem; color: var(--text-dark); font-weight: 700; }
+
+
 
 /* --- RESERVA CARD (Right card) --- */
 .reserva-card {
@@ -3509,6 +3563,67 @@ body {
 
 .inline-cancel-btn:hover {
   background-color: #5D504D;
+}
+
+/* Responsive adjustments for Check-in Screen */
+.scanner-controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.scanner-btn-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.voucher-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.voucher-form .voucher-input {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.voucher-form .btn-search-voucher {
+  flex-shrink: 0;
+}
+
+.scanning-message-info {
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-light);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid rgba(166, 124, 78, 0.15);
+}
+
+.reserva-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 576px) {
+  .voucher-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .voucher-form .btn-search-voucher {
+    width: 100%;
+  }
+
+  .reserva-fields-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 

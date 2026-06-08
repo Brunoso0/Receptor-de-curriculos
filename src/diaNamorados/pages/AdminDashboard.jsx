@@ -1,20 +1,20 @@
 // AdminDashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   QrCode, 
   LayoutGrid, 
-  Hourglass, 
-  Calendar, 
-  History, 
-  HelpCircle, 
-  LogOut, 
+  // Hourglass, 
+  // Calendar, 
+  // History, 
+  // HelpCircle, 
+  // LogOut, 
   ChevronLeft, 
   ChevronRight, 
   Search, 
   MapPin, 
   Sparkles, 
-  AlertTriangle, 
+  // AlertTriangle, 
   CheckCircle, 
   Bell,
   Coffee,
@@ -24,167 +24,34 @@ import {
   MoreVertical,
   Trash2,
   Check,
-  User,
+  // User,
   Users,
   Activity,
   GlassWater,
   Utensils,
   Wine,
   Gift,
-  ChevronRightSquare,
+  // ChevronRightSquare,
   Plus,
   Pencil,
   UploadCloud,
-  Droplet,
-  Leaf,
-  Flame,
-  Heart,
+  // Droplet,
+  // Leaf,
+  // Flame,
+  // Heart,
   Info,
-  DollarSign,
-  Coins,
+  // DollarSign,
+  // Coins,
   Download,
   SlidersHorizontal,
-  Save,
+  // Save,
   Banknote
 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/adminDashboard.css';
 
-// Mock Reservations Database
-const MOCK_RESERVATIONS = [
-  {
-    id: 'JRC-2024-VLTN',
-    cpf: '123.456.789-00',
-    name: 'Isabella Rossi & Gabriel Martins',
-    table: 'Mesa 14 • Térreo',
-    time: '20:30',
-    people: '02',
-    status: 'Confirmado',
-    arrival: 'CHEGADA EM: 10 MIN',
-    note: 'Comemoração de 5 anos de namoro. Entregar o presente (relógio) discretamente após o prato principal.',
-    restrictions: '',
-    photo: '/img/couple_checkin.png',
-    confirmed: false,
-    waiterNotified: false
-  },
-  {
-    id: 'JRC-2024-AMOR',
-    cpf: '987.654.321-11',
-    name: 'Mariana Silva & Lucas Souza',
-    table: 'Mesa 05 • Varanda',
-    time: '21:00',
-    people: '02',
-    status: 'Confirmado',
-    arrival: 'CHEGADA EM: 25 MIN',
-    note: 'Comemoração de aniversário de casamento. Trazer um espumante de cortesia na sobremesa.',
-    restrictions: '',
-    photo: '/img/cafe1.png',
-    confirmed: false,
-    waiterNotified: false
-  },
-  {
-    id: 'JRC-2024-ROSA',
-    cpf: '111.222.333-44',
-    name: 'Juliana Costa & Pedro Alves',
-    table: 'Mesa 12 • Térreo',
-    time: '19:45',
-    people: '02',
-    status: 'Confirmado',
-    arrival: 'ATRASADO: 5 MIN',
-    note: 'Pedido de noivado surpresa! Colocar pétalas de rosa na mesa antes da chegada.',
-    restrictions: '',
-    photo: '/img/bebidaslogin.png',
-    confirmed: false,
-    waiterNotified: false
-  }
-];
-
-
-// Detailed Database for Tables (when clicked)
-const TABLE_DETAILS_MAP = {
-  12: {
-    coupleName: 'André & Sofia',
-    photo: '/img/couple_andre_sofia.png',
-    category: 'Mesa VIP',
-    guests: '2 Pessoas',
-    arrival: 'Chegou às 20:35',
-    hasHeart: true,
-    order: {
-      entrada: 'Carpaccio de Beterraba com Queijo de Cabra e Mel Trufado',
-      pratos: [
-        { name: 'Risotto de Cogumelos Porcini & Azeite de Ervas', tag: 'André' },
-        { name: 'Filé Mignon em Crosta de Pistache ao Molho de Vinho', tag: 'Sofia' }
-      ],
-      sobremesa: 'Petit Gâteau de Chocolate Belga com Sorvete de Lavanda'
-    },
-    drinks: [
-      { name: 'Vinho Cabernet Sauvignon Reserva', badge: 'Garrafa' },
-      { name: 'Água com Gás e Limão Siciliano', badge: 'x2' }
-    ],
-    specialRequest: 'Entregar presente após o prato principal. Tocar música instrumental suave.',
-    alertNote: 'Aniversário de 5 anos de namoro.',
-    timeline: [
-      { time: '21:15', text: 'Pratos principais servidos.' },
-      { time: '20:50', text: 'Entrada servida e vinho decantado.' },
-      { time: '20:35', text: 'Check-in realizado pela recepção.' }
-    ]
-  },
-  1: {
-    coupleName: 'Ana & Mateus',
-    photo: '/img/couple_checkin.png',
-    category: 'Mesa Premium',
-    guests: '2 Pessoas',
-    arrival: 'Chegou às 19:45',
-    hasHeart: true,
-    order: {
-      entrada: 'Bruschetta de Tomate Cereja com Rúcula e Parmesão',
-      pratos: [
-        { name: 'Salmão Grelhado com Molho de Alcaparras', tag: 'Ana' },
-        { name: 'Medalhão de Mignon com Risotto de Brie', tag: 'Mateus' }
-      ],
-      sobremesa: 'Taça de Morangos ao Champagne com Sorvete Cremoso'
-    },
-    drinks: [
-      { name: 'Champagne Laurent-Perrier Brut', badge: 'Garrafa' },
-      { name: 'Água Mineral sem Gás', badge: 'x2' }
-    ],
-    specialRequest: 'Mesa próxima à janela decorada com pétalas de rosas vermelhas.',
-    alertNote: 'Comemoração de noivado surpresa!',
-    timeline: [
-      { time: '20:45', text: 'Prato principal finalizado.' },
-      { time: '20:10', text: 'Entrada servida.' },
-      { time: '19:45', text: 'Check-in realizado.' }
-    ]
-  },
-  3: {
-    coupleName: 'Julia & Ricardo',
-    photo: '/img/cafe1.png',
-    category: 'Mesa Salão',
-    guests: '2 Pessoas',
-    arrival: 'Chegou às 19:15',
-    hasHeart: false,
-    order: {
-      entrada: 'Ceviche Clássico de Robalo com Leite de Tigre',
-      pratos: [
-        { name: 'Gnocchi de Mandioquinha ao Ragu de Costela', tag: 'Julia' },
-        { name: 'Paleta de Cordeiro com Purê de Pistache', tag: 'Ricardo' }
-      ],
-      sobremesa: 'Crème Brûlée Clássico com Raspas de Laranja'
-    },
-    drinks: [
-      { name: 'Vinho Carmenere Reserva Especial', badge: 'Garrafa' },
-      { name: 'Soda Italiana de Maçã Verde', badge: 'x2' }
-    ],
-    specialRequest: 'Apresentar violinista na mesa durante a entrega da sobremesa.',
-    alertNote: 'Aniversário de Casamento (10 anos).',
-    timeline: [
-      { time: '20:15', text: 'Pratos principais em preparo.' },
-      { time: '19:35', text: 'Entrada consumida e pratos solicitados.' },
-      { time: '19:15', text: 'Check-in realizado.' }
-    ]
-  }
-};
+// NOTE: Mock data removed. Live data will be fetched from the API endpoints.
 
 export default function AdminDashboard() {
   const baseEnv = (process.env.REACT_APP_URL_NAMORADOS || '').trim();
@@ -194,7 +61,7 @@ export default function AdminDashboard() {
   const [menuItems, setMenuItems] = useState([]);
   const [currentTab, setCurrentTab] = useState('floorplan');
   const [searchQuery, setSearchQuery] = useState('');
-  const [reservations, setReservations] = useState(MOCK_RESERVATIONS);
+  const [reservations, setReservations] = useState([]);
   const [activeResIndex, setActiveResIndex] = useState(0);
   const [scanning, setScanning] = useState(false);
   
@@ -231,6 +98,27 @@ export default function AdminDashboard() {
   // Quick Search Modal State
   const [showQuickSearch, setShowQuickSearch] = useState(false);
   const [quickSearchInput, setQuickSearchInput] = useState('');
+
+  // QR Scanner State
+  const [scannerActive, setScannerActive] = useState(false);
+  const [voucherInput, setVoucherInput] = useState('');
+  const videoRef = useRef(null);
+  const detectorRef = useRef(null);
+  const scanAnimationRef = useRef(null);
+  const [scannedReservaRaw, setScannedReservaRaw] = useState(null);
+  const [scanningMessage, setScanningMessage] = useState('');
+
+  // Helper: format horario slot / value into human readable range
+  const formatHorarioDisplay = (slotOrTime) => {
+    if (!slotOrTime) return '';
+    const v = String(slotOrTime).toLowerCase();
+    if (v.includes('slot_19') || v === '19:00' || v.startsWith('19:')) return '19:00 - 21:00';
+    if (v.includes('slot_21') || v === '21:30' || v.startsWith('21:')) return '21:30 - 23:30';
+    // if it's already a time like 20:30, show single time
+    const m = v.match(/^(\d{1,2}:\d{2})/);
+    if (m) return m[1];
+    return slotOrTime;
+  };
 
   // Fetch functions
   const fetchTables = async () => {
@@ -638,7 +526,6 @@ export default function AdminDashboard() {
             : r.cliente.nome_completo;
           return {
             id: r.token_voucher,
-            cpf: 'N/A',
             name: coupleName,
             table: `Mesa ${r.mesa.numero_mesa} • ${r.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}`,
             time: r.mesa.horario_slot,
@@ -684,7 +571,6 @@ export default function AdminDashboard() {
             : r.cliente.nome_completo;
           return {
             id: r.token_voucher,
-            cpf: 'N/A',
             name: coupleName,
             table: `Mesa ${r.mesa.numero_mesa} • ${r.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}`,
             time: r.mesa.horario_slot,
@@ -735,7 +621,6 @@ export default function AdminDashboard() {
 
         const mapped = {
           id: target.token_voucher,
-          cpf: 'N/A',
           name: coupleName,
           table: `Mesa ${target.mesa.numero_mesa} • ${target.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}`,
           time: target.mesa.horario_slot,
@@ -763,6 +648,171 @@ export default function AdminDashboard() {
       setScanning(false);
       toast.error('Erro de conexão ao simular scanner.');
     }
+  };
+
+  // QR Scanner helpers
+  const fetchReservationByVoucher = async (voucher) => {
+    try {
+      const token = localStorage.getItem('adm_token') || '';
+      const res = await fetch(`${base}/v1/admin/reservas/buscar?busca=${encodeURIComponent(voucher)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok && data.sucesso && data.reservas && data.reservas.length > 0) {
+        // If multiple results (e.g., search by name), map all into reservations list
+        if (data.reservas.length > 1) {
+          const mappedList = data.reservas.map(r => {
+            const coupleName = r.integrantes && r.integrantes.length > 0
+              ? r.integrantes.map(i => i.nome_integrante).join(' & ')
+              : (r.cliente && r.cliente.nome_completo) || '---';
+            return {
+              id: r.token_voucher || r.id,
+              name: coupleName,
+              table: r.mesa ? `Mesa ${r.mesa.numero_mesa} • ${r.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}` : 'Mesa -',
+              time: r.mesa?.horario_slot || r.horario || '',
+              people: String((r.integrantes && r.integrantes.length) || r.pessoas || 2),
+              status: r.finalizada ? 'Finalizado' : r.check_in_realizado ? 'Presente' : (r.status_pagamento === 'pago' ? 'Confirmado' : 'Pendente'),
+              arrival: r.check_in_realizado ? 'CHEGOU' : 'AGUARDANDO',
+              note: r.observacoes || r.note || '',
+              restrictions: 'Nenhuma',
+              photo: r.foto_url || '/img/copo-perfiil.png',
+              confirmed: r.check_in_realizado,
+              waiterNotified: false,
+              raw: r
+            };
+          });
+          setScannedReservaRaw(null);
+          setReservations(mappedList);
+          setActiveResIndex(0);
+          setCurrentTab('checkin');
+          toast.success(`${mappedList.length} reservas encontradas.`);
+          return true;
+        }
+
+        // Single result: show details and raw JSON
+        const r = data.reservas[0];
+        setScannedReservaRaw(r);
+        const coupleName = r.integrantes && r.integrantes.length > 0
+          ? r.integrantes.map(i => i.nome_integrante).join(' & ')
+          : (r.cliente && r.cliente.nome_completo) || '---';
+        const mapped = {
+          id: r.token_voucher || r.id,
+          name: coupleName,
+          table: r.mesa ? `Mesa ${r.mesa.numero_mesa} • ${r.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}` : 'Mesa -',
+          time: r.mesa?.horario_slot || r.horario || '',
+          people: String((r.integrantes && r.integrantes.length) || r.pessoas || 2),
+          status: r.finalizada ? 'Finalizado' : r.check_in_realizado ? 'Presente' : (r.status_pagamento === 'pago' ? 'Confirmado' : 'Pendente'),
+          arrival: r.check_in_realizado ? 'CHEGOU' : 'AGUARDANDO',
+          note: r.observacoes || r.note || '',
+          restrictions: 'Nenhuma',
+          photo: r.foto_url || '/img/copo-perfiil.png',
+          confirmed: r.check_in_realizado,
+          waiterNotified: false,
+          raw: r
+        };
+        setReservations([mapped]);
+        setActiveResIndex(0);
+        setCurrentTab('checkin');
+        toast.success(`Voucher ${mapped.id} carregado.`);
+        return true;
+      } else {
+        toast.error('Reserva não encontrada para o termo pesquisado.');
+        return false;
+      }
+    } catch (err) {
+      console.error('Erro ao buscar reserva por voucher:', err);
+      toast.error('Erro ao buscar reserva pelo voucher.');
+      return false;
+    }
+  };
+
+  const handleVoucherDetected = async (voucher) => {
+    setVoucherInput(voucher);
+    setScanningMessage(`Voucher detectado: ${voucher}`);
+    await fetchReservationByVoucher(voucher);
+    stopScanner();
+  };
+
+  const startScanner = async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setScanningMessage('Navegador não suporta câmera. Use entrada manual.');
+      return;
+    }
+    try {
+      setScanningMessage('Iniciando câmera...');
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      const video = videoRef.current;
+      if (video) {
+        video.srcObject = stream;
+        await video.play();
+
+        // Use BarcodeDetector if available
+        if ('BarcodeDetector' in window) {
+          try {
+            detectorRef.current = new window.BarcodeDetector({ formats: ['qr_code'] });
+            const detectLoop = async () => {
+              if (!detectorRef.current) return;
+              try {
+                const barcodes = await detectorRef.current.detect(video);
+                if (barcodes && barcodes.length > 0) {
+                  const raw = barcodes[0].rawValue || barcodes[0].rawData || '';
+                  if (raw) {
+                    await handleVoucherDetected(String(raw).trim());
+                    return;
+                  }
+                }
+              } catch (e) {
+                // continue
+              }
+              scanAnimationRef.current = requestAnimationFrame(detectLoop);
+            };
+            setScannerActive(true);
+            detectLoop();
+            setScanningMessage('Aguardando leitura do QR Code...');
+          } catch (e) {
+            setScanningMessage('Detector de códigos indisponível. Use entrada manual.');
+          }
+        } else {
+          setScanningMessage('BarcodeDetector não suportado pelo navegador. Use entrada manual.');
+        }
+      }
+    } catch (e) {
+      console.error('Erro ao acessar câmera:', e);
+      setScanningMessage('Erro ao acessar câmera. Permita acesso ou use entrada manual.');
+    }
+  };
+
+  const stopScanner = () => {
+    setScannerActive(false);
+    setScanningMessage('');
+    if (scanAnimationRef.current) {
+      cancelAnimationFrame(scanAnimationRef.current);
+      scanAnimationRef.current = null;
+    }
+    if (detectorRef.current) {
+      detectorRef.current = null;
+    }
+    const video = videoRef.current;
+    if (video && video.srcObject) {
+      const tracks = video.srcObject.getTracks ? video.srcObject.getTracks() : [];
+      tracks.forEach(t => t.stop());
+      video.srcObject = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      stopScanner();
+    };
+  }, []);
+
+  const handleVoucherManualSubmit = async (e) => {
+    e?.preventDefault();
+    if (!voucherInput.trim()) {
+      toast.info('Cole ou digite o voucher.');
+      return;
+    }
+    await fetchReservationByVoucher(voucherInput.trim());
   };
 
   // Confirm reservation arrival
@@ -1153,12 +1203,12 @@ export default function AdminDashboard() {
         return renderCheckinView();
       case 'floorplan':
         return selectedTableId ? renderTableDetailsView() : renderFloorplanView();
-      case 'waitlist':
-        return renderPlaceholderView('Waitlist', Hourglass, 'Gerencie a fila de espera da recepção. Acompanhe o tempo de espera estimado e envie alertas SMS.');
-      case 'receita':
-        return renderReceitasView();
-      case 'history':
-        return renderPlaceholderView('History', History, 'Histórico completo de check-ins realizados, tempos de permanência e logs das operações de atendimento.');
+      // case 'waitlist':
+      //   return renderPlaceholderView('Waitlist', Hourglass, 'Gerencie a fila de espera da recepção. Acompanhe o tempo de espera estimado e envie alertas SMS.');
+      // case 'receita':
+      //   return renderReceitasView();
+      // case 'history':
+      //   return renderPlaceholderView('History', History, 'Histórico completo de check-ins realizados, tempos de permanência e logs das operações de atendimento.');
       case 'menu':
         return renderMenuManagementView();
       default:
@@ -1624,40 +1674,62 @@ export default function AdminDashboard() {
         {/* Leitor Digital Card */}
         <div className="card">
           <div className="scanner-card-header">
-            <h3 className="card-title">Leitor Digital</h3>
-            <span className="camera-badge">Câmera Ativa</span>
+            <h3 className="card-title">Leitor Digital (QR)</h3>
+            <span className="camera-badge">{scannerActive ? 'Scanner Ativo' : 'Scanner Inativo'}</span>
           </div>
 
+          {/* Camera Viewer - ONLY for video or scanner inativo placeholder */}
           <div className="camera-viewer">
-            <div className="camera-bg-effects">
-              <div className="bokeh-light bokeh-1"></div>
-              <div className="bokeh-light bokeh-2"></div>
-            </div>
-
-            <div className="scanner-target"></div>
-            <div className="scanner-target scanner-target-right-top"></div>
-            
-            <div className="camera-lens">
-              <div className="camera-lens-inner">
-                <div className="camera-glass"></div>
+            {scannerActive ? (
+              <>
+                <video ref={videoRef} className="camera-video" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 14 }} muted playsInline />
+                <div className="scan-line"></div>
+              </>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', color: 'rgba(255,255,255,0.4)' }}>
+                <QrCode size={40} strokeWidth={1.5} />
+                <div style={{ marginTop: 12, fontSize: '0.9rem', fontWeight: 500 }}>Scanner Inativo</div>
               </div>
-            </div>
-
-            <div className="scan-line"></div>
+            )}
           </div>
 
-          <p className="scanner-caption">
-            Posicione o QR Code do cliente no centro para escanear
-          </p>
+          {/* Controls - OUTSIDE the camera viewer for proper responsiveness and layout */}
+          <div className="scanner-controls-container" style={{ marginTop: 20 }}>
+            <div className="scanner-btn-row">
+              {!scannerActive ? (
+                <button type="button" className="scanner-open-btn" onClick={startScanner} style={{ width: '100%', minHeight: 44 }}>
+                  Abrir Scanner (Câmera)
+                </button>
+              ) : (
+                <button type="button" className="scanner-stop-btn" onClick={stopScanner} style={{ width: '100%', minHeight: 44 }}>
+                  Parar Scanner
+                </button>
+              )}
+            </div>
 
-          <button 
-            type="button" 
-            className="scan-button-sim"
-            onClick={handleSimulateScan}
-            disabled={scanning}
-          >
-            {scanning ? 'Escaneando QR Code...' : 'Simular Leitura de QR Code'}
-          </button>
+            <form onSubmit={handleVoucherManualSubmit} className="voucher-form" style={{ marginTop: 16 }}>
+              <input
+                type="text"
+                placeholder="Cole ou digite Voucher ou nome"
+                value={voucherInput}
+                onChange={(e) => setVoucherInput(e.target.value)}
+                className="form-text-input voucher-input"
+              />
+              <button type="submit" className="btn-search-voucher">Buscar Voucher</button>
+            </form>
+
+            {scanningMessage && <div className="scanning-message-info" style={{ marginTop: 10 }}>{scanningMessage}</div>}
+
+            <button 
+              type="button" 
+              className="scan-button-sim"
+              onClick={handleSimulateScan}
+              disabled={scanning}
+              style={{ marginTop: 16 }}
+            >
+              {scanning ? 'Escaneando QR Code...' : 'Simular Leitura de QR Code'}
+            </button>
+          </div>
         </div>
 
         {/* Reserva Localizada Card */}
@@ -1698,13 +1770,69 @@ export default function AdminDashboard() {
               <div className="details-grid">
                 <div className="details-box">
                   <div className="details-label">Horário</div>
-                  <div className="details-value">{currentRes.time}</div>
+                  <div className="details-value">{formatHorarioDisplay(currentRes.time)}</div>
                 </div>
                 <div className="details-box">
                   <div className="details-label">Pessoas</div>
                   <div className="details-value">{currentRes.people}</div>
                 </div>
               </div>
+
+              {/* Structured reservation display for scanned voucher */}
+              {scannedReservaRaw && (
+                <div className="structured-reserva" style={{ marginTop: 12, textAlign: 'left' }}>
+                  <h4 style={{ margin: '8px 0', fontSize: '1rem', color: 'var(--dark-red)' }}>Dados da Reserva</h4>
+                  <div className="reserva-fields-grid">
+                    <div>
+                      <div className="details-label">Voucher / ID</div>
+                      <div className="details-value">{scannedReservaRaw.token_voucher || scannedReservaRaw.id || '—'}</div>
+                    </div>
+                    <div>
+                      <div className="details-label">Status Pagamento</div>
+                      <div className="details-value">{scannedReservaRaw.status_pagamento || scannedReservaRaw.status || '—'}</div>
+                    </div>
+
+                    <div>
+                      <div className="details-label">Cliente</div>
+                      <div className="details-value">{scannedReservaRaw.cliente?.nome_completo || scannedReservaRaw.cliente?.nome || '—'}</div>
+                    </div>
+
+                    <div>
+                      <div className="details-label">Mesa</div>
+                      <div className="details-value">{scannedReservaRaw.mesa ? `Mesa ${scannedReservaRaw.mesa.numero_mesa} • ${scannedReservaRaw.mesa.andar === 0 ? 'Térreo' : 'Mezanino'}` : '—'}</div>
+                    </div>
+                    <div>
+                      <div className="details-label">Horário</div>
+                      <div className="details-value">{formatHorarioDisplay(scannedReservaRaw.mesa?.horario_slot || scannedReservaRaw.horario)}</div>
+                    </div>
+
+                    <div>
+                      <div className="details-label">Pessoas</div>
+                      <div className="details-value">{(scannedReservaRaw.integrantes && scannedReservaRaw.integrantes.length) || scannedReservaRaw.pessoas || '—'}</div>
+                    </div>
+                    <div>
+                      <div className="details-label">Check-in</div>
+                      <div className="details-value">{scannedReservaRaw.check_in_realizado ? 'Sim' : 'Não'}</div>
+                    </div>
+
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <div className="details-label">Observações</div>
+                      <div className="details-value" style={{ fontWeight: 500, fontSize: '0.95rem' }}>{scannedReservaRaw.observacoes || scannedReservaRaw.note || '—'}</div>
+                    </div>
+
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <div className="details-label">Integrantes</div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        {(scannedReservaRaw.integrantes && scannedReservaRaw.integrantes.length > 0) ? (
+                          scannedReservaRaw.integrantes.map((it, idx) => (
+                            <div key={idx} style={{ fontSize: '0.9rem', color: 'var(--text-dark)' }}>{it.nome_integrante || it.nome || '—'}</div>
+                          ))
+                        ) : <div style={{ color: 'var(--text-muted)' }}>Nenhum integrante listado</div>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="highlight-panel occasion">
                 <div className="panel-header-row">
@@ -2144,7 +2272,7 @@ export default function AdminDashboard() {
               <input 
                 type="text" 
                 className="quick-search-modal-input" 
-                placeholder="ID, nome ou CPF da reserva..." 
+                placeholder="ID ou nome da reserva..." 
                 value={quickSearchInput}
                 onChange={(e) => setQuickSearchInput(e.target.value)}
                 autoFocus
@@ -2204,7 +2332,7 @@ export default function AdminDashboard() {
               <span className="menu-item-text">Floor Plan</span>
             </button>
 
-            <button 
+            {/* <button 
               type="button" 
               className={`menu-item ${currentTab === 'waitlist' ? 'active' : ''}`}
               onClick={() => handleTabSwitch('waitlist')}
@@ -2232,7 +2360,7 @@ export default function AdminDashboard() {
             >
               <span className="menu-item-icon"><History size={20} /></span>
               <span className="menu-item-text">History</span>
-            </button>
+            </button> */}
 
             <button 
               type="button" 
