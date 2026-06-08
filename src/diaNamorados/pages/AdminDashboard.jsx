@@ -1768,6 +1768,7 @@ export default function AdminDashboard() {
   // Floor Plan (Status das Mesas) view builder
   const renderFloorplanView = () => {
     const filteredTables = tables.filter(table => {
+      // Then apply the visible table filter
       if (tableFilter === 'Todos') return true;
       if (tableFilter === 'Aguardando') return table.status === 'Aguardando';
       if (tableFilter === 'Ocupadas') return table.status === 'Ocupada';
@@ -1780,27 +1781,18 @@ export default function AdminDashboard() {
     return (
       <div className="floorplan-view animate-fade-in">
         
-        {/* Slot Selection Tabs */}
-        <div className="slot-selector-container-dashboard" style={{ display: 'flex', gap: '12px', marginBottom: '24px', background: 'rgba(255,255,255,0.03)', padding: '6px', borderRadius: '10px', width: 'fit-content', border: '1px solid var(--border)' }}>
-          <button 
-            type="button" 
-            className={`menu-filter-icon-btn ${horarioSlot === '19:00' ? 'active' : ''}`}
-            onClick={() => setHorarioSlot('19:00')}
-            style={{ padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: horarioSlot === '19:00' ? 'var(--gold-gradient)' : 'transparent', color: horarioSlot === '19:00' ? '#111' : 'var(--text)' }}
+        {/* Slot Selection (horário) - select to choose which shift to load */}
+        <div className="slot-selector-container-dashboard" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+          <label htmlFor="horario-select" style={{ fontWeight: 600, marginRight: 8 }}>Horário:</label>
+          <select
+            id="horario-select"
+            value={horarioSlot}
+            onChange={(e) => setHorarioSlot(e.target.value)}
+            style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text)' }}
           >
-            <Clock size={16} />
-            <span style={{ fontWeight: '600' }}>Primeiro Turno (19:00)</span>
-          </button>
-          
-          <button 
-            type="button" 
-            className={`menu-filter-icon-btn ${horarioSlot === '21:30' ? 'active' : ''}`}
-            onClick={() => setHorarioSlot('21:30')}
-            style={{ padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: horarioSlot === '21:30' ? 'var(--gold-gradient)' : 'transparent', color: horarioSlot === '21:30' ? '#111' : 'var(--text)' }}
-          >
-            <Clock size={16} />
-            <span style={{ fontWeight: '600' }}>Segundo Turno (21:30)</span>
-          </button>
+            <option value="19:00">Primeiro Turno (19:00)</option>
+            <option value="21:30">Segundo Turno (21:30)</option>
+          </select>
         </div>
 
         {/* Stats Row */}
