@@ -733,7 +733,7 @@ export default function AdminDashboard() {
     stopScanner();
   };
 
-  const startScanner = async () => {
+const startScanner = async () => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setScanningMessage('Navegador não suporta câmera. Use entrada manual.');
       return;
@@ -742,11 +742,15 @@ export default function AdminDashboard() {
       setScanningMessage('Iniciando câmera...');
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
       const video = videoRef.current;
+      
       if (video) {
         video.srcObject = stream;
         await video.play();
+        
+        // Ativamos a interface IMEDIATAMENTE após o vídeo começar a rodar
+        setScannerActive(true);
 
-        // Use BarcodeDetector if available
+        // Agora verificamos se ele consegue ler os códigos
         if ('BarcodeDetector' in window) {
           try {
             detectorRef.current = new window.BarcodeDetector({ formats: ['qr_code'] });
@@ -757,7 +761,9 @@ export default function AdminDashboard() {
                 if (barcodes && barcodes.length > 0) {
                   const raw = barcodes[0].rawValue || barcodes[0].rawData || '';
                   if (raw) {
-                    await handleVoucherDetected(String(raw).trim());
+                    // Remove o "JrCoffee-" do início (caso exista) antes de enviar para o banco
+                    const cleanVoucher = String(raw).replace(/^JrCoffee-/, '').trim();
+                    await handleVoucherDetected(cleanVoucher);
                     return;
                   }
                 }
@@ -766,14 +772,13 @@ export default function AdminDashboard() {
               }
               scanAnimationRef.current = requestAnimationFrame(detectLoop);
             };
-            setScannerActive(true);
             detectLoop();
             setScanningMessage('Aguardando leitura do QR Code...');
           } catch (e) {
-            setScanningMessage('Detector de códigos indisponível. Use entrada manual.');
+            setScanningMessage('Câmera aberta, mas o leitor de QR falhou. Use a busca manual.');
           }
         } else {
-          setScanningMessage('BarcodeDetector não suportado pelo navegador. Use entrada manual.');
+          setScanningMessage('Seu navegador (ex: iPhone/Safari) não suporta leitura nativa. Câmera aberta apenas para visualização.');
         }
       }
     } catch (e) {
@@ -1680,11 +1685,23 @@ export default function AdminDashboard() {
 
           {/* Camera Viewer - ONLY for video or scanner inativo placeholder */}
           <div className="camera-viewer">
+            {/* O vídeo agora está SEMPRE no código, mas escondido via CSS quando inativo */}
+            <video 
+              ref={videoRef} 
+              className="camera-video" 
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover', 
+                borderRadius: 14,
+                display: scannerActive ? 'block' : 'none' // <-- O SEGREDO ESTÁ AQUI
+              }} 
+              muted 
+              playsInline 
+            />
+            
             {scannerActive ? (
-              <>
-                <video ref={videoRef} className="camera-video" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 14 }} muted playsInline />
-                <div className="scan-line"></div>
-              </>
+              <div className="scan-line"></div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', color: 'rgba(255,255,255,0.4)' }}>
                 <QrCode size={40} strokeWidth={1.5} />
