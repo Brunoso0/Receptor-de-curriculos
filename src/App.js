@@ -1,6 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// IMPORT DO TRABALHE CONOSCO
+import TrabalheConosco from './trabalheconosco/pages/Home';
+
+
+// IMPORT DO SITE PRINCIPAL
 import SitePrincipalContent from "./siteprincipal/App";
+
+
+// IMPORTS DO DIA DOS NAMORADOS
 import LandingPage from "./diaNamorados/pages/LandingPage";
 import ReservaPage from "./diaNamorados/pages/Reserva";
 import AdminLogin from "./diaNamorados/pages/AdminLogin";
@@ -18,8 +27,9 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<TrabalheConosco />} />
         {/* Dia dos namorados como rota principal temporariamente */}
-        <Route path="/" element={<DiaNamoradosLayout><LandingPage /></DiaNamoradosLayout>} />
+        <Route path="/namorados" element={<DiaNamoradosLayout><LandingPage /></DiaNamoradosLayout>} />
         <Route path="/reserva" element={<DiaNamoradosLayout><ReservaPage /></DiaNamoradosLayout>} />
         <Route path="/namorados/login" element={<DiaNamoradosLayout><AdminLogin /></DiaNamoradosLayout>} />
         <Route path="/namorados/registro" element={<DiaNamoradosLayout><AdminRegistro /></DiaNamoradosLayout>} />
